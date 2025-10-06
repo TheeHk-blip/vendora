@@ -1,0 +1,13 @@
+{
+  "name": "vendora",
+  "version": "1.0.0",
+  "private": "true",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "packageManager": "pnpm@10.17.1",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21"
+  }
+}

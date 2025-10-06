@@ -1,0 +1,11 @@
+{
+  "name": "@vendora/ui",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "types": "src/index.d.ts",
+  "private": "true",
+  "devDependencies": {
+    "@types/node": "^24.6.2",
+    "@types/react": "^19.2.0"
+  }
+}
