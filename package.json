@@ -6,8 +6,22 @@
     "packages/*",
     "apps/*"
   ],
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.18.2",
   "devDependencies": {
+    "@types/node": "^20.19.19",
+    "@types/react": "^19.2.2",
     "autoprefixer": "^10.4.21"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.4",
+    "@mui/material": "^7.3.4",
+    "aws4": "^1.13.2",
+    "bcryptjs": "^3.0.2",
+    "cookie": "^1.0.2",
+    "framer-motion": "^12.23.24",
+    "next-auth": "^4.24.11",
+    "next-themes": "^0.4.6"
   }
 }

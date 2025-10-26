@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@vendora/ui": ["../packages/ui/src"]
+      "@vendora/ui": ["../packages/ui/src"],
+      "@vendora/auth": ["../packages/auth/src"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],
