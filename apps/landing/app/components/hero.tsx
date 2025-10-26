@@ -9,7 +9,7 @@ export default function Hero() {
     <div className="flex flex-col items-center justify-center">     
       <h1 className={title({ color: "foreground", size: "lg", })}>Modern Commerce, <span className={title({ color: "blue", size: "lg"})}>Simplified</span></h1> 
       <span className="mt-4 text-center text-gray-600 dark:text-gray-300 max-w-3xl">
-        Empower your business with Vendora's all-in-one platform. Seamlessly manage products, orders, and customers while delivering exceptional shopping experiences.
+        Empower your business with Vendora&apos;s all-in-one platform. Seamlessly manage products, orders, and customers while delivering exceptional shopping experiences.
       </span>     
       <div className="flex justify-center gap-5 my-8 w-full max-w-4xl px-4">
         <Link 

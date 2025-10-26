@@ -73,18 +73,18 @@ export default function Home() {
         <div>
           <div className="grid grid-cols-2 grid-rows-2 gap-2">
             <Card
-                variant="admin_card"
-                header={
-                  <span className="text-blue-600 font-semibold flex flex-row items-center justify-between" >
-                    Funds Received
-                    <MonetizationOn />
-                  </span>
-                  }
-              >
-                <div>                
-                  <span className=" text-lg md:text-2xl font-semibold">$241,652</span>
-                </div>
-              </Card>
+              variant="admin_card"
+              header={
+                <span className="text-blue-600 font-semibold flex flex-row items-center justify-between" >
+                  Funds Received
+                  <MonetizationOn />
+                </span>
+              }
+            >
+              <div>                
+                <span className=" text-lg md:text-2xl font-semibold">$241,652</span>
+              </div>
+            </Card>
 
               <Card
                 variant="admin_card"

@@ -25,7 +25,7 @@ export default function OnboardingPage() {
           <span className={title({color: "blue", size: "lg"})}>Vendora</span>
         </h1>                 
         <p className="text-gray-600 dark:text-gray-300 text-lg">
-          Choose your role to get started — whether you're here to buy or to sell.
+          Choose your role to get started — whether you&apos;re here to buy or to sell.
         </p>
 
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -38,7 +38,7 @@ export default function OnboardingPage() {
           >
             <Store className="mx-auto h-12 w-12 text-green-500" />
             <h2 className="text-xl font-semibold mt-3 text-gray-900 dark:text-white">
-              I'm a Seller
+              I&apos;m a Seller
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mt-1">
               Upload products and manage your business with ease.
@@ -54,7 +54,7 @@ export default function OnboardingPage() {
           >
             <ShoppingBag className="mx-auto h-12 w-12 text-blue-500" />
             <h2 className="text-xl font-semibold mt-3 text-gray-900 dark:text-white">
-              I'm a Buyer
+              I&apos;m a Buyer
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mt-1">
               Browse, discover, and shop from trusted sellers.

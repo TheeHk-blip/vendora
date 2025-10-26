@@ -13,7 +13,6 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [visible, setVisible] = useState(false);
-  const [role, setRole] = useState<"buyer" | "seller" | "admin">("buyer");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -38,9 +37,9 @@ export default function SignInPage() {
         redirect: false,
         email: formData.email,
         password: formData.password,
-      } as any);
+      });
 
-      if ((res as any)?.ok) {
+      if ((res)?.ok) {
         router.push("/");
       } else {
         console.error("Sign in failed", res);
@@ -86,7 +85,7 @@ export default function SignInPage() {
                 <div className="flex flex-col items-center gap-3 w-full">                  
                   <button
                     type="button"
-                    onClick={() => signIn("google", { callbackUrl: "/", role })}
+                    onClick={() => signIn("google", { callbackUrl: "/" })}
                     className="flex items-center justify-center gap-2 px-6 py-3 w-full rounded-2xl 
                     bg-gradient-to-r from-white/90 to-black/10 dark:from-neutral-700/30 dark:to-zinc-950 backdrop-blur-md 
                     cursor-pointer shadow-sm hover:shadow-md transition-all hover:-translate-y-[1px] active:translate-y-[0px] active:scale-[0.98]"
@@ -171,7 +170,7 @@ export default function SignInPage() {
           </AnimatePresence>
 
           <p className="text-center text-gray-500 dark:text-gray-400 mt-6 text-sm">
-            Don't have an account? <a href="/onboarding" className="text-blue-600 hover:underline">Create one</a>
+            Don&apos;t have an account? <a href="/onboarding" className="text-blue-600 hover:underline">Create one</a>
           </p>
         </div>
       </motion.div>

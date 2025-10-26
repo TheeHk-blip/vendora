@@ -25,7 +25,7 @@ export default function AboutPage() {
           className="mt-8 text-gray-600 dark:text-gray-300 max-w-2xl"
         >
           Vendora is a multi-tenant SaaS platform designed to simplify e-commerce.
-          Whether you're a seller looking to grow your business or a buyer exploring
+          Whether you&apos;re a seller looking to grow your business or a buyer exploring
           trusted stores, we bring everyone together under one streamlined system.
         </motion.p>                
       </section>
