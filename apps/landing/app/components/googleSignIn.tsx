@@ -1,4 +1,5 @@
 import { Button } from "@vendora/ui";
+import Image from "next/image";
 
 type SignProp =  {
   onClick:() => void;
@@ -9,7 +10,7 @@ export default function GoogleSignIn({onClick}: SignProp) {
   return (
     <Button
       type="button"
-      leftIcon={<img src="/google.svg" width={24} />}
+      leftIcon={<Image src="/google.svg" alt={"Google svg"} height={24} width={24} />}
       onClick={onClick}
       size="md"
       className="flex items-center px-4 py-2.5 w-full max-w-[280px] rounded-[22px]      

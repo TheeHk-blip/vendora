@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignIn() {
-    const router = useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(1);
@@ -54,7 +54,8 @@ export default function SignIn() {
         const message = (res)?.error ?? "Sign in failed";
         setError(message);      
       }
-    } catch (err) {
+    } catch (error) {
+      console.error(error)
       setError("An unexpected error occurred")      
     } finally {
       setLoading(false);

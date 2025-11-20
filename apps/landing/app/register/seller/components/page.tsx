@@ -87,6 +87,7 @@ export default function SellerRegistration() {
         router.push("/signin")
       }
     } catch (error) {
+      console.error(error)
       setError("An unexpected error occured")
     } finally {
       setLoading(false);

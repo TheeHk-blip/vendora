@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { connectDB } from "@vendora/db";
 import Buyer from "@vendora/db/src/models/buyer";
 import User from "@vendora/db/src/models/user";

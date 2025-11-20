@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { NextResponse } from "next/server";
 import { connectDB } from "@vendora/db";
 import User from "@vendora/db/src/models/user";

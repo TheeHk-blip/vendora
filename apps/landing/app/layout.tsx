@@ -3,9 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider, DrawerProvider } from "@vendora/ui";
 import "./globals.css";
 import Navigation from "./components/navbar";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@vendora/auth";
-import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
