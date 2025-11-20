@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@vendora/db";
-import User from "@vendora/db/src/models/users";
+import User from "@vendora/db/src/models/user";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
         if (!user || !user.password) throw new Error("User not found");
 
         const isValid = await bcrypt.compare(credentials!.password, user.password);
-        if (!isValid) throw new Error("invalid Password");
+        if (!isValid) throw new Error("Invalid Email or Password");
 
         return {
           id: user._id.toString(),
@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
 
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 30, // 30 mins
     updateAge: 60 * 60 * 12, // 12 hours
   },
 
@@ -53,19 +53,20 @@ export const authOptions: NextAuthOptions = {
       await connectDB();
 
       let dbUser = await User.findOne({ email: user.email });
-
+    
       if (!dbUser) {
         dbUser = await User.create({
           name: user.name,
           email: user.email,
-          role: user.role
-        })
-      }
-
+          image: user.image,
+          role: user.role,
+        });    
+      } 
+            
       user.hasPassword = dbUser.password;
       user.id = dbUser._id.toString();
       user.role = dbUser.role;
-
+  
       return true;
     },
 

@@ -23,7 +23,7 @@ const card = tv({
       xl: "shadow-xl",
     },
     hoverable: {
-      true: "hover:scale-[1.02] hover:shadow-lg cursor-pointer transition-all duration-300",
+      true: "hover:scale-[1.01] active:scale-[1.0] hover:shadow-lg cursor-pointer transition-all duration-300",
     },
   },
   defaultVariants: {
