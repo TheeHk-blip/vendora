@@ -55,7 +55,7 @@ export default function Navigation() {
         actions={
           <>
             <Button 
-              variant="flat"
+              variant="outlined"
               onClick={() => closeDrawer()}
             >
               <Link href="/onboarding">

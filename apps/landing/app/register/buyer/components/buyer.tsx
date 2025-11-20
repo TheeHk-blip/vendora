@@ -90,9 +90,9 @@ export default function BuyerRegistration() {
         animate={{ opacity: 1, y: 0}}
         transition={{ duration: 0.4}}
         className="bg-white/20 dark:bg-neutral-700/25 p-8 mx-2.5 mt-10 
-        gap-5 grid grid-cols-2 items-center rounded-3xl h-fit shadow-sm"
+        gap-5 grid md:grid-cols-2 items-center rounded-3xl h-fit shadow-sm"
       >
-        <div className="flex flex-col items-center" >
+        <div className="hidden md:flex flex-col items-center" >
           <span className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
             Join us today — create your buyer account on Vendora
           </span>
