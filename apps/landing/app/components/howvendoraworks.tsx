@@ -60,7 +60,7 @@ export default function HowVendoraWorks() {
             <p className="text-sm opacity-90">The all-in-one SaaS platform</p>
 
             {/* Animated Glow */}
-            <div className="absolute inset-0 rounded-3xl bg-blue-400/30 blur-lg animate-pulse -z-10"></div>
+            <div className="absolute inset-0 rounded-3xl animate-pulse bg-blue-400/40 blur-lg -z-10"></div>
           </div>
         </motion.div>
 

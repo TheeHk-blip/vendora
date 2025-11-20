@@ -10,14 +10,18 @@ export default async function Index() {
     redirect("/home")
   }
 
+  if (!session.user.role) {
+    redirect("/onboarding")
+  }
+
   switch (session.user.role) {
     case "buyer":
-      redirect("http://localhost:3001/");
+      redirect(process.env.NEXT_PUBLIC_STORE_URL as string);
     case "seller":
-      redirect("http://localhost:3002/");
+      redirect(process.env.NEXT_PUBLIC_SELLER_URL as string);
     case "admin":
-      redirect("http://localhost:3003/");
+      redirect(process.env.NEXT_PUBLIC_ADMIN_URL as string);
     default:
-      redirect("/home");
+      redirect("/home")
   }
 }

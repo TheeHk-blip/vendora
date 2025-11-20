@@ -72,7 +72,8 @@ export default function FeaturesSection() {
             <motion.div
               key={i}
               {...fadeUp(0.2 + i * 0.1)}
-              className="p-6 bg-white/30 dark:bg-zinc-800/50 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-zinc-700"
+              className="p-6 bg-white/30 dark:bg-zinc-800/50 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 
+              border border-gray-100 dark:border-zinc-700"
             >
               <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
                 {f.icon}

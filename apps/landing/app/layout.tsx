@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-
-
 import { ThemeProvider, DrawerProvider } from "@vendora/ui";
 import "./globals.css";
 import Navigation from "./components/navbar";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@vendora/auth";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,11 +18,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "landing.vendora",
-  description: "Welcome to the Vendora landing page",
+  title: "Index | vendora",
+  description: "Welcome to vendora",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

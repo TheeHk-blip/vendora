@@ -37,7 +37,7 @@ export default function BuiltForEveryone() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="rounded-2xl hover:scale-102 bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
+          className="rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
             <Store className="w-6 h-6 text-green-600" />
@@ -49,7 +49,7 @@ export default function BuiltForEveryone() {
             <li>• Get instant payments and insights to grow faster.</li>
           </ul>
           <button
-            className="mt-6 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium cursor-pointer transition-colors duration-300"
+            className="mt-6 px-4 py-2 bg-green-500 hover:bg-green-600 active:scale-99 text-white rounded-lg font-medium cursor-pointer transition-all duration-300"
           >
             <Link
             href="/register/seller"
@@ -65,7 +65,7 @@ export default function BuiltForEveryone() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="rounded-2xl hover:scale-102 bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
+          className="rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
             <ShoppingBag className="w-6 h-6 text-blue-600" />
@@ -77,7 +77,7 @@ export default function BuiltForEveryone() {
             <li>• Track your orders across multiple sellers easily.</li>
           </ul>
           <button
-            className="mt-6 px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-medium cursor-pointer transition-colors duration-300"
+            className="mt-6 px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 active:scale-99 text-white font-medium cursor-pointer transition-all duration-300"
           >
             <Link 
               href="/register/buyer"

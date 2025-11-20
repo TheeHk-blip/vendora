@@ -1,42 +1,41 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@vendora/db";
-import User from "@vendora/db/src/models/users";
+import User from "@vendora/db/src/models/user";
+import Seller from "@vendora/db/src/models/seller";
 import bcrypt from "bcryptjs";
 
 
 export async function POST(request: Request) {
   try {
-    const { businessName, email, password } = await request.json();
-
-    if (!businessName || !email || !password) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400})
-    }
+    const { name, businessName, email, password } = await request.json();
 
     await connectDB();
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email }).lean();
 
     if (existingUser) {
       return NextResponse.json({ error: "User already exists" }, { status: 400})
     }
 
-    let hashedPassword = undefined;
-
-    if (password) {
-      hashedPassword = await bcrypt.hash(password, 10);
-    }
-
-    const newUser = await User.create({
-      name: businessName,
+    // create user
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
+    const user = await User.create({
+      name,
       email,
       password: hashedPassword,
-      role: "seller"
+      role: "seller",
     });
 
-    return NextResponse.json({ message: "User registered successfully", userId: newUser._id }, { status: 201});
+    // create seller profile
+    const seller = await Seller.create({
+      userId: user._id,
+      businessName: businessName
+    })
 
-  } catch (error) {
-    console.error("Error registering user:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ user, seller }, { status: 201});
+
+  } catch (error: any) {
+    console.error("Error registering seller:", error);
+    return NextResponse.json({ error: error.message || "Something went wrong" }, { status: 400 });
   }
 }

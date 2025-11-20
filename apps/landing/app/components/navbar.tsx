@@ -3,7 +3,6 @@
 import { Close, Login, Menu } from "@mui/icons-material";
 import Link from "next/link";
 import { Limelight } from "next/font/google";
-
 import { Button, Navbar, subtitle, ThemeToggle, useDrawer, SideNav } from "@vendora/ui"
 import { siteConfig } from "../config/site";
 
@@ -17,7 +16,8 @@ export default function Navigation() {
   const { openDrawer, closeDrawer } = useDrawer();
   return(
     <>
-      <Navbar               
+      <Navbar  
+        app="landing"             
         title={<span className={subtitle({color: "blue", size: "xl", className: limelight.className})}>Vendora</span>}        
         links={siteConfig.navLinks}
         menuToggle={
@@ -32,7 +32,8 @@ export default function Navigation() {
           <>            
             <Link
               href={"/signin"}
-              className="px-2 py-1 rounded-lg text-blue-600 ring hover:bg-blue-600 hover:text-white hover:ring-0 transition-all duration-300 flex items-center"
+              className="px-2 py-1 rounded-lg text-blue-600 ring hover:bg-blue-600 hover:text-white hover:ring-0 
+              transition-all duration-300 flex items-center"
             >
               Sign in
             </Link>                
@@ -53,8 +54,18 @@ export default function Navigation() {
         links={siteConfig.navLinks}
         actions={
           <>
-            <Button variant="flat">Get Started</Button>
-            <Link href={"/signin"} className="p-1.5 space-x-2 text-blue-600 ring rounded-lg hover:bg-blue-500 transition-colors duration-300 " >
+            <Button 
+              variant="flat"
+              onClick={() => closeDrawer()}
+            >
+              <Link href="/onboarding">
+               Get Started
+              </Link>             
+            </Button>
+            <Link 
+              href={"/signin"} 
+              onClick={() => closeDrawer()} 
+              className="p-1.5 space-x-2 text-blue-600 ring rounded-lg hover:bg-blue-500/10 transition-colors duration-300 " >
               <Login />
               <span>Sign in</span>
             </Link>
