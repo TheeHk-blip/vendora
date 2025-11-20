@@ -71,9 +71,9 @@ export default function SignIn() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
         className="bg-white/40 dark:bg-neutral-700/20 p-8 mx-2.5 mt-10 
-        gap-5 grid grid-cols-2 items-center rounded-3xl h-fit shadow-sm"
+        gap-5 grid md:grid-cols-2 items-center rounded-3xl h-fit shadow-sm"
       >
-        <div className="flex flex-col items-center">
+        <div className="hidden md:flex flex-col items-center">
           <span className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
             Welcome back — sign in to continue to Vendora
           </span>
@@ -89,6 +89,9 @@ export default function SignIn() {
         <div className="flex flex-col justify-center items-center">
           <div className="flex flex-col items-center justify-center mb-6 gap-4">
             <h1 className={title({ color: "green", size: "sm" })}>Sign in</h1>
+            <span className="text-gray-500 dark:text-gray-400 text-sm">
+              Access your Vendora account
+            </span>
           </div>
 
           {error && (
