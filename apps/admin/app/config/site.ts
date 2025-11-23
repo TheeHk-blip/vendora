@@ -1,4 +1,4 @@
-import { Analytics, Home, ShoppingBag } from "@mui/icons-material";
+import { Analytics, Inventory, ShoppingBag, SpaceDashboard } from "@mui/icons-material";
 
 export type SiteConfig = typeof siteConfig;
 
@@ -6,8 +6,8 @@ export const siteConfig = {
   navLinks: [
     {
       label: "Dashboard",
-      href: "/",     
-      icon: Home 
+      href: "/",
+      icon: SpaceDashboard
     },
     {
       label: "Analytics",
@@ -18,6 +18,11 @@ export const siteConfig = {
       label: "Orders",
       href: "/orders",
       icon: ShoppingBag
+    },
+    {
+      label: "Products",
+      href: "/products",
+      icon: Inventory
     }
   ]
 }

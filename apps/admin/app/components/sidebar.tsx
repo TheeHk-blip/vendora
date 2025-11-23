@@ -1,0 +1,38 @@
+"use client";
+
+import { Logo, Navbar, subtitle, ThemeToggle } from "@vendora/ui";
+import { Settings } from "@mui/icons-material";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { siteConfig } from "../config/site";
+
+export default function Navigation() {
+  const pathname = usePathname();
+  
+  return (
+    <Navbar  
+      app="admin"  
+      brand={<Logo width={50} height={50} />}    
+      links={siteConfig.navLinks}    
+      actions={      
+        <>
+          <Link
+            href="/settings"
+            className={`flex rounded-[14px] px-3 py-2 gap-2 items-center transition-all duration-300 ${pathname.startsWith("/settings") 
+              ? "text-violet-600 bg-purple-400/20 dark:bg-purple-400/30 scale-105 -translate-y-1 -translate-x-1" 
+              : "bg-white/25 hover:text-violet-600 hover:bg-purple-200/70 dark:bg-black/40 dark:hover:bg-black/20"}`
+            }
+          >
+            <Settings />
+            Settings
+          </Link>
+        
+          <span className="flex justify-between items-center rounded-[14px] bg-purple-400/45 dark:bg-orange-300/40 px-3 py-2" >
+            Theme Switch
+            <ThemeToggle />
+          </span>
+        </>
+      }         
+    />
+  )
+}

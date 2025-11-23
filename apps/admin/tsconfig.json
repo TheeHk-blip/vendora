@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@vendora/ui": ["../packages/ui/src"]
+      "@vendora/ui": ["../packages/ui/src/*"],
+      "@vendora/db": ["../packages/db/src/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
