@@ -1,6 +1,6 @@
 "use client";
 
-import { Logo, Navbar, subtitle, ThemeToggle } from "@vendora/ui";
+import { Logo, Navbar, ThemeToggle } from "@vendora/ui";
 import { Settings } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
 import Link from "next/link";

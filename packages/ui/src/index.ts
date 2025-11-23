@@ -9,3 +9,5 @@ export * from "./components/sidenav";
 export * from "./context/drawerContext";
 export * from "./components/Table";
 export * from "./components/searchInput";
+export * from "./components/SortFilter";
+export * from "./types/user";

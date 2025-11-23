@@ -3,20 +3,19 @@ import User from "@vendora/db/src/models/user";
 import UserClient from "./components/userclient";
 import { Users } from "@vendora/ui";
 
-interface UsersProps {
-  searchParams: {
+export default async function VUsers({ searchParams }:{
+  searchParams: Promise<{
     q?: string;
     page?: string;
-    pageSize?: string
-  };
-}
-
-export default async function VUsers({ searchParams }: UsersProps) {
+    pageSize?: string;
+  }>
+}) {
   await connectDB();
+  
   const params = await searchParams;
-  const query = String(params.q || "").trim();
-  const page = parseInt(params.page || "1", 10);
-  const pageSize = parseInt(params.pageSize || "10", 10);
+  const query = String(params?.q ?? "").trim();
+  const page = Number(params?.page ?? 1);
+  const pageSize = Number(params?.pageSize ?? 10);
 
   const filter = query
     ?{
