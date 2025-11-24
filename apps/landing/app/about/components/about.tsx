@@ -110,7 +110,7 @@ export default function AboutUs() {
               className="bg-white/50 dark:bg-zinc-800 p-8 rounded-xl shadow-sm transition"
             >
               <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
-              <p className="text-zinc-400 text-sm">{value.desc}</p>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">{value.desc}</p>
             </motion.div>
           ))}
         </div>

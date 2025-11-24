@@ -4,9 +4,6 @@ import "./globals.css";
 import Navigation from "./components/sidebar";
 import { ThemeProvider } from "@vendora/ui";
 import Nav from "./components/navbar";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@vendora/auth";
-import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Admin | Vendora",
+  title: "Index | Vendora",
   description: "Access all the features you need to run Vendora, from analytics to users and orders. All in one place.",
 };
 
@@ -28,16 +25,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user) {
-    redirect(`${process.env.BASE_URL}/signin`)
-  }
-
-  if (session.user.role !== "admin") {
-    redirect("/unauthorized");
-  }
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
