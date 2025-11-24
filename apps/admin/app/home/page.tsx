@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   description: "Tools designed to help your business scale and be profitable."
 }
 
-export const dynamic = "force-dynamic"
-
 export default async function DashboardPage() {
   const totalUsers = await TotalUsers();
   return (
