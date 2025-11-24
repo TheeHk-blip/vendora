@@ -5,6 +5,8 @@ import Footer from "../components/footer";
 import Hero from "../components/hero";
 import HowVendoraWorks from "../components/howvendoraworks";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = ({
   title: "Home | Vendora",
   description: "Welcome to vendora"
