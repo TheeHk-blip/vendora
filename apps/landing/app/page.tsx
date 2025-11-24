@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { auth } from "@vendora/auth";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
