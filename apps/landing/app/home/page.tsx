@@ -5,10 +5,10 @@ import Footer from "../components/footer";
 import Hero from "../components/hero";
 import HowVendoraWorks from "../components/howvendoraworks";
 
-export const metadata: Metadata = ({
+export const metadata: Metadata = {
   title: "Home | Vendora",
   description: "Welcome to vendora"
-})
+}
 
 export default function Home() {
   return (
