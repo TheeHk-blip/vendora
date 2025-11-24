@@ -1,4 +1,4 @@
-export function Index() {
+export default function Index() {
   return(
     <div>Welcome</div>
   )
