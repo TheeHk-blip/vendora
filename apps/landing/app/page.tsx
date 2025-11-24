@@ -1,7 +1,6 @@
-export const dynamic = "force-dynamic";
-
-import { auth } from "@vendora/auth";
+import { authOptions } from "@vendora/auth";
 import { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function IndexPage() {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
     redirect("/home")
