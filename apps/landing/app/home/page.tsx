@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Welcome to vendora"
 }
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <div className="flex flex-col justify-center py-2 px-2 w-full max-w-7xl mx-auto">
