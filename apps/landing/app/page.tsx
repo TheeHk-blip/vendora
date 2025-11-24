@@ -1,3 +1,5 @@
+"use server";
+
 import { authOptions } from "@vendora/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
