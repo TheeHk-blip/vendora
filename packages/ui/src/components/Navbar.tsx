@@ -1,8 +1,8 @@
 "use client";
 
-import { tv, type VariantProps } from "tailwind-variants";
-import {ReactNode} from "react";
-import {usePathname} from "next/navigation";
+import {tv, type VariantProps} from "tailwind-variants";
+import { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const navbar = tv({

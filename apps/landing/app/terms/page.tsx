@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-
 export const metadata: Metadata = {
   title: "Terms & Conditions | Vendora",
   description: "Read the terms and conditions for using Vendora's e-commerce platform.",

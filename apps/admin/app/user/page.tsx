@@ -2,6 +2,12 @@ import { connectDB } from "@vendora/db";
 import User from "@vendora/db/src/models/user";
 import UserClient from "./components/userclient";
 import { Users } from "@vendora/ui";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Users | Vendora",
+  description: ""
+}
 
 export default async function VUsers({ searchParams }:{
   searchParams: Promise<{

@@ -32,7 +32,7 @@ export default function ContactUs() {
   };
 
   return (
-    <section className="flex min-h-screen bg-gradient-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
+    <section className="flex min-h-screen bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
       <div className="max-w-6xl mx-auto px-6 py-20">
         {/* Header Section */}
         <motion.div
