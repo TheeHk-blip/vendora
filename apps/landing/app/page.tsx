@@ -11,7 +11,7 @@ export default async function IndexPage() {
   const session = await auth();
 
   if (!session || !session.user) {
-    redirect("/home")
+    redirect("/onboarding")
   }
 
   if (!session.user.role) {
@@ -26,6 +26,6 @@ export default async function IndexPage() {
     case "admin":
       redirect(process.env.NEXT_PUBLIC_ADMIN_URL as string);
     default:
-      redirect("/home")
+      redirect("/onboarding")
   }
 }
