@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const dynamic = "auto";
 
 import { Metadata } from "next";
 import BuiltForEveryone from "../components/builtforall";
