@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
-export const metadata: Metadata = ({
+export const metadata: Metadata = {
   title: "Refund Policy | Vendora",
   description: "Learn about Vendora's refund policy for subscriptions and services.",
-})
+}
 
 export default function RefundPolicy() {
   return (

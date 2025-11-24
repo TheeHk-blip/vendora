@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import BuyerRegistration from "./components/buyer";
 
-export const metadata: Metadata = ({
+export const metadata: Metadata = {
   title: "Buyer Registration | Vendora",
   description: "Buyer registration page"
-})
+}
 
 
 export default function BuyerRegisterPage() {
