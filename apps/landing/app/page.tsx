@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Hero from "./components/hero";
 
 export const metadata: Metadata = {
   title: "Home | Vendora",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return(
     <div className="flex flex-col justify-center px-2 py-2 w-full max-w-7xl" >
-      <h1 className="text-3xl font-bold">Welcome to Vendora</h1>
+      <Hero />
     </div>
   )
 }
