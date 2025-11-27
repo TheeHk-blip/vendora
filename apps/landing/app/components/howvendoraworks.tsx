@@ -46,7 +46,7 @@ export default function HowVendoraWorks() {
         {/* Arrows / Flow Lines */}
         <motion.div
           {...fadeUp(0.4)}
-          className="hidden md:block absolute left-1/3 right-1/3 top-1/2 -translate-y-1/2 h-0.5 bg-gradient-to-r from-blue-600/60 to-blue-400/60"
+          className="hidden md:block absolute left-1/3 right-1/3 top-1/2 -translate-y-1/2 h-0.5 bg-linear-to-r from-blue-600/60 to-blue-400/60"
         />
 
         {/* Vendora Hub */}
