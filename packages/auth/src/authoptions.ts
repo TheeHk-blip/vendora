@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
         await connectDB();
         const user = await User.findOne({ email: credentials?.email });
 
-        if (!user || !user.password) throw new Error("User not found");
+        if (!user || !user.email) throw new Error("User not found");
 
         const isValid = await bcrypt.compare(credentials!.password, user.password);
         if (!isValid) throw new Error("Invalid Email or Password");

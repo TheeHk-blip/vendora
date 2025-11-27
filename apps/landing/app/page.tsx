@@ -1,32 +1,23 @@
-import { authOptions } from "@vendora/auth";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import BuiltForEveryone from "./components/builtforall";
+import FeaturesSection from "./components/features";
+import Footer from "./components/footer";
+import Hero from "./components/hero";
+import HowVendoraWorks from "./components/howvendoraworks";
 
 export const metadata: Metadata = {
-  title: "Index | Vendora",
-  description: ""
+  title: "Home | Vendora",
+  description: "Welcome to Vendora, the ultimate marketplace solution for buyers and sellers. Discover a wide range of products, connect with trusted sellers, and enjoy a seamless shopping experience all in one place."
 }
 
-export default async function IndexPage() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    redirect("/home")
-  }
-
-  if (!session?.user?.role) {
-    redirect("/onboarding")
-  }
-
-  switch (session?.user?.role) {
-    case "buyer":
-      redirect(process.env.STORE_URL as string);
-    case "seller":
-      redirect(process.env.SELLER_URL as string);
-    case "admin":
-      redirect(process.env.ADMIN_URL as string);
-    default:
-      redirect("/home")
-  }
+export default function Home() {
+  return(
+    <div className="flex flex-col justify-center px-2 py-2 w-full max-w-7xl" >
+      <Hero />
+      <BuiltForEveryone />
+      <HowVendoraWorks />
+      <FeaturesSection />
+      <Footer />
+    </div>
+  )
 }
