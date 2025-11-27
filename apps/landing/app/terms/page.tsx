@@ -3,12 +3,15 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions | Vendora",
-  description: "Read the terms and conditions for using Vendora's e-commerce platform.",
+  description: "Read Vendora's Terms & Conditions governing the use of our platform and services.",
 };
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-background px-6 md:px-12 py-16">
+    <main 
+      aria-label="Terms and Conditions"
+      className="min-h-screen w-full max-w-full flex flex-col px-6 md:px-12 py-10 justify-center bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950"
+    >
       <div className="max-w-4xl mx-auto space-y-8">
         <h1 className="text-4xl font-bold">Terms & Conditions</h1>
         <p className="text-gray-500 dark:text-gray-400">
@@ -154,10 +157,12 @@ export default function TermsPage() {
           <p>
             If you have questions regarding these Terms, contact us at:  
             <br />
-            <strong>support@vendora.com</strong>
+            <a href="mailto:support@vendora.com" className="text-blue-600">
+              support@vendora.com
+            </a>          
           </p>
         </section>
       </div>
-    </div>
+    </main>
   );
 }

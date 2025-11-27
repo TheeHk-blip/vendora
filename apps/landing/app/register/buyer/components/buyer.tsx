@@ -84,7 +84,10 @@ export default function BuyerRegistration() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-gradient-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
+    <main 
+      aria-label="Register for a buyer account" 
+      className="min-h-screen flex justify-center bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950"
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0}}
@@ -256,6 +259,6 @@ export default function BuyerRegistration() {
           </p>  
         </div>      
       </motion.div>
-    </div>
+    </main>
   );
 }

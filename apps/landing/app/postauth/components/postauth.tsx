@@ -46,9 +46,12 @@ export default function PostAuth() {
   }, [router]);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950 relative overflow-hidden">
+    <main 
+      aria-label="Finishing touches for account registration to ensure smooth onboarding" 
+      className="min-h-screen flex flex-col justify-center items-center bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950 relative overflow-hidden"
+    >
       {/* Glow background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(99,102,241,0.1),_transparent_70%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.1),transparent_70%)]"></div>
 
       {/* Brand Name */}
       <motion.h1
@@ -101,6 +104,6 @@ export default function PostAuth() {
         animate={{ width: `${((step + 1) / steps.length) * 100}%` }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
-    </div>
+    </main>
   );
 }

@@ -6,7 +6,10 @@ import Link from "next/link";
 
 export default function AboutUs() {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
+    <main 
+      aria-label="About Us page describing Vendora's mission, team, and values"
+      className="min-h-screen bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950"
+    >
       {/* Hero Section */}
       <section className="relative flex flex-col w-full max-w-7xl items-center justify-center text-center px-6 py-8">
         <motion.h1
@@ -131,6 +134,6 @@ export default function AboutUs() {
           Get Started
         </Link>
       </section>
-    </div>
+    </main>
   );
 }

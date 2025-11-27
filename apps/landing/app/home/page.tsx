@@ -12,12 +12,15 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return(
-    <div className="flex flex-col justify-center px-2 py-2 w-full max-w-7xl" >
+    <main 
+      aria-label="Vendora Home Page with hero introduction and features overview"
+      className="flex flex-col justify-center px-2 py-2 w-full max-w-7xl" 
+    >
       <Hero />
       <BuiltForEveryone />
       <HowVendoraWorks />
       <FeaturesSection />
       <Footer />
-    </div>
+    </main>
   )
 }

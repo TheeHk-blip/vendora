@@ -47,7 +47,7 @@ const plans = [
 export default function Pricing() {
     const router = useRouter();
   return (
-    <div className="min-h-screen py-10 px-4 bg-gradient-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
+    <main aria-label="Choose the right plan for your needs" className="min-h-screen py-10 px-4 bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
       <div className="max-w-6xl mx-auto text-center mb-12">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -107,8 +107,8 @@ export default function Pricing() {
               className={`w-full py-2.5 mt-auto rounded-xl font-semibold transition ${
                 plan.popular
                   ? "bg-blue-600 hover:bg-blue-700 text-white"
-                  : "bg-gradient-to-r from-white/90 to-black/10 dark:from-neutral-800/50 dark:to-zinc-950/40" + 
-                    " hover:from-white/100 hover:to-black/20 dark:hover:from-neutral-700/50 dark:hover:to-zinc-950/70 text-black dark:text-white border border-gray-300 dark:border-gray-700"
+                  : "bg-linear-to-r from-white/90 to-black/10 dark:from-neutral-800/50 dark:to-zinc-950/40" + 
+                    " hover:from-white hover:to-black/20 dark:hover:from-neutral-700/50 dark:hover:to-zinc-950/70 text-black dark:text-white border border-gray-300 dark:border-gray-700"
               }`}
             >
               {plan.button}
@@ -116,6 +116,6 @@ export default function Pricing() {
           </motion.div>
         ))}
       </div>
-    </div>
+    </main>
   );
 }

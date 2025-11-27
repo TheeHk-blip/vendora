@@ -63,8 +63,10 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-start 
-      bg-gradient-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950"
+    <main 
+      aria-label="Vendora sign in page with account login form and authentication options" 
+      className="min-h-screen flex justify-center items-start 
+      bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -136,7 +138,7 @@ export default function SignIn() {
                   leftIcon={<Email />}
                   type="submit"
                   size="md"
-                  className="bg-gradient-to-r from-black/10 to-white/75 dark:from-neutral-700/30 dark:to-zinc-950"
+                  className="bg-linear-to-r from-black/10 to-white/75 dark:from-neutral-700/30 dark:to-zinc-950"
                 >
                   Continue with E-mail
                 </Button>                
@@ -179,7 +181,7 @@ export default function SignIn() {
                     type="submit"
                     size="md"                    
                     className="text-green-500 hover:scale-102 transition-all duration-300 shadow-sm shadow-black/25
-                    bg-gradient-to-r from-black/10 to-white/75 dark:from-neutral-700/30 dark:to-zinc-950"
+                    bg-linear-to-r from-black/10 to-white/75 dark:from-neutral-700/30 dark:to-zinc-950"
                   >
                     Sign in
                   </Button>
@@ -196,6 +198,6 @@ export default function SignIn() {
           </p>
         </div>
       </motion.div>
-    </div>
+    </main>
   );
 }
