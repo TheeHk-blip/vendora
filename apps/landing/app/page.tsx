@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 export default async function IndexPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
+  if (!session || !session?.user) {
     redirect("/home")
   }
 
-  if (!session.user.role) {
+  if (!session?.user?.role) {
     redirect("/onboarding")
   }
 
-  switch (session.user.role) {
+  switch (session?.user?.role) {
     case "buyer":
       redirect(process.env.STORE_URL as string);
     case "seller":
