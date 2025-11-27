@@ -18,7 +18,7 @@ export default function Footer() {
         {/* Brand Section */}
         <div>
           <h1 className={title({ color: "blue", size: 'xs', className: limelight.className })}>Vendora</h1>
-          <p className="text-sm ml-2.5 text-gray-600 dark:text-gray-300">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Vendora is a multi-tenant e-commerce SaaS platform where sellers grow their
             businesses and buyers discover quality products—all in one place.
           </p>
