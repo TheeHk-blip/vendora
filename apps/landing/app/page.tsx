@@ -21,11 +21,11 @@ export default async function IndexPage() {
 
   switch (session.user.role) {
     case "buyer":
-      redirect(process.env.NEXT_PUBLIC_STORE_URL as string);
+      redirect(process.env.STORE_URL as string);
     case "seller":
-      redirect(process.env.NEXT_PUBLIC_SELLER_URL as string);
+      redirect(process.env.SELLER_URL as string);
     case "admin":
-      redirect(process.env.NEXT_PUBLIC_ADMIN_URL as string);
+      redirect(process.env.ADMIN_URL as string);
     default:
       redirect("/home")
   }
