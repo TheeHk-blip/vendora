@@ -1,5 +1,3 @@
-export const dynamic = "auto";
-
 import { Metadata } from "next";
 import BuiltForEveryone from "../components/builtforall";
 import FeaturesSection from "../components/features";
