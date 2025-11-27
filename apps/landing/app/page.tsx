@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Hero from "./components/hero";
 import BuiltForEveryone from "./components/builtforall";
 import HowVendoraWorks from "./components/howvendoraworks";
+import FeaturesSection from "./components/features";
 
 export const metadata: Metadata = {
   title: "Home | Vendora",
@@ -14,6 +15,7 @@ export default function Home() {
       <Hero />
       <BuiltForEveryone />
       <HowVendoraWorks />
+      <FeaturesSection />
     </div>
   )
 }
