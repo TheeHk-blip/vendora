@@ -26,7 +26,7 @@ export default function Footer() {
         <div>
           <h3 className={title({ color: "blue", size: 'xs'})}>Explore</h3>
           <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-            <li><Link href={process.env.NEXT_PUBLIC_STORE_URL as string} className="hover:text-foreground transition">Shop</Link></li>
+            <li><Link href={process.env.STORE_URL as string} className="hover:text-foreground transition">Shop</Link></li>
             <li><Link href="/pricing" className="hover:text-foreground transition">Pricing</Link></li>
             <li><Link href="/onboarding" className="hover:text-foreground transition">Join Vendora</Link></li>
             <li><Link href="/about" className="hover:text-foreground transition">About Us</Link></li>
@@ -37,7 +37,7 @@ export default function Footer() {
         <div>
           <h3 className={title({ color: "blue", size: 'xs'})}>For Sellers</h3>
           <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-            <li><Link href={process.env.NEXT_PUBLIC_SELLER_URL as string} className="hover:text-foreground transition">Seller Dashboard</Link></li>
+            <li><Link href={process.env.SELLER_URL as string} className="hover:text-foreground transition">Seller Dashboard</Link></li>
             <li><Link href="/help-center" className="hover:text-foreground transition">Help Center</Link></li>
             <li><Link href="/terms" className="hover:text-foreground transition">Terms & Conditions</Link></li>
           </ul>
