@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function BuiltForEveryone() {
   return (
-    <section className="py-24 px-4 rounded-[32px] bg-gradient-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950 text-center">
+    <section className="py-24 px-4 rounded-4xl bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950 text-center">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

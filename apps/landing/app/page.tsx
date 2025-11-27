@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Hero from "./components/hero";
+import BuiltForEveryone from "./components/builtforall";
 
 export const metadata: Metadata = {
   title: "Home | Vendora",
@@ -10,6 +11,7 @@ export default function Home() {
   return(
     <div className="flex flex-col justify-center px-2 py-2 w-full max-w-7xl" >
       <Hero />
+      <BuiltForEveryone />
     </div>
   )
 }
