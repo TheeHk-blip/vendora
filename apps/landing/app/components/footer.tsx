@@ -1,3 +1,5 @@
+"use client";
+
 import { Twitter, LinkedIn, Facebook, Instagram } from "@mui/icons-material";
 import { title } from "@vendora/ui";
 import Link from "next/link";
