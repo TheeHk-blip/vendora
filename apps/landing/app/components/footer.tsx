@@ -42,6 +42,7 @@ export default function Footer() {
             <li><Link href={process.env.NEXT_PUBLIC_SELLER_URL!} className="hover:text-foreground transition">Seller Dashboard</Link></li>
             <li><Link href="/help-center" className="hover:text-foreground transition">Help Center</Link></li>
             <li><Link href="/terms" className="hover:text-foreground transition">Terms & Conditions</Link></li>
+            <li><Link href="/privacy" className="hover:text-foreground transition">Privacy Policy</Link></li>
           </ul>
         </div>
 

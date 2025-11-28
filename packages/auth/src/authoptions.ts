@@ -38,9 +38,22 @@ export const authOptions: NextAuthOptions = {
     })
   ],
 
+  cookies: {
+    sessionToken: {
+      name:"_Secure-next-auth.session.token",
+      options: {
+        domain: ".vendora.sbs",
+        path: "/",
+        secure: true,
+        sameSite: "lax",
+        httpOnly: true,
+      }      
+    }
+  },
+
   session: {
     strategy: "jwt",
-    maxAge: 60 * 3, // 3 min(s)
+    maxAge: 60 * 5, // 5 min(s)
     updateAge: 60 * 60 * 12, // 12 hours
   },
 
