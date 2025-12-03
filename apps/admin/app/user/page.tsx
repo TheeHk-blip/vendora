@@ -17,6 +17,8 @@ export default async function VUsers({ searchParams }:{
   }>
 }) {
   await connectDB();
+
+  console.time("Query Time")
   
   const params = await searchParams;
   const query = String(params?.q ?? "").trim();
@@ -37,6 +39,8 @@ export default async function VUsers({ searchParams }:{
     .skip((page -1) * pageSize)
     .limit(pageSize)
     .lean();
+  
+  console.timeEnd("Query Time")
     
   const safeUsers: Users[] = users.map(user => ({
     _id: String(user._id),

@@ -1,13 +1,15 @@
 "use client";
 
-import { Logo, Navbar, ThemeToggle } from "@vendora/ui";
-import { Settings } from "@mui/icons-material";
+import { Button, Logo, Navbar, ThemeToggle } from "@vendora/ui";
+import { Logout, Settings } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 import { siteConfig } from "../config/site";
 
 export default function Navigation() {
   const pathname = usePathname();
+  const { data: session } = useSession();
   
   return (
     <Navbar  
@@ -16,6 +18,17 @@ export default function Navigation() {
       links={siteConfig.navLinks}    
       actions={      
         <>
+          {session ? (
+            <Button            
+              onClick={() => signOut({callbackUrl: process.env.BASE_URL})}  
+              color="danger"     
+              rightIcon={<Logout />}         
+            >
+              Log out
+            </Button>
+          ):(
+            <></>
+          )}
           <Link
             href="/settings"
             className={`flex rounded-[14px] px-3 py-2 gap-2 items-center transition-all duration-300 ${pathname.startsWith("/settings") 

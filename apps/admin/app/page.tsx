@@ -5,21 +5,17 @@ import { redirect } from "next/navigation";
 
 
 export const metadata: Metadata = {
-  title: "Dashboard | Vendora",
-  description: "Tools designed to help your business scale and be profitable."
+  title: "Admin | Vendora",
+  description: "Oversee sellers, buyers, products, and performance metrics with Vendora's all-in-one admin dashboard."
 }
 
 
 export default async function IndexPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
-    redirect(`${process.env.BASE_URL}/signin`)
-  };
-
-  if (session.user.role !== "admin") {
+  if (session?.user.role !== "admin") {
     redirect("/unauthorized")
   }
 
-  redirect("/home")
+  redirect("/dashboard")
 }

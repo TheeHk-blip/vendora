@@ -6,7 +6,7 @@ export const siteConfig = {
   navLinks: [
     {
       label: "Dashboard",
-      href: "/",
+      href: "/dashboard",
       icon: SpaceDashboard
     },
     {
