@@ -13,7 +13,11 @@ export const metadata: Metadata = {
 export default async function IndexPage() {
   const session = await getServerSession(authOptions);
 
-  if (session?.user.role !== "admin") {
+  if (!session) {
+    redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`)
+  }
+
+  if (session.user.role !== "admin") {
     redirect("/unauthorized")
   }
 
