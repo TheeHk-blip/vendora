@@ -32,13 +32,15 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
-          role: user.role
+          role: user.role,
+          image: user.image,
+          hasPassword: Boolean(user.password),
         }
       }
     })
   ],
 
-  cookies: {
+ /* cookies: {
     sessionToken: {
       name:"_Secure-next-auth.session.token",
       options: {
@@ -50,26 +52,26 @@ export const authOptions: NextAuthOptions = {
       }      
     }
   },
-
+*/
   session: {
     strategy: "jwt",
-    maxAge: 60 * 5, // 5 min(s)
-    updateAge: 60 * 60 * 12, // 12 hours
+    maxAge: 60 * 60 * 24, // 1 day(s)
+    updateAge: 60 * 60 * 6 // 6 hrs
   },
 
   jwt: {
-    maxAge: 60 * 60 * 24 * 14, // 14 days
+    maxAge: 60 * 60 * 24 * 7, // 7 days(s)
   },
 
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, profile }) {
       await connectDB();
 
       let dbUser = await User.findOne({ email: user.email });
     
       if (!dbUser) {
         dbUser = await User.create({
-          name: user.name,
+          name: user.name || profile?.name,
           email: user.email,
           image: user.image,
           role: user.role,
@@ -79,35 +81,28 @@ export const authOptions: NextAuthOptions = {
       user.hasPassword = dbUser.password;
       user.id = dbUser._id.toString();
       user.role = dbUser.role;
+      user.image = dbUser.image;
   
       return true;
     },
 
-    async jwt({ token, user }) {
-      await connectDB();
-
-      if (user) {
-        token.hasPassword = user.hasPassword;
+    async jwt({ token, user, profile }) {
+      if (user) {      
         token.id = user.id;
         token.role = user.role;
-      }
-
-      if (token.email) {
-        const dbUser = await User.findOne({ email: token.email });
-
-        if (dbUser) {
-          token.role = dbUser.role;
-        }
+        token.image = user.image;
+        token.hasPassword = user.hasPassword;
       }
 
       return token;
     },
 
     async session({ session, token }) {
-      session.user.hasPassword = Boolean(token.hasPassword);
-
-      if (token) {
+      if (session.user) {
+        session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.image = token.image as string;
+        session.user.hasPassword = Boolean(token.hasPassword)
       }
 
       return session;

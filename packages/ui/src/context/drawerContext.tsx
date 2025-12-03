@@ -3,10 +3,9 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
 interface DrawerContextProps {
-  open: Boolean;
-  openDrawer: () => void;
+  openDrawerId: string | null;
+  openDrawer: (id: string) => void;
   closeDrawer: () => void;
-  toggleDrawer: () => void;
 }
 
 export const DrawerContext = createContext<DrawerContextProps | undefined>(undefined);
@@ -18,19 +17,17 @@ export const useDrawer = () => {
 }
 
 export function DrawerProvider({ children}: {children: ReactNode}) {
-  const [open, setOpen] = useState(false);
+  const [openDrawerId, setOpenDrawerId] = useState<string | null>(null);
 
-  const openDrawer = () => setOpen(true);
-  const closeDrawer = () => setOpen(false);
-  const toggleDrawer = () => setOpen((prev) => !prev);
+  const openDrawer = (id: string) => setOpenDrawerId(id);
+  const closeDrawer = () => setOpenDrawerId(null);
 
   return (
     <DrawerContext.Provider
       value={{
-        open,
+        openDrawerId,
         openDrawer,
         closeDrawer,
-        toggleDrawer,
       }}
     >
       {children}

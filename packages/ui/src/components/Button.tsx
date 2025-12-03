@@ -27,7 +27,7 @@ export const button = tv({
       success:
         "text-white bg-green-600 hover:bg-green-700 focus-visible:ring-green-400",
       danger:
-        "text-white bg-red-600 hover:bg-red-700 focus-visible:ring-red-400",
+        "bg-transparent text-red-500 ring hover:ring-0 hover:bg-red-500 hover:text-white  transition-all duration-300",
       neutral:
         "text-gray-800 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-800 dark:text-gray-100",
     },
@@ -73,6 +73,12 @@ export const button = tv({
       class:
         "bg-purple-100 text-purple-700 hover:bg-purple-200 dark:bg-purple-900 dark:text-purple-200",
     },
+    {
+      variant: "outlined",
+      color: "danger",
+      class:
+        "text-red-500 ring hover:bg-red-500 hover:text-white"
+    }
   ],
   defaultVariants: {
     variant: "solid",     
@@ -115,7 +121,7 @@ export function Button({
       disabled={disabled || isLoading}
     >
       {leftIcon && <span className="mr-2">{leftIcon}</span>}
-      {isLoading ? "Loading..." : children}
+      {isLoading ? children : children}
       {rightIcon && <span className="ml-2">{rightIcon}</span>}
     </button>
   );

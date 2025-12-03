@@ -27,13 +27,15 @@ const navbar = tv({
         wrapper: "flex flex-row items-center justify-center sticky top-0 z-50 bg-background px-2.5 py-2.5",
         sectionLeft: "flex items-center space-x-2 flex-1",
         sectionCenter: "hidden md:flex justify-center flex-1",
-        sectionRight: "flex items-center justify-end space-x-3 flex-1"
+        sectionRight: "flex items-center justify-end space-x-3 flex-1",
+        actions: "items-center"
       },
       store: {
         wrapper: "flex flex-row items-center justify-center sticky top-0 px-2.5 py-2.5",
         sectionLeft: "flex items-center space-x-2 flex-1",
         sectionCenter: "hidden md:flex justify-center flex-1",
-        sectionRight: "flex items-center justify-end space-x-3 flex-1"
+        sectionRight: "flex items-center justify-end space-x-3 flex-1",
+        actions: "items-center"
       },
       admin: {
         wrapper: "flex flex-col sticky top-0 px-4 pb-2 min-h-screen w-[240px]",
@@ -63,7 +65,7 @@ const navbar = tv({
 });
 
 const navLink = tv({
-  base: "flex px-3 py-2 gap-2 font-medium transition-all duration-300 rounded-[14px]",
+  base: "flex px-3 py-1.5 gap-4 font-medium transition-all duration-400 rounded-[16px]",
   variants: {
     app: {
       landing: "ring-0 hover:ring hover:text-blue-600",
@@ -79,7 +81,7 @@ const navLink = tv({
     {
       app: "landing",
       active: true,  
-      className: "text-white bg-blue-600 hover:text-white hover:ring-0"
+      className: "text-white bg-blue-600 hover:text-white hover:ring-0 scale-105"
     },
     {
       app: "store",
@@ -89,7 +91,7 @@ const navLink = tv({
     {
       app: "admin",
       active: true,
-      className: "text-purple-600 bg-purple-400/20 dark:bg-purple-400/30 scale-105 -translate-y-1 -translate-x-1"
+      className: "text-purple-600 bg-purple-400/20 dark:bg-purple-400/30 scale-105"
     }
   ],
   defaultVariants: {

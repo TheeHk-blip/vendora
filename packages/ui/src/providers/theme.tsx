@@ -22,7 +22,6 @@ export function ThemeProvider({
   enableSystem?: boolean;
   disableTransitionOnChange?: boolean;
 }) {
-  // NextThemes provider must be a client component
   const attribute: Attribute = "class"
   return (
     <NextThemesProvider
@@ -72,14 +71,14 @@ export function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Toggle theme"
-      className="gap-2 rounded-md p-0.5 shadow-sm shadow-black/30 dark:shadow-black dark:bg-zinc-800 cursor-pointer"
+      className="gap-2 rounded-md cursor-pointer"
       type="button"
     >
       {mounted ? (
         resolvedTheme === "dark" ? (
-          <LightMode sx={{ color: "#25C2FF" }} />
+          <LightMode sx={{ color: "orange" }} />
         ) : (
-          <DarkMode sx={{ color: "gray" }} />
+          <DarkMode sx={{ color: "grey" }} />
         )
       ) : (
         <span className="inline-block w-6 h-6" aria-hidden />
