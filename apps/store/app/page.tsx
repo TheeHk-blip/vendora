@@ -8,7 +8,7 @@ export const metadata:Metadata = ({
 
 export default function Home() {
   return (
-    <div className="flex flex-col mt-10 justify-center" >
+    <div className="flex flex-col justify-center px-2 py-2 w-full max-w-7xl" >
       <div className="grid grid-cols-3 gap-10 max-w-full items-center">
         <div>
           <span className={title({ color: "foreground"})}>
