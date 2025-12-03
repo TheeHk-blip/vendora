@@ -22,7 +22,7 @@ export default function Navigation() {
         links={siteConfig.navLinks}
         menuToggle={
           <button
-            onClick={() => openDrawer()}
+            onClick={() => openDrawer("menu")}
             className="cursor-pointer"
           >
             <Menu />
@@ -43,6 +43,7 @@ export default function Navigation() {
       />
 
       <SideNav
+        id="menu"
         variant="glass"
         closeButton={
           <button

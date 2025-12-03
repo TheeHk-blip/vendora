@@ -17,6 +17,7 @@ import { useState } from "react";
 export default function SignIn() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(1);
   const { visible, toggle } = UseVisibility();
@@ -62,6 +63,19 @@ export default function SignIn() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setError(null);
+    setGoogleLoading(true);
+
+    try {
+      await signIn("google", { callbackUrl: "/"});
+    } catch (error) {
+      console.error(error);
+      setError("An unexpected error occured during google sign-in");
+      setGoogleLoading(false);
+    }
+  }
+
   return (
     <main 
       aria-label="Vendora sign in page with account login form and authentication options" 
@@ -82,8 +96,9 @@ export default function SignIn() {
           <Image 
             alt="Brand" 
             src="/coverlogo.png" 
-            width={250} 
-            height={100} 
+            width={150} 
+            height={150} 
+            loading="eager"
             className="object-cover" 
           />
         </div>
@@ -118,7 +133,9 @@ export default function SignIn() {
               >
                 <div className="flex flex-col items-center gap-3 w-full">                  
                   <GoogleSignIn
-                    onClick={() => signIn("google", {callbackUrl:"/"})}
+                    onClick={handleGoogleSignIn}     
+                    loading={googleLoading}               
+                    disabled={googleLoading}
                   />
                   <OrSeparator />                  
                 </div>    
@@ -183,7 +200,7 @@ export default function SignIn() {
                     className="text-green-500 hover:scale-102 transition-all duration-300 shadow-sm shadow-black/25
                     bg-linear-to-r from-black/10 to-white/75 dark:from-neutral-700/30 dark:to-zinc-950"
                   >
-                    Sign in
+                    {loading ? <span className="animate-pulse" >Signing in...</span> : "Sign in"}
                   </Button>
                 </div>
               </motion.form>
