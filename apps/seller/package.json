@@ -10,7 +10,8 @@
     "refresh-baseline-browser-mapping": "pnpm add -D baseline-browser-mapping@latest"
   },
   "dependencies": {
-    "@vendora/ui": "workspace:*"
+    "@vendora/ui": "workspace:*",
+    "@vendora/auth": "workspace:*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
