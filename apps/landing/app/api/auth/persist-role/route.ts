@@ -30,21 +30,21 @@ export async function POST(request: Request) {
     if (!dbUser)
       return NextResponse.json({ ok: false, message: "User not found in DB" }, { status: 404 });
 
-    if (role === "seller") {
-      const existingSeller = await Seller.findOne({ userId: dbUser._id });
-      if (!existingSeller) {
-        await Seller.create({
-          userId: dbUser._id,
-          businessName: dbUser.name || "unnamed Store"
+    if (role === "buyer") {
+      const existingBuyer = Buyer.findOne({ userId: dbUser._id});
+      if (!existingBuyer) {
+        await Buyer.create({
+          userId: dbUser._id,          
         })
       }
     }
 
-    if (role === "buyer") {
-      const existingBuyer = await Buyer.findOne({ userId: dbUser._id });
-      if (!existingBuyer) {
-        await Buyer.create({
-          userId: dbUser._id
+    if (role === "seller") {
+      const existingSeller = Seller.findOne({ userId: dbUser._id});
+      if (!existingSeller) {
+        await Seller.create({
+          userId: dbUser._id,
+          businessName: dbUser.name || "unnamed store"
         })
       }
     }

@@ -21,7 +21,7 @@ function signInWithGoogleAs(role: "buyer") {
 }
 
 export default function BuyerRegistration() {
-    const router = useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [acceptedTerms, setAcceptedTerms] = useState(false);

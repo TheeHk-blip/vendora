@@ -2,9 +2,10 @@
 
 import { title } from "@vendora/ui";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 import { Limelight } from "next/font/google";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const limelight = Limelight({ 
   subsets: ["latin"],
@@ -19,36 +20,59 @@ const steps = [
 ];
 
 export default function PostAuth() {
-    const router = useRouter();
+  const router = useRouter();
+  const { update } = useSession();
   const [step, setStep] = useState(0);
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
+  const initiatedPostAuth = useRef(false);
 
-    // Handle progress simulation for better UX
-    const progress = async () => {
+  useEffect(() => {    
+    let uiUpdate: NodeJS.Timeout;
+    let redirectTimeout: NodeJS.Timeout;
+
+    if (initiatedPostAuth.current) return;
+    initiatedPostAuth.current = true;
+
+    (async () => {
       try {
-        await fetch("/api/auth/persist-role", { method: "POST" });
-        // Move through steps for visual feedback
-        timer = setInterval(() => {
-          setStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
-        }, 1500);
-      } catch (error) {
-        console.error("Error persisting role:", error);
-      } finally {
-        // Redirect slightly after final step for smoothness
-        setTimeout(() => router.replace("/"), steps.length * 1500 + 500);
-      }
-    };
+        console.log("Post-Auth initiated");
 
-    progress();
-    return () => clearInterval(timer);
-  }, [router]);
+        const response = await fetch("/api/auth/persist-role", { method: "POST"});
+
+        if (!response.ok) {
+          throw new Error("Failed to persist role")
+        }
+
+        await update();
+        setStep(steps.length - 1);
+
+        redirectTimeout = setTimeout(() => {
+          router.replace("/");
+        }, 1000);
+      } catch (error) {
+        console.error("Error during post-auth setup:", error);
+        initiatedPostAuth.current = false; // allow retry if needed
+        router.replace("/signin?error=RolePersistenceFailed");
+      }
+    })();
+
+    // Progress text updates
+    uiUpdate = setInterval(() => {
+      setStep(prev => Math.min(prev + 1, steps.length - 1));
+    }, 500);
+
+    return () => {
+      clearInterval(uiUpdate);
+      clearTimeout(redirectTimeout);
+    };
+    
+  }, [router, update]);
 
   return (
     <main 
       aria-label="Finishing touches for account registration to ensure smooth onboarding" 
-      className="min-h-screen flex flex-col justify-center items-center bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950 relative overflow-hidden"
+      className="min-h-screen flex flex-col justify-center items-center bg-linear-to-r from-black/10 to-white/45 
+      dark:from-neutral-700/30 dark:to-zinc-950 relative overflow-hidden"
     >
       {/* Glow background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.1),transparent_70%)]"></div>
@@ -99,7 +123,7 @@ export default function PostAuth() {
 
       {/* Progress bar */}
       <motion.div
-        className="absolute bottom-0 left-0 h-1 bg-indigo-500"
+        className="absolute bottom-1 left-0 h-1 bg-indigo-500"
         initial={{ width: "0%" }}
         animate={{ width: `${((step + 1) / steps.length) * 100}%` }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
