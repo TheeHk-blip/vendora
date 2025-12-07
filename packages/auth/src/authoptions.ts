@@ -2,8 +2,8 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import { connectDB } from "@vendora/db";
-import User from "@vendora/db/src/models/user";
+import { connectDB } from "../../db";
+import User from "../../db/src/models/user";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -86,12 +86,24 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    async jwt({ token, user, profile }) {
+    async jwt({ token, user }) {
+      // First login: copy user props into token
       if (user) {      
         token.id = user.id;
         token.role = user.role;
         token.image = user.image;
         token.hasPassword = user.hasPassword;
+      }
+
+      // If role is missing, fetch it once form DB
+      if (!token.role && token?.email) {
+        await connectDB();
+        const dbUser = await User.findOne({ email: token.email});
+        if (dbUser) {
+          token.role = dbUser.role;
+          token.image = dbUser.image;
+          token.hasPassword = Boolean(dbUser.hasPassword);
+        }
       }
 
       return token;

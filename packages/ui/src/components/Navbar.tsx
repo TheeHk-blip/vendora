@@ -47,7 +47,7 @@ const navbar = tv({
         actions: "flex flex-col w-full"
       },
       adminnav: {
-        wrapper: "flex flex-row items-center px-2.5 py-1.5 sticky top-0.5 max-w-[98%] mx-auto mb-3.5 z-50 bg-white/40 backdrop-blur-sm rounded-xl",
+        wrapper: "flex flex-row items-center px-4.5 py-1.5 sticky top-0.5 max-w-[98%] mx-auto mb-3.5 z-50 bg-white/40 backdrop-blur-sm rounded-2xl",
         sectionLeft: "flex items-center space-x-2 flex-1",
         sectionCenter: "hidden md:flex justify-center flex-1",
         sectionRight: "flex items-center justify-end space-x-3 flex-1"

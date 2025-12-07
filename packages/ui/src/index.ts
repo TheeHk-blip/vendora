@@ -1,6 +1,6 @@
 export * from "./components/Button";
 export * from "./providers/theme";
-export * from "./providers/auth";
+export * from "./providers/session";
 export * from "./primitives";
 export * from "./components/Navbar";
 export * from "./components/logo";
