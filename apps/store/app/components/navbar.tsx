@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@vendora/auth";
 import Profile from "./profile";
 import Cart from "./cart";
+import { Avatar } from "@mui/material";
 
 const limeLight = Limelight({
   subsets: ["latin"],
@@ -24,7 +25,13 @@ export default async function Navigation() {
       title={<span className={title({ color: "green", size: "sm", className: limeLight.className})}>Vendora</span>}      
       links={siteConfig.navLinks}
       menuToggle={
-        <Profile src={session?.user.image!} />
+        <>
+          {session ? (
+            <Profile src={session.user.image!} />
+          ):(
+            <Avatar />
+          )}
+        </>     
       }
       actions={
         <>

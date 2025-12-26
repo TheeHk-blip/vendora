@@ -1,14 +1,13 @@
 "use client";
 
 import { Close, Logout } from "@mui/icons-material";
-import Avatar from "@mui/material/Avatar"
 import { Button, SideNav, useDrawer } from "@vendora/ui";
 import { signOut } from "next-auth/react";
 import { siteConfig } from "../config/site";
 import Image from "next/image";
 
 interface ProfileProps {
-  src: string
+  src: string;
 }
 
 export default function Profile({src}: ProfileProps) {
@@ -48,17 +47,5 @@ export default function Profile({src}: ProfileProps) {
         }
       />
     </>
-  )
-}
-
-export function LogOut() {
-  return (
-    <Button
-      color="danger"
-      onClick={() => signOut({ callbackUrl: "/"})}
-    >
-      Log out
-      <Logout />
-    </Button>
   )
 }
