@@ -2,8 +2,11 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
 import { connectDB } from "../../db";
 import User from "../../db/src/models/user";
+import Seller from "../../db/src/models/seller";
+import Buyer from "../../db/src/models/buyer";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -40,7 +43,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
 
-  cookies: {
+/*  cookies: {
     sessionToken: {
       name:"_Secure-next-auth.session.token",
       options: {
@@ -52,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       }      
     }
   },
-  
+*/
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24, // 1 day(s)
@@ -64,24 +67,42 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async signIn({ user, profile }) {
-      await connectDB();
+    async signIn({ user, profile, account }) {
+      if (account?.provider === "google") {
+        const cookieStore = await cookies();
+        const role = cookieStore.get("vendora_role")?.value;
 
-      let dbUser = await User.findOne({ email: user.email });
-    
-      if (!dbUser) {
-        dbUser = await User.create({
-          name: user.name || profile?.name,
-          email: user.email,
-          image: user.image,
-          role: user.role,
-        });    
-      } 
-            
-      user.hasPassword = dbUser.password;
-      user.id = dbUser._id.toString();
-      user.role = dbUser.role;
-      user.image = dbUser.image;
+        await connectDB();   
+        const dbUser = await User.findOneAndUpdate(            
+            { email: user.email },            
+            { 
+              role: role,
+              $setOnInsert: { image: user.image },
+              name: user.name || profile?.name
+            },
+            { upsert: true, new: true}
+          );
+
+        if (role) {                 
+          // Use parallelization for User and Role creation
+          await Promise.all([
+            User.findOneAndUpdate({ email: user.email}, {role}),
+            role === "seller"
+            ? Seller.findOneAndUpdate(
+              { userId: dbUser.id},
+              { $setOnInsert: { userId: dbUser.id, businessName: user.name || "unnamed store"}},
+              { upsert: true }
+            )
+            : role === "buyer"
+            ? Buyer.findOneAndUpdate(
+              { userId: dbUser.id },
+              { $setOnInsert: { userId: dbUser.id }},
+              { upsert: true }
+            )
+            : Promise.resolve()
+          ]);
+        }
+      }
   
       return true;
     },

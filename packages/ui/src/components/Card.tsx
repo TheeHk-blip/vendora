@@ -11,7 +11,7 @@ const card = tv({
       flat: "p-1.5",
       solid: "bg-white/35 dark:bg-zinc-700/30 backdrop-blur-md rounded-[30px] p-4",
       outlined: "border-2 border-border bg-background shadow-sm",
-      glass: "flex flex-col bg-gradient-to-b from-gray-200 -to-transparent dark:from-zinc-800 -to-transparent dackdrop-blur-sm shadow-sm shadow-black/30",
+      glass: "p-3 flex flex-col bg-gradient-to-b from-gray-200 -to-transparent dark:from-zinc-800 -to-transparent dackdrop-blur-sm shadow-sm shadow-black/30",
       admin: "p-3 rounded-xl bg-black/10 dark:bg-white/40 shadow-sm shadow-black/25",
       admin_card: "p-2 rounded-xl bg-black/10 dark:bg-zinc-700/40"
     },
