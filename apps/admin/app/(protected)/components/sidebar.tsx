@@ -20,7 +20,7 @@ export default function Navigation() {
         <>
           {session ? (
             <Button            
-              onClick={() => signOut({callbackUrl: process.env.BASE_URL})}  
+              onClick={() => signOut({callbackUrl: process.env.NEXT_PUBLIC_BASE_URL})}  
               color="danger"     
               rightIcon={<Logout />}         
             >

@@ -1,11 +1,11 @@
 "use client";
 
-import { UsePage } from "@/app/hooks/usePage";
 import { Table } from "@vendora/ui";
 import { Header } from "./header";
 import type { SortDirection, Users } from "@vendora/ui";
 import { useState } from "react";
 import { useMemo } from "react";
+import { UsePage } from "../../hooks/usePage";
 
 interface UserProps {
   users: Users[]

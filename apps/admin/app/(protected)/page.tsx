@@ -1,8 +1,8 @@
 import { Card } from "@vendora/ui";
 import { Metadata } from "next";
-import { TotalUsers } from "../components/usercount";
+import { TotalUsers } from "./components/usercount";
 import { LinkOutlined, People } from "@mui/icons-material";
-import { UserGrowth } from "../components/usergrowth";
+import { UserGrowth } from "./components/usergrowth";
 import Link from "next/link";
 
 export const metadata: Metadata = {

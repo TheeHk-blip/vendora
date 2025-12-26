@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import User from "@vendora/db/src/models/user";
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
 import dotenv from "dotenv";
+import User from "@vendora/db/src/models/user";
+
 
 dotenv.config();
 
@@ -27,7 +27,7 @@ async function SeedAdmin() {
       role: "admin"
     });
 
-    return NextResponse.json({ admin }, {status: 201});
+    console.log("Seeded Admin:", admin.email)
 
   } catch (error) {
     console.error("Failed to seed admin:", error)
