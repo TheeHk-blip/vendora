@@ -14,15 +14,22 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 
-function signInWithGoogleAs(role: "buyer") {
-  // short lived cookie so server can read it on OAuth callback
-  document.cookie = `vendora_role=${role}; Path=/; Max-Age=300; SameSite=Lax`;
-  signIn("google", { callbackUrl: "/postauth" });
+function signInWithGoogleAs(role: "buyer", setLoading: (loading: boolean) => void) {
+  try {
+    setLoading(true);
+    // short lived cookie so server can read it on OAuth callback
+    document.cookie = `vendora_role=${role}; Path=/; Max-Age=300; SameSite=Lax`;
+    signIn("google", { callbackUrl: "/" });
+  } catch (error) {
+    console.error("Registration Failed:", error);
+    setLoading(false);
+  }
 }
 
 export default function BuyerRegistration() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState(false);
@@ -128,7 +135,9 @@ export default function BuyerRegistration() {
               >
                 <div className="flex flex-col items-center gap-3 w-full">
                   <GoogleSignIn 
-                    onClick={() => signInWithGoogleAs("buyer")}
+                    onClick={() => signInWithGoogleAs("buyer", setGoogleLoading)}
+                    loading={googleLoading}
+                    disabled={googleLoading}
                   />
                   <OrSeparator />
                 </div>                        

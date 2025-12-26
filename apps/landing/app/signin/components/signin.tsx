@@ -71,9 +71,9 @@ export default function SignIn() {
       await signIn("google", { callbackUrl: "/"});
     } catch (error) {
       console.error(error);
-      setError("An unexpected error occured during google sign-in");
+      setError("An unexpected error occured during google sign-in");   
       setGoogleLoading(false);
-    }
+    }        
   }
 
   return (

@@ -21,15 +21,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-function signInWithGoogleAs(role: "seller") {
+function signInWithGoogleAs(role: "seller", setLoading: (loading: boolean) => void) {
   // short lived cookie so server can read it on OAuth callback
   document.cookie = `vendora_role=${role}; Path=/; Max-Age=300; SameSite=Lax`;
-  signIn("google", { callbackUrl: "/postauth" });
+  signIn("google", { callbackUrl: "/" });
 }
 
 export default function SellerRegistration() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(1);  
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -112,7 +113,9 @@ export default function SellerRegistration() {
             src={"/sellerbrand.png"}
             width={250}
             height={100}
-            className="object-cover"            
+            className="object-cover"     
+            style={{ width: "auto", height: "auto"}}      
+            loading="eager" 
           />
         </div>
         
@@ -136,7 +139,9 @@ export default function SellerRegistration() {
               >
                 <div className="flex flex-col gap-3 w-full">
                   <GoogleSignIn
-                    onClick={() => signInWithGoogleAs("seller")} 
+                    onClick={() => signInWithGoogleAs("seller", setGoogleLoading)} 
+                    loading={googleLoading}
+                    disabled={googleLoading}
                   />
                   <OrSeparator />
                 </div>
