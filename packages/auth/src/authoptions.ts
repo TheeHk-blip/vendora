@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
 
-/*  cookies: {
+  cookies: {
     sessionToken: {
       name:"_Secure-next-auth.session.token",
       options: {
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       }      
     }
   },
-*/
+
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24, // 1 day(s)
