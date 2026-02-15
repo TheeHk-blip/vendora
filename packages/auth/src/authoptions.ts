@@ -3,16 +3,20 @@ import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { connectDB } from "../../db";
+import { clientPromise, connectDB } from "../../db";
 import User from "../../db/src/models/user";
 import Seller from "../../db/src/models/seller";
 import Buyer from "../../db/src/models/buyer";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
+  adapter: MongoDBAdapter(clientPromise) as Adapter,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      allowDangerousEmailAccountLinking: true      
     }),
 
     Credentials({
@@ -43,7 +47,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
 
-  cookies: {
+/*  cookies: {
     sessionToken: {
       name:"_Secure-next-auth.session.token",
       options: {
@@ -55,7 +59,7 @@ export const authOptions: NextAuthOptions = {
       }      
     }
   },
-
+*/
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24, // 1 day(s)
@@ -69,19 +73,20 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, profile, account }) {
       if (account?.provider === "google") {
+        await connectDB();  
+
         const cookieStore = await cookies();
         const role = cookieStore.get("vendora_role")?.value;
-
-        await connectDB();   
+  
         const dbUser = await User.findOneAndUpdate(            
-            { email: user.email },            
-            { 
-              role: role,
-              $setOnInsert: { image: user.image },
-              name: user.name || profile?.name
-            },
-            { upsert: true, new: true}
-          );
+          { email: user.email },            
+          { 
+            role: role,
+            $setOnInsert: { image: user.image },
+            name: user.name || profile?.name
+          },
+          { upsert: true, new: true}
+        );
 
         if (role) {                 
           // Use parallelization for User and Role creation
@@ -103,7 +108,7 @@ export const authOptions: NextAuthOptions = {
           ]);
         }
       }
-  
+
       return true;
     },
 
@@ -113,13 +118,13 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = user.role;
         token.image = user.image;
-        token.hasPassword = user.hasPassword;
-      }
+        token.hasPassword = user.hasPassword;               
+      }          
 
-      // If role is missing, fetch it once form DB
-      if (!token.role && token?.email) {
+      // If role is missing, fetch it once from DB
+      if (!token.role && token.email) {
         await connectDB();
-        const dbUser = await User.findOne({ email: token.email});
+        const dbUser = await User.findOne({ email: token.email}).select(" role image password");
         if (dbUser) {
           token.role = dbUser.role;
           token.image = dbUser.image;

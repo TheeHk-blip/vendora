@@ -6,18 +6,19 @@ export const button = tv({
   base: [
     "inline-flex items-center justify-center font-medium cursor-pointer",
     "transition-all duration-300 select-none",  
-    "disabled:opacity-50 disabled:cursor-not-allowed",
-    "active:scale-[0.98] hover:scale-101 ",
+    "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:ring-0 disabled:bg-foreground/5 disabled:dark:bg-foreground/5 disabled:text-gray-600 disabled:dark:text-gray-400",
+    "hover:ring active:scale-[0.98]"
   ],
 
   variants: {
     variant: {
-      solid: "",
-      flat: "bg-transparent",
-      outlined: "border bg-transparent",
+      solid: "bg-black/10 dark:bg-white/10",
+      flat: "bg-blue-500/25",
+      outlined: "ring bg-transparent",
       ghost: "bg-transparent rounded-md backdrop-blur-md p-2 shadow-none",
       buyer: "bg-gradient-to-r from-[#5EA2EF] to-[#0072F5]",
-      seller: "bg-gradient-to-r from-[#4ADE80] to-[#16A34A]"
+      seller: "bg-gradient-to-r from-[#4ADE80] to-[#16A34A]",
+      filter: "w-[200px] bg-foreground/20"
     },
     color: {
       primary:
@@ -25,14 +26,16 @@ export const button = tv({
       secondary:
         "text-white bg-purple-500 hover:bg-purple-600 focus-visible:ring-purple-400",
       success:
-        "text-white bg-green-600 hover:bg-green-700 focus-visible:ring-green-400",
+        "bg-foreground/15 text-green-600 hover:ring",
       danger:
-        "bg-transparent text-red-500 ring hover:ring-0 hover:bg-red-500 hover:text-white  transition-all duration-300",
+        "bg-red-500 dark:bg-red-500 hover:text-red-500 hover:bg-transparent dark:hover:bg-transparent",
       neutral:
-        "text-gray-800 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 hover:dark:bg-gray-800 dark:text-gray-100",
+        "bg-foreground/5 text-gray-600 dark:text-gray-400",
+      warning:
+        "bg-orange-600/15 dark:bg-orange-600/25 text-yellow-600"
     },
     size: {
-      sm: "px-3 py-1.5 text-sm rounded-xl",
+      sm: "px-2 py-1 text-sm rounded-xl",
       md: "px-4 py-2 w-full text-base rounded-2xl",
       lg: "px-5 py-2.5 text-lg rounded-2xl",
     },
@@ -83,13 +86,14 @@ export const button = tv({
   defaultVariants: {
     variant: "solid",     
     size: "sm",
+    rounded: "md"
   },
 });
 
 export type ButtonVariants = VariantProps<typeof button>;
 
 export interface ButtonProps extends ButtonVariants {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isLoading?: boolean;
   disabled?: boolean;
   leftIcon?: React.ReactNode;

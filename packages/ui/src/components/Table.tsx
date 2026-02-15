@@ -6,7 +6,7 @@ import { tv, VariantProps } from "tailwind-variants";
 const table = tv({
   slots: {
     wrapper:
-      "w-full rounded-lg bg-white/50 dark:bg-neutral-700/50 overflow-hidden shadow-sm",
+      "w-full rounded-lg bg-white/50 dark:bg-neutral-800/50 overflow-hidden shadow-sm",
     header: "px-4 py-3 border-b border-neutral-300/50 dark:border-neutral-600/50",
     title:
       "px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200",
@@ -16,7 +16,7 @@ const table = tv({
     headCell: "font-medium truncate",
     body: "divide-y divide-neutral-200 dark:divide-neutral-600",
     row:
-      "grid gap-2 px-4 py-3 items-center hover:bg-neutral-100/60 dark:hover:bg-neutral-800/70 cursor-default",
+      "grid gap-2 px-2 py-2 items-center hover:bg-neutral-100/60 dark:hover:bg-neutral-800/70 cursor-default",
     cell: "text-sm text-gray-700 dark:text-gray-200 truncate",
     actions: "flex items-center justify-end gap-2",
     empty: "p-6 text-center text-sm text-neutral-500",
@@ -113,6 +113,7 @@ export function Table<T>({
 
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={() => onPageChange?.(Math.max(1, page - 1))}
             disabled={page <= 1 || !onPageChange}
             className="px-3 py-1 rounded-md bg-white/30 border disabled:opacity-50 text-sm"
@@ -124,6 +125,7 @@ export function Table<T>({
           <div className="px-2 text-sm">{page}</div>
 
           <button
+            type="button"
             onClick={() => onPageChange?.(page + 1)}
             disabled={page >= maxPage || !onPageChange}
             className="px-3 py-1 rounded-md bg-white/30 border disabled:opacity-50 text-sm"

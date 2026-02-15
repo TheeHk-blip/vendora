@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { DrawerProvider, ThemeProvider } from "@vendora/ui"
+import { ActiveSessionProvider, CurrencyProvider, DrawerProvider, SearchInput, ThemeProvider, ToastProvider } from "@vendora/ui"
 import Navigation from "./components/navbar";
 
 const geistSans = Geist({
@@ -19,25 +19,36 @@ export const metadata: Metadata = {
   description: "Your one stop online store",
 };
 
+
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode;  
 }>) {
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>    
+        <ThemeProvider> 
+          <ActiveSessionProvider>
+          <ToastProvider>
+          <CurrencyProvider>   
           <DrawerProvider>  
             <div className="flex flex-col min-h-screen max-w-full">   
               <Navigation />
-              <main className="container max-w-full">
+              <div className="flex sm:hidden self-center mb-2.5">
+                <SearchInput />
+              </div>  
+              <main className="container max-w-full px-2.5">               
                 {children}
-              </main>     
+              </main>                 
             </div>
-          </DrawerProvider>        
+          </DrawerProvider>      
+          </CurrencyProvider>  
+          </ToastProvider>
+          </ActiveSessionProvider>
         </ThemeProvider>       
       </body>
     </html>

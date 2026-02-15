@@ -4,14 +4,17 @@ import { tv } from "tailwind-variants";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useDrawer } from "../context/drawerContext";
+import { Portal } from "./Portal";
+import React from "react";
 
 const sideNav = tv({
-  base: "fixed top-0 right-0 z-50 h-screen flex flex-col transition-all duration-300 ",
+  base: "fixed top-0 right-0 z-99 h-screen flex flex-col",
   slots: {
-    overlay: "fixed inset-0 bg-black/20 z-40",
+    overlay: "fixed inset-0 bg-black/20 dark:bg-white/20 z-40",
     header: "flex flex-row justify-between",
     title: "flex items-center px-3 py-1.5",
     closeButton: "p-2 rounded right-0 hover:bg-gray-100 dark:hover:bg-gray-800",
+    children: "overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
     links: "flex flex-col p-4 space-y-2",
     link: "bg-white/50 dark:bg-black/70 hover:bg-white/20 hover:dark:bg-black/30 hover:text-blue-600 rounded-lg p-1.5 ",
     toggle: "md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800",
@@ -20,7 +23,7 @@ const sideNav = tv({
   variants: {
     variant: {
       default: "w-64 bg-background shadow-lg",
-      glass: "w-64 bg-white/50 dark:bg-black/60 backdrop-blur-xl shadow-lg",
+      glass: "w-64 bg-background dark:bg-background shadow-lg",
     }
   },
   defaultVariants: {
@@ -34,6 +37,7 @@ export interface SideNavProps {
   title?: React.ReactNode;
   closeButton?: React.ReactNode;
   links?: { label: string; href: string }[];
+  children?: React.ReactNode;
   actions?: React.ReactNode;
 }
 
@@ -43,6 +47,7 @@ export function SideNav({
   title,
   closeButton,
   links,
+  children,
   actions,
 }: SideNavProps) {
   const styles = sideNav({ variant})
@@ -53,7 +58,7 @@ export function SideNav({
   return (
     <AnimatePresence>
       {isOpen && (
-      <>
+      <Portal>
         <motion.div 
           className={styles.overlay()}
           onClick={closeDrawer}
@@ -70,8 +75,8 @@ export function SideNav({
           transition={{
             type: "spring",
             stiffness: 110,
-            damping: 10,
-            ease: "easeIn"    
+            damping: 40,
+            restDelta: 2 
           }}
           role="dialog"
           className={styles.base()}
@@ -93,10 +98,11 @@ export function SideNav({
               </Link>
             ))}
           </div>
+          {children && <div className={styles.children()}>{children}</div>}
 
           {actions && <div className={styles.actions()} onClick={closeDrawer}>{actions}</div>}
         </motion.div>
-      </>
+      </Portal>
       )}
     </AnimatePresence>
   );

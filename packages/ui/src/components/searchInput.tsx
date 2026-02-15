@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
 import { useState } from "react";
 
 
@@ -17,16 +17,16 @@ export function SearchInput({ onSearch}: SearchInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center">
+    <form onSubmit={handleSubmit} className="flex items-center w-[200px]">
       <input 
         type="search"
         placeholder="Search..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="outline-none rounded-2xl bg-white/40 px-2.5 py-0.5"
+        className="outline-none rounded-xl w-[200px] bg-black/10 dark:bg-white/25 px-2.5 py-0.5"
       />
-      <button type="submit">
-        <Search className="text-gray-600 dark:text-gray-400"/>
+      <button type="submit" name="search button">
+        <Search className="text-gray-600 dark:text-gray-400 cursor-pointer"/>
       </button>
     </form>
   )

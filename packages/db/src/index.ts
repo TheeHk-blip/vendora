@@ -3,3 +3,5 @@ export * from "./models/user";
 export * from "./models/buyer";
 export * from "./models/seller";
 export * from "./models/product";
+export * from "./models/category";
+export * from './models/variant';

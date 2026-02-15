@@ -13,11 +13,11 @@ const navbar = tv({
     sectionRight: "flex items-center",
     brand: "flex items-center",
     search: "flex items-center justify-between",
-    title: "",
+    title: "transition-opacity duration-300",
     navLinks: "flex gap-2",
     actions: "hidden md:flex gap-2",
     link: "",
-    menuToggle: "flex md:hidden",
+    menuToggle: "flex md:hidden items-center gap-1",
     avatar: "flex items-center cursor-pointer",
   },
 
@@ -31,9 +31,9 @@ const navbar = tv({
         actions: "items-center"
       },
       store: {
-        wrapper: "flex flex-row items-center justify-center sticky top-0 px-2.5 py-2.5",
-        sectionLeft: "flex items-center space-x-2 flex-1",
-        sectionCenter: "hidden md:flex justify-center flex-1",
+        wrapper: "flex flex-row items-center justify-center sticky top-0 px-2.5 py-2.5 bg-background",
+        sectionLeft: "hidden md:flex items-center space-x-2 flex-1",
+        sectionCenter: "flex justify-center flex-1",
         sectionRight: "flex items-center justify-end space-x-3 flex-1",
         actions: "items-center"
       },
@@ -43,16 +43,26 @@ const navbar = tv({
         brand: "flex w-full justify-between",
         sectionCenter: "flex-1",
         sectionRight: "flex items-center my-auto",
-        navLinks: "flex flex-col space-y-2 w-full",
+        navLinks: "flex flex-col space-y-2",
         actions: "flex flex-col w-full"
       },
       adminnav: {
-        wrapper: "flex flex-row items-center px-4.5 py-1.5 sticky top-0.5 max-w-[98%] mx-auto mb-3.5 z-50 bg-white/40 backdrop-blur-sm rounded-2xl",
+        wrapper: "flex flex-row items-center shadow-xs shadow-black/20 dark:shadow-[#212529] px-1.5 py-1.5 sticky top-0.5 max-w-[98%] mx-auto mb-3.5 z-50 backdrop-blur-sm rounded-xl",
         sectionLeft: "flex items-center space-x-2 flex-1",
         sectionCenter: "hidden md:flex justify-center flex-1",
-        sectionRight: "flex items-center justify-end space-x-3 flex-1"
+        sectionRight: "flex items-center justify-end space-x-2 mx-2.5 flex-1"
       },
+      storeFilter: {
+        wrapper: "flex flex-col sticky top-[58px] w-full h-[calc(100vh-58px)] overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+        sectionLeft: "flex mb-2.5",
+        brand: "flex w-full justify-start",
+        sectionCenter: "flex-1",
+        sectionRight: "flex items-center my-auto",
+        navLinks: "flex flex-col space-y-2",
+        actions: "flex flex-col w-full"
+      }
     },
+
     sticky: {
       true: "sticky top-0 z-50"
     },
@@ -70,13 +80,15 @@ const navLink = tv({
     app: {
       landing: "ring-0 hover:ring hover:text-blue-600",
       store: "ring-0 hover:ring hover:text-green-600",
-      admin: "bg-white/25 hover:text-purple-600 hover:bg-purple-200/50 dark:bg-black/40 dark:hover:bg-black/20",
+      admin: "text-neutral-700 dark:text-neutral-400 bg-black/15 hover:text-purple-700 hover:dark:text-purple-700 dark:bg-black/50",
       adminnav: "ring-0 hover:ring hover:text-blue-600",
+      storeFilter: ""
     },
     active: {
       true: "",
-    }
+    },
   },
+
   compoundVariants: [
     {
       app: "landing",
@@ -91,7 +103,7 @@ const navLink = tv({
     {
       app: "admin",
       active: true,
-      className: "text-purple-600 bg-purple-400/20 dark:bg-purple-400/30 scale-105"
+      className: "text-purple-700 dark:text-purple-700 bg-purple-500/15 dark:bg-purple-400/10 scale-105"
     }
   ],
   defaultVariants: {
@@ -101,7 +113,7 @@ const navLink = tv({
 
 export interface NavbarProps extends VariantProps<typeof navbar> {
   theme?: "light" | "dark";
-  app?: "landing" | "store" | "admin" | "adminnav";
+  app?: "landing" | "store" | "admin" | "adminnav" | "storeFilter";
   title?: ReactNode;
   children?: ReactNode;
   actions?: ReactNode;
@@ -135,8 +147,8 @@ export function Navbar({
       <div className={styles.sectionLeft()}>
         <div className={styles.brand()}>
           {brand}          
-          <span className={styles.title()}>{title}</span>   
-          <div className={styles.search()}>{search}</div>     
+          <span className={styles.title()}>{title}</span>
+          <div className={styles.search()}>{search}</div>
         </div>
       </div>
 
@@ -151,9 +163,9 @@ export function Navbar({
                   href={link.href}
                   className={navLink({ app, active: pathname === link.href})}
                   aria-current={isActive ? "page" : undefined}
-                >
-                  {link.icon && <link.icon />} 
-                  {link.label}
+                >                  
+                  {link.icon && <link.icon />}
+                  <span>{link.label}</span>
                 </Link>
               )
             })}
@@ -167,6 +179,6 @@ export function Navbar({
         {avatar && <div className={styles.avatar()}>{avatar}</div>}
       </div>
       {sidenav}
-    </nav>
+    </nav>    
   );
 }

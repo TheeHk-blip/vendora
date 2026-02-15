@@ -9,14 +9,14 @@ export const metadata:Metadata = ({
 export default function Home() {
   return (
     <div className="flex flex-col justify-center px-2 py-2 w-full max-w-7xl" >
-      <div className="grid grid-cols-3 gap-10 max-w-full items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-full items-center">
         <div>
-          <span className={title({ color: "foreground"})}>
-            Exclusive Offers
-          </span>
+          <span className={title({ color: "foreground"})}>Exclusive Offers</span>                      
         </div>
-        <div className="col-span-2">store</div>
+        <div>
+          <span className={title({color: "foreground"})}>New Arrivals</span> 
+        </div>
       </div>
     </div>
-  );
+  )
 }

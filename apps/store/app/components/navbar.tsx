@@ -1,13 +1,16 @@
-import { Navbar, ThemeToggle, title } from "@vendora/ui";
 import { siteConfig } from "../config/site";
 import { Limelight } from "next/font/google";
-import { Login } from "@mui/icons-material";
+import Login from "@mui/icons-material/Login";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@vendora/auth";
 import Profile from "./profile";
 import Cart from "./cart";
-import { Avatar } from "@mui/material";
+import { Navbar } from "@vendora/ui/src/components/Navbar";
+import { title } from "@vendora/ui/src/primitives";
+import { getInitials } from "@vendora/ui/src/utilities/getInitials";
+import { ThemeToggle } from "@vendora/ui/src/providers/theme";
+import { Search } from "@mui/icons-material";
 
 const limeLight = Limelight({
   subsets: ["latin"],
@@ -16,7 +19,7 @@ const limeLight = Limelight({
 })
 
 export default async function Navigation() {
-  const session = await getServerSession(authOptions); 
+  const session = await getServerSession(authOptions);  
 
   return (
     <Navbar 
@@ -25,21 +28,19 @@ export default async function Navigation() {
       title={<span className={title({ color: "green", size: "sm", className: limeLight.className})}>Vendora</span>}      
       links={siteConfig.navLinks}
       menuToggle={
-        <>
+        <>                
           {session ? (
-            <Profile src={session.user.image!} />
+             <Profile src={session.user.image} initials={getInitials(session.user.name)} />
           ):(
-            <Avatar />
-          )}
+            <Profile />
+          )}              
+          <Cart />                                     
         </>     
       }
       actions={
-        <>
-          <Cart />
+        <>          
           {session ? (            
-            <>
-              <Profile src={session.user.image!} />              
-            </>
+            <Profile src={session.user.image} initials={getInitials(session.user.name)}  />
           ):(
             <>
               <Link 
@@ -58,7 +59,8 @@ export default async function Navigation() {
                 Sign in
               </Link>
             </>
-          )}          
+          )}      
+          <Cart />   
           <ThemeToggle />
         </>
       }

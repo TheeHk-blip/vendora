@@ -14,7 +14,7 @@ module.exports = {
         primary: "var(--color-primary)",
         secondary: "var(--color-secondary)"
       },
-      scrollBehavior: { smooth: "smooth" }
+      scrollBehavior: { smooth: "smooth" },
     }
   },
   plugins: [require("./tailwind.theme")]

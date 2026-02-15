@@ -6,7 +6,8 @@ import {
   useTheme as useNextTheme,
 } from "next-themes";
 import type { Attribute } from "next-themes";
-import { LightMode, DarkMode } from "@mui/icons-material";
+import LightMode from "@mui/icons-material/LightMode";
+import DarkMode from "@mui/icons-material/DarkMode";
 
 type ThemeName = "light" | "dark" | "system";
 
@@ -76,9 +77,9 @@ export function ThemeToggle() {
     >
       {mounted ? (
         resolvedTheme === "dark" ? (
-          <LightMode sx={{ color: "orange" }} />
+          <LightMode className="text-orange-500" />
         ) : (
-          <DarkMode sx={{ color: "grey" }} />
+          <DarkMode className="text-neutral-700" />
         )
       ) : (
         <span className="inline-block w-6 h-6" aria-hidden />

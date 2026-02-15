@@ -1,15 +1,29 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 
+export interface IProductBase {  
+  _id: string;
+  name?: string;
+  price: number;
+  description?: string;
+  fields?: Record<string, string | number>;
+  discount?: number;
+  discountedPrice?:number; 
+  images: [string];
+  featured?: boolean;
+}
+
 export interface IProduct extends Document {
   sellerId: Types.ObjectId;
+  categoryId: Types.ObjectId;
   name: string;
   price: number;
   description: string;
   discount?: number;
-  previousPrice?:number;
-  image: [string];
+  discountedPrice?:number;
+  fields?: Schema.Types.Mixed;
+  images: [string];
   featured?: boolean;
-  approved?: boolean;
+  status?: "live" | "pending" | "rejected";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -18,8 +32,12 @@ const productSchema = new Schema<IProduct>({
   sellerId: {
     type: Schema.Types.ObjectId,
     ref: "Seller",
-    required: true,
-    unique: true
+    required: true,    
+  },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,    
   },
   name: {
     type: String,
@@ -37,10 +55,14 @@ const productSchema = new Schema<IProduct>({
   discount: {
     type: Number
   },
-  previousPrice: {
+  discountedPrice: {
     type: Number
   },
-  image: {
+  fields: {
+    type: Schema.Types.Mixed,
+    default: {}
+  },
+  images: {
     type: [String],
     default: []
   },
@@ -48,9 +70,9 @@ const productSchema = new Schema<IProduct>({
     type: Boolean,
     default: false
   },
-  approved: {
-    type: Boolean,
-    default: false
+  status: {
+    type: String,
+    enum: ["live", "pending", "rejected"]
   }
 }, { timestamps: true });
 

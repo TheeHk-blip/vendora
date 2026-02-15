@@ -22,3 +22,7 @@ export async function connectDB() {
 
   return cached.conn;
 }
+
+export const clientPromise = connectDB().then((conn) => {
+  return conn.connection.getClient();
+});

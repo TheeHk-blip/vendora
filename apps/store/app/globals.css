@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @config "../../../tailwind.config.cjs";
 
+@theme {
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1260px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1600px;
+}
 
 html {
   transition: all 0.5s ease;

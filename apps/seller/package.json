@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@vendora/ui": "workspace:*",
-    "@vendora/auth": "workspace:*"
+    "@vendora/auth": "workspace:*",
+    "@vendora/db": "workspace:*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
