@@ -1,17 +1,15 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
-
-if (!MONGODB_URI) throw new Error ("MONGO URI not defined in env variables");
-
 type MongooseCache = {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null; 
 }
 
-const cached: MongooseCache = (global as unknown as {mongoose: MongooseCache}).mongoose || { conn: null, promise: null};
-
 export async function connectDB() {
+  const MONGODB_URI = process.env.MONGODB_URI as string;
+  if (!MONGODB_URI) throw new Error ("MONGO URI not defined in env variables");
+
+  const cached: MongooseCache = (global as unknown as {mongoose: MongooseCache}).mongoose || { conn: null, promise: null};
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {

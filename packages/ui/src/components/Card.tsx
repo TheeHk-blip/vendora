@@ -4,7 +4,7 @@ import { tv, type VariantProps } from "tailwind-variants";
 import { ReactNode } from "react";
 
 const card = tv({
-  base: "relative -z-10 rounded-xl",
+  base: "relative rounded-xl",
   variants: {
     variant: {
       flat: "p-1.5",

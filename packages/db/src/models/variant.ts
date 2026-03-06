@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
+import { TypedModel } from "./types";
 
 export interface IVariantBase {
   productId?: Types.ObjectId;
@@ -7,7 +8,7 @@ export interface IVariantBase {
   price?: number;
   stock?: number;
   color?: string;
-  image?: string;
+  image?: string [];
   attributes?: Schema.Types.Mixed;
 }
 
@@ -17,7 +18,7 @@ export interface IVariant extends Document {
   price: number;
   stock: number;
   color: string;
-  image: string;
+  image: [string];
   attributes: Schema.Types.Mixed;
   createdAt: Date;
   updatedAt: Date;
@@ -46,8 +47,8 @@ const variantSchema = new Schema<IVariant>({
     default: ""
   },
   image: {
-    type: String, 
-    default: ""
+    type: [String], 
+    default: []
   },
   attributes: {
     type: Map,
@@ -58,6 +59,7 @@ const variantSchema = new Schema<IVariant>({
 
 variantSchema.index({ productId: 1, attributes: 1 });
 
-const Variant = mongoose.models.Variant || mongoose.model<IVariant>("Variant", variantSchema);
+const Variant: TypedModel <IVariant> = 
+  mongoose.models.Variant || mongoose.model<IVariant>("Variant", variantSchema);
 
 export default Variant;

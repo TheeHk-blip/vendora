@@ -11,7 +11,7 @@ export function ProductGallery ({images} : ImagesProps) {
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
   return (
-    <div className="flex flex-col gap-2 justify-center">
+    <div className="flex flex-col gap-2">
       <div className="items-center self-center" >
         <Image
           alt={`${selectedImage} image`}

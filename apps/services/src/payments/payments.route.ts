@@ -2,17 +2,14 @@
 import express, { Router, type Request, type Response } from "express";
 import Stripe from "stripe";
 import { stripe } from "./stripe.config.js";
-import { connectDB } from "@vendora/db/src/connection/client.js"
-import _Variant, { type IVariant } from "@vendora/db/src/models/variant.js";
-import _Order, { type IOrder } from "@vendora/db/src/models/order.js";
-import type { Model } from "mongoose";
+import { connectDB } from "@vendora/db/src/connection/client.js";
+import Variant, { type IVariant } from "@vendora/db/src/models/variant.js";
+import Order from "@vendora/db/src/models/order.js";
+import { type LeanArray } from "@vendora/db/src/models/types.js";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import { sendOrderConfirmation } from "./email.services.js";
 import { getMpesaAccessToken } from "./mpesa.service.js";
-
-const Variant = _Variant as unknown as Model<IVariant>;
-const Order = _Order as unknown as Model<IOrder>
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const router = Router();
@@ -49,7 +46,7 @@ router.post("/stk-push", async (req, res) => {
     await connectDB();
 
     const variantIds = orderItems.map((item: any) => item.variantId);    
-    const dbVariants = await Variant.find({ _id: {$in: variantIds }}).lean();
+    const dbVariants: LeanArray<IVariant> = await Variant.find({ _id: {$in: variantIds }}).lean();
 
     let totalProductValue = 0;
     let amountToPay: number;
@@ -256,7 +253,7 @@ router.post("/webhook", express.raw({ type: "application/json"}), async (req: Re
           await sendOrderConfirmation(
             session.customer_details?.email || updatedOrder.buyer.email,
             updatedOrder.orderNumber,
-            session.amount_total! / 100
+            session.amount_total!
           );
         }
 
@@ -303,7 +300,7 @@ router.post("/create-checkout-session", async (req, res) => {
     await connectDB();
 
     const variantIds = orderItems.map((item: any) => item.variantId);    
-    const dbVariants = await Variant.find({ _id: {$in: variantIds }});
+    const dbVariants: LeanArray<IVariant> = await Variant.find({ _id: {$in: variantIds }});
 
     let totalProductValue = 0;
     let commitmentFee: number;
@@ -375,7 +372,7 @@ router.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"], 
       line_items: [{
         price_data: {
-          currency: "kes",
+          currency: "USD",
           product_data: {
             name: `Order Purchase: ${order.orderNumber}`,            
           },

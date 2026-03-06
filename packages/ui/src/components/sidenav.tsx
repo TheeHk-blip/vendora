@@ -8,26 +8,17 @@ import { Portal } from "./Portal";
 import React from "react";
 
 const sideNav = tv({
-  base: "fixed top-0 right-0 z-99 h-screen flex flex-col",
+  base: "fixed top-0 right-0 z-99 h-screen flex flex-col bg-background w-[250px] px-1",
   slots: {
     overlay: "fixed inset-0 bg-black/20 dark:bg-white/20 z-40",
     header: "flex flex-row justify-between",
     title: "flex items-center px-3 py-1.5",
     closeButton: "p-2 rounded right-0 hover:bg-gray-100 dark:hover:bg-gray-800",
-    children: "overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
-    links: "flex flex-col p-4 space-y-2",
-    link: "bg-white/50 dark:bg-black/70 hover:bg-white/20 hover:dark:bg-black/30 hover:text-blue-600 rounded-lg p-1.5 ",
+    children: "flex flex-col w-full overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+    links: "flex flex-col space-y-2",
+    link: "bg-white/50 dark:bg-black/70 hover:bg-white/20 hover:dark:bg-black/30 hover:text-blue-600 rounded-xl px-2.5 py-1.5 text-gray-600 dark:text-gray-300 ",
     toggle: "md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800",
     actions: "flex flex-col p-4 space-y-2 mt-auto",
-  },
-  variants: {
-    variant: {
-      default: "w-64 bg-background shadow-lg",
-      glass: "w-64 bg-background dark:bg-background shadow-lg",
-    }
-  },
-  defaultVariants: {
-    variant: "default",
   },
 })
 

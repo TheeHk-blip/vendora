@@ -39,9 +39,10 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
-          role: user.role,
+          role: user.role.toString(),
           image: user.image,
-          hasPassword: Boolean(user.password),
+          isVerified: !!user.isVerified,
+          hasPassword: !!user.password,
         }
       }
     })
@@ -95,7 +96,7 @@ export const authOptions: NextAuthOptions = {
             role === "seller"
             ? Seller.findOneAndUpdate(
               { userId: dbUser.id},
-              { $setOnInsert: { userId: dbUser.id, businessName: user.name || "unnamed store"}},
+              { $setOnInsert: { userId: dbUser.id, businessName: "unnamed store"}},
               { upsert: true }
             )
             : role === "buyer"
@@ -112,26 +113,39 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       // First login: copy user props into token
       if (user) {      
         token.id = user.id;
         token.role = user.role;
         token.image = user.image;
-        token.hasPassword = user.hasPassword;               
-      }          
+        token.hasPassword = user.hasPassword;         
+        token.isVerified = user.isVerified;      
+      }            
 
-      // If role is missing, fetch it once from DB
-      if (!token.role && token.email) {
+      if (trigger === "update") {
+        if (session?.isVerified !== undefined) {
+          token.isVerified = session.isVerified
+        }
+
         await connectDB();
-        const dbUser = await User.findOne({ email: token.email}).select(" role image password");
+        const dbUser = await User.findOne({ email: token.email }).select("role isVerified");
         if (dbUser) {
           token.role = dbUser.role;
-          token.image = dbUser.image;
-          token.hasPassword = Boolean(dbUser.hasPassword);
+          token.isVerified = !!dbUser.isVerified;
         }
       }
 
+      // Fallback: If role is missing fetch in DB
+      if (!token.role && token.email) {
+        await connectDB();
+        const dbUser = await User.findOne({ email: token.email }).select("role isVerified");
+        if (dbUser) {
+          token.role = dbUser.role;
+          token.isVerified = !!dbUser.isVerified
+        }        
+      }
+    
       return token;
     },
 
@@ -139,8 +153,10 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user._id = token.id as string;
         session.user.role = token.role as string;
+        session.user.email = token.email as string;
         session.user.image = token.image as string;
-        session.user.hasPassword = Boolean(token.hasPassword)
+        session.user.isVerified = !!token.isVerified;
+        session.user.hasPassword = !!token.hasPassword;
       }
 
       return session;

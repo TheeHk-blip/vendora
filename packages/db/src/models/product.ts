@@ -76,6 +76,8 @@ const productSchema = new Schema<IProduct>({
   }
 }, { timestamps: true });
 
+productSchema.index({categoryId: 1, price: 1})
+
 const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema);
 
 export default Product;

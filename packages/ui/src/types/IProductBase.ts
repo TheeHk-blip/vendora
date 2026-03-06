@@ -1,5 +1,6 @@
 export interface IProductBase {  
   _id: string;
+  sellerId?: string;
   name?: string;
   price: number;
   description?: string;

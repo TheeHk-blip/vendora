@@ -17,7 +17,7 @@ export function SearchInput({ onSearch}: SearchInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center w-[200px]">
+    <form onSubmit={handleSubmit} className="flex items-center w-[200px] gap-1">
       <input 
         type="search"
         placeholder="Search..."

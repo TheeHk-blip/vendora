@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -6,11 +6,16 @@ export interface IUser extends Document {
   role: "buyer" | "seller" | "admin";
   password: string;
   image: string;
+  isVerified: boolean;
+  verificationOtp: {
+    code: string;
+    expiresAt: Date;
+  }
   createdAt: Date;
   updatedAt: Date;
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema<IUser>({
   name: {
     type: String,
     required: true,
@@ -31,11 +36,23 @@ const userSchema = new mongoose.Schema({
   },
   image: {
     type: String
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verificationOtp: {
+    code: {
+      type: String
+    },
+    expiresAt: {
+      type: Date
+    }
   }
 }, {timestamps: true});
 
 userSchema.index({ name: 1 })
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User = mongoose.models?.User || mongoose.model("User", userSchema);
 
 export default User;

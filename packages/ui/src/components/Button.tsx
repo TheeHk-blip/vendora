@@ -6,7 +6,7 @@ export const button = tv({
   base: [
     "inline-flex items-center justify-center font-medium cursor-pointer",
     "transition-all duration-300 select-none",  
-    "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:ring-0 disabled:bg-foreground/5 disabled:dark:bg-foreground/5 disabled:text-gray-600 disabled:dark:text-gray-400",
+    "disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:ring-0 disabled:bg-foreground/5 disabled:dark:bg-foreground/5 disabled:text-gray-600 disabled:dark:text-gray-400",
     "hover:ring active:scale-[0.98]"
   ],
 
@@ -22,7 +22,7 @@ export const button = tv({
     },
     color: {
       primary:
-        "text-white bg-blue-600 hover:bg-blue-700 focus-visible:ring-blue-400",
+        "text-white bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 focus-visible:ring-blue-400",
       secondary:
         "text-white bg-purple-500 hover:bg-purple-600 focus-visible:ring-purple-400",
       success:

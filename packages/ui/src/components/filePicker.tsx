@@ -12,7 +12,7 @@ import { useRef, useState } from "react";
 interface FileUploadProps {
   onFilesChange: (file: File[]) => void;
   value: File[];
-  progress: number;
+  progress: Record<string, number>;
   MAX_FILES: number;
   MIN_FILES: number;
 }
@@ -109,11 +109,11 @@ export default React.memo(function FilePicker({onFilesChange, progress, value: f
                 <Delete sx={{fontSize: 18}} />  
               </Button>  
 
-              {progress !== undefined && progress > 0 && progress < 100 && (
+              {progress[file.name] !== undefined && progress[file.name] < 100 && (
                 <div className="absolute bottom-0 w-full px-1 pb-1">
                   <LinearProgress 
                     variant="determinate"
-                    value={progress}
+                    value={progress[file.name]}
                     className="h-1.5 w-full"
                   />
                 </div>

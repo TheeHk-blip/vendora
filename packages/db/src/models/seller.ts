@@ -13,6 +13,7 @@ export interface ISeller extends Document {
     routingNumber: string;
   };
   rating: number;
+  reviewCount: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -53,10 +54,16 @@ const sellerSchema = new Schema<ISeller>(
       lowercase: true 
     },
     paymentDetails: { 
-      type: [paymentSchema], 
+      type: paymentSchema, 
       default: {} 
     },
     rating: {
+      type: Number,
+      default: 0,
+      min: [0, "Rating cannot be below 0"],
+      max: [5, "Rating cannot exceed 5"]
+    },
+    reviewCount: {
       type: Number,
       default: 0
     }
