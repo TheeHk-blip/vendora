@@ -369,7 +369,7 @@ router.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"], 
       line_items: [{
         price_data: {
-          currency: "USD",
+          currency: "KES",
           product_data: {
             name: `Order Purchase: ${order.orderNumber}`,            
           },
