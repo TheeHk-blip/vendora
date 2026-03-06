@@ -19,7 +19,7 @@ function signInWithGoogleAs(role: "buyer", setLoading: (loading: boolean) => voi
     setLoading(true);
     // short lived cookie so server can read it on OAuth callback
     document.cookie = `vendora_role=${role}; Path=/; Max-Age=300; SameSite=Lax`;
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: "/" });    
   } catch (error) {
     console.error("Registration Failed:", error);
     setLoading(false);
@@ -82,7 +82,19 @@ export default function BuyerRegistration() {
         body: JSON.stringify(data),
       });
 
-      if (res.ok) router.push("/signin");
+      if (res.ok) {
+        const loginRes = await signIn("credentials", {
+          redirect: false,
+          email: formData.email,
+          password: formData.password
+        });
+
+        if (loginRes?.ok) {
+          window.location.href = "/";
+        } else {
+          router.push("/signin")
+        }
+      }
     } catch (error) {
       console.error(error);
     } finally {

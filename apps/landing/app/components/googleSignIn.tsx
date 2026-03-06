@@ -1,5 +1,5 @@
+import Google from "@mui/icons-material/Google";
 import { Button } from "@vendora/ui";
-import Image from "next/image";
 
 type SignProp =  {
   onClick:() => void;
@@ -11,7 +11,7 @@ export default function GoogleSignIn({onClick, loading= false, disabled= false }
   return (
     <Button
       type="button"
-      leftIcon={<Image src="/google.svg" alt={"Google svg"} height={24} width={24} />}
+      leftIcon={<Google className="text-foreground"/>}
       onClick={onClick}
       isLoading={loading}
       disabled={disabled}

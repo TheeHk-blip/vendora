@@ -84,8 +84,18 @@ export default function SellerRegistration() {
         body: JSON.stringify(data),
       });
 
-      if ((res)?.ok) {
-        router.push("/signin")
+      if (res.ok) {
+        const loginRes = await signIn("credentials", {
+          redirect: false,
+          email: formData.email,
+          password: formData.password
+        });
+
+        if (loginRes?.ok) {
+          window.location.href = "/";
+        } else {
+          router.push("/signin")
+        }
       }
     } catch (error) {
       console.error(error)

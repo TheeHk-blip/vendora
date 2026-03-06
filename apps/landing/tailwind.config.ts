@@ -13,7 +13,11 @@ const config: Config = {
     "../packages/ui/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        limelight: [`var(--font-limelight)`]
+      }
+    },
   },
   plugins: [],
 };

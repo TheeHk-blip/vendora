@@ -46,10 +46,15 @@ export default function RefundPolicy() {
           corrected or refunded.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-8">4. How to Request a Refund</h2>
+        <h2 className="text-2xl font-semibold mt-8" id="inad" >4. Item Not As Described (INAD) Protection</h2>
+        <p>
+          If we delivered a product you didn&apos;t order, a defective product or failed to deliver within the timeframe said. Reach out and we will give you a full refund.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8">5. How to Request a Refund</h2>
         <p>You can submit a refund request by:</p>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Opening a ticket at: <strong>support@vendora.com</strong></li>
+          <li>Opening a ticket at: <a href="mailto:mail@support.vendora.sbs" className="text-blue-500">support@vendora.sbs</a></li>
           <li>Including your account email and transaction details</li>
           <li>Describing your reason for requesting a refund</li>
         </ul>
@@ -59,22 +64,22 @@ export default function RefundPolicy() {
           are at the discretion of Vendora depending on eligibility and usage history.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-8">5. Chargebacks</h2>
+        <h2 className="text-2xl font-semibold mt-8">6. Chargebacks</h2>
         <p>
           Filing a chargeback with your bank or card provider without contacting us first may lead
           to temporary suspension of your account. We encourage users to reach out to us so we can
           resolve billing issues promptly.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-8">6. Changes to This Policy</h2>
+        <h2 className="text-2xl font-semibold mt-8">7. Changes to This Policy</h2>
         <p>
           Vendora reserves the right to update this Refund Policy at any time. Continued use of our
           services after changes are published constitutes acceptance of the updated terms.
         </p>
 
         <p className="mt-8">
-          If you have questions about this Refund Policy, please contact us at
-          <strong> support@vendora.com</strong>.
+          If you have questions about this Refund Policy, please contact us at  {" "}
+          <a href="mailto:mail@support.vendora.sbs" className="text-blue-500">support@vendora.sbs</a>
         </p>
       </section>
     </main>

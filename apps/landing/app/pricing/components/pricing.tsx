@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const plans = [
   {
     name: "Basic",
-    price: "$9",
+    price: "$15",
     description: "Perfect for solo sellers starting their online journey.",
     features: [
       "Up to 200 products",      
@@ -29,23 +29,10 @@ const plans = [
     button: "Upgrade",
     popular: true,
   },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    description: "Tailored for large-scale commerce and teams.",
-    features: [
-      "Dedicated success manager",
-      "API access",
-      "Advanced integrations",
-      "24/7 premium support",
-    ],
-    button: "Contact Sales",
-    popular: false,
-  },
 ];
 
 export default function Pricing() {
-    const router = useRouter();
+  const router = useRouter();
   return (
     <main aria-label="Choose the right plan for your needs" className="min-h-screen py-10 px-4 bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
       <div className="max-w-6xl mx-auto text-center mb-12">
@@ -79,7 +66,7 @@ export default function Pricing() {
           >
             {plan.popular && (
               <div className="absolute -top-3 right-6 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                Most Popular
+                Best Value
               </div>
             )}
             <h2 className="text-2xl font-bold mb-2">{plan.name}</h2>

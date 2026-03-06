@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Limelight } from "next/font/google";
 import { ThemeProvider, DrawerProvider, ActiveSessionProvider, } from "@vendora/ui";
 import "./globals.css";
 import Navigation from "./components/navbar";
@@ -14,6 +14,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const limelight = Limelight({
+  subsets: ["latin"],
+  variable: "--font-limelight",
+  weight: "400"
+})
+
 export const metadata: Metadata = {
   title: "Vendora",
   description: "Vendora is a multi-tenant e-commerce SaaS platform where sellers grow their businesses and buyers discover quality products—all in one place."            
@@ -27,7 +33,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${limelight.variable} antialiased`}
       >
         <ActiveSessionProvider>
           <ThemeProvider>

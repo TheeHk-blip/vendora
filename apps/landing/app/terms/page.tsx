@@ -95,7 +95,15 @@ export default function TermsPage() {
           </p>
           <p>
             All fees are non-refundable unless required by law or explicitly
-            stated in our <Link href="/help-center/refund" className="text-blue-600 underline">Refund Policy</Link>.
+            stated in our <Link href="/help-center#refund-policy" className="text-blue-600 underline">Refund Policy</Link>.
+          </p>
+        </section>
+
+        <section id="refund-policy">
+          <h2>Refund Policy</h2>
+          <p>
+            Buyers are entitled to a full refund if they paid upfront for a product
+            and the product delivered was not what they ordered.
           </p>
         </section>
 
@@ -134,8 +142,7 @@ export default function TermsPage() {
             Vendora is not responsible for losses resulting from:
           </p>
           <ul className="list-disc pl-6 space-y-1">
-            <li>Errors in product listings or seller behavior</li>
-            <li>Service downtime, bugs, or technical issues</li>
+            <li>Errors in product listings or seller behavior</li>            
             <li>Unauthorized access to your account</li>
           </ul>
           <p>
@@ -157,8 +164,8 @@ export default function TermsPage() {
           <p>
             If you have questions regarding these Terms, contact us at:  
             <br />
-            <a href="mailto:support@vendora.com" className="text-blue-600">
-              support@vendora.com
+            <a href="mailto:support@support.vendora.sbs" className="text-blue-600">
+              support@vendora.sbs
             </a>          
           </p>
         </section>

@@ -1,6 +1,3 @@
-"use client";
-
-import { Twitter, LinkedIn, Facebook, Instagram } from "@mui/icons-material";
 import { title } from "@vendora/ui";
 import Link from "next/link";
 import { Limelight } from "next/font/google";
@@ -25,39 +22,36 @@ export default function Footer() {
         </div>
 
         {/* Quick Links */}
-        <div>
-          <h3 className={title({ color: "blue", size: 'xs'})}>Explore</h3>
+        <main  aria-description="Links to various Vendora products such as our marketplace, subscription plans and about us">
+          <h2 className={title({ color: "blue", size: 'xs'})}>Explore</h2>
           <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-            <li><Link href={process.env.NEXT_PUBLIC_STORE_URL!} className="hover:text-foreground transition">Shop</Link></li>
-            <li><Link href="/pricing" className="hover:text-foreground transition">Pricing</Link></li>
-            <li><Link href="/onboarding" className="hover:text-foreground transition">Join Vendora</Link></li>
-            <li><Link href="/about" className="hover:text-foreground transition">About Us</Link></li>
+            <li><Link prefetch={false} href={process.env.NEXT_PUBLIC_STORE_URL!} className="hover:text-foreground transition">Shop</Link></li>
+            <li><Link prefetch={false} href="/pricing" className="hover:text-foreground transition">Pricing</Link></li>
+            <li><Link prefetch={false} href="/onboarding" className="hover:text-foreground transition">Join Vendora</Link></li>
+            <li><Link prefetch={false} href="/about" className="hover:text-foreground transition">About Us</Link></li>
           </ul>
-        </div>
+        </main>
 
         {/* For Sellers */}
-        <div>
+        <div  aria-description="Resources for our sellers">
           <h3 className={title({ color: "blue", size: 'xs'})}>For Sellers</h3>
           <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-            <li><Link href={process.env.NEXT_PUBLIC_SELLER_URL!} className="hover:text-foreground transition">Seller Dashboard</Link></li>
-            <li><Link href="/help-center" className="hover:text-foreground transition">Help Center</Link></li>
-            <li><Link href="/terms" className="hover:text-foreground transition">Terms & Conditions</Link></li>
-            <li><Link href="/privacy" className="hover:text-foreground transition">Privacy Policy</Link></li>
+            <li><Link prefetch={false} href={process.env.NEXT_PUBLIC_SELLER_URL!} className="hover:text-foreground transition">Seller Dashboard</Link></li>
+            <li><Link prefetch={false} href="/help-center" className="hover:text-foreground transition">Help Center</Link></li>
+            <li><Link prefetch={false} href="/terms" className="hover:text-foreground transition">Terms & Conditions</Link></li>
+            <li><Link prefetch={false} href="/privacy" className="hover:text-foreground transition">Privacy Policy</Link></li>
           </ul>
         </div>
 
         {/* Contact & Socials */}
         <div>
-          <h3 className={title({ color: "blue", size: 'xs'})}>Connect</h3>
+          <h4 className={title({ color: "blue", size: 'xs'})}>Connect</h4>
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-            Have questions? Reach us at <span className="text-blue-600">support@vendora.com</span>
+            Have questions? Reach us at {" "}
+            <a href="mailto:support@support.vendora.sbs" className="text-blue-600">
+              support@vendora.sbs
+            </a>   
           </p>
-          <div className="flex gap-4 text-gray-600 dark:text-gray-300">
-            <Link href="#" className="hover:text-foreground transition"><Facebook /></Link>
-            <Link href="#" className="hover:text-foreground transition"><Twitter /></Link>
-            <Link href="#" className="hover:text-foreground transition"><Instagram /></Link>
-            <Link href="#" className="hover:text-foreground transition"><LinkedIn /></Link>
-          </div>
         </div>
       </div>
 

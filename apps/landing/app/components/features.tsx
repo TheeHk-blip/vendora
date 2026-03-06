@@ -15,7 +15,7 @@ export default function FeaturesSection() {
       icon: <Dashboard className="w-8 h-8 text-blue-600" />,
       title: "Unified Dashboard",
       description:
-        "Manage products, track analytics, and control multiple stores from one powerful dashboard.",
+        "Manage products, track analytics, and control your store from one powerful dashboard.",
     },
     {
       icon: <People className="w-8 h-8 text-blue-600" />,
@@ -41,16 +41,10 @@ export default function FeaturesSection() {
       description:
         "Vendora ensures enterprise-grade security, data encryption, and privacy for every tenant.",
     },
-    {
-      icon: <Api className="w-8 h-8 text-blue-600" />,
-      title: "API-Ready & Extensible",
-      description:
-        "Integrate your existing tools, connect custom APIs, and expand Vendora’s capabilities effortlessly.",
-    },
   ];
 
   return (
-    <section id="features" className="py-24 rounded-3xl bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
+    <section id="features" className="py-24 rounded-3xl bg-linear-to-r from-black/10 to-white/25 dark:from-neutral-700/30 dark:to-zinc-950">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <motion.h2
           {...fadeUp(0.1)}

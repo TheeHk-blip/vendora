@@ -1,12 +1,14 @@
-"use client";
-import { ShoppingBag, Store } from "@mui/icons-material";
-import { title } from "@vendora/ui";
+"use client"; 
+
+import Store from "@mui/icons-material/Store";
+import ShoppingBag from "@mui/icons-material/ShoppingBag";
+import { title } from "@vendora/ui/src/primitives";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function BuiltForEveryone() {
   return (
-    <section className="py-24 px-4 rounded-4xl bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950 text-center">
+    <section className="py-24 px-4 rounded-4xl bg-linear-to-r from-black/10 to-white/25 dark:from-neutral-700/30 dark:to-zinc-950 text-center">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -32,11 +34,7 @@ export default function BuiltForEveryone() {
 
       <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         {/* Seller Side */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+        <div     
           className="rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
@@ -57,14 +55,10 @@ export default function BuiltForEveryone() {
               Start Selling
             </Link>
           </button>          
-        </motion.div>
+        </div>
 
         {/* Buyer Side */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+        <div          
           className="rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
@@ -85,7 +79,7 @@ export default function BuiltForEveryone() {
               Start Shopping
             </Link>
           </button>          
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -9,7 +9,7 @@ export default function BillingHelp() {
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Upgrading Your Plan</h2>
         <p>
-          Go to <strong>Settings → Billing</strong> to move from Basic to Startup or Enterprise.
+          Go to <strong>Settings → Billing</strong> to move from Basic to Startup.
         </p>
 
         <h2 className="text-xl font-semibold">Accepted Payment Methods</h2>

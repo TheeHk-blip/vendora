@@ -55,6 +55,7 @@ export default function SignIn() {
         const message = (res)?.error ?? "Sign in failed";
         setError(message);      
       }
+
     } catch (error) {
       console.error(error)
       setError("An unexpected error occurred")      

@@ -102,7 +102,7 @@ export default function HelpCenter() {
 
           <div className="flex flex-col md:flex-row justify-center gap-6 mt-6">
             <Link
-              href="mailto:support@vendora.com"
+              href="mailto:mail@support.vendora.sbs"
               className="flex items-center gap-3 p-4 rounded-xl border bg-card hover:bg-gray-100 dark:hover:bg-gray-800 transition shadow-sm"
             >
               <Mail /> Email Support
