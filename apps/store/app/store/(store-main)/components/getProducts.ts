@@ -1,4 +1,4 @@
-import { connectDB, Category, Product, LeanArray, ICategory, RequireIdLean } from "@vendora/db";
+import { Category, connectDB, ICategory, LeanArray, Product, RequireIdLean } from "@vendora/db";
 import { SerializeData } from "@vendora/ui";
 import mongoose from "mongoose";
 

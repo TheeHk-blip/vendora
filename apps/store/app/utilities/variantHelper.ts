@@ -6,7 +6,7 @@ export const groupVariants = (variants: IVariantBase[]) => {
   const options: Record<string, string[]> = {};
   
   variants.forEach((v) => {
-    const atrrs = (v.attributes as Record<string, any>) || {};
+    const atrrs = (v.attributes as unknown as Record<string, string>) || {};
     Object.keys(atrrs).forEach((key) => {
       if (!options[key]) options[key] = [];
       if (!options[key].includes(atrrs[key])) {

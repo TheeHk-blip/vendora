@@ -28,7 +28,8 @@
       ],
       "@vendora/ui": [
         "../packages/ui/src"
-      ]
+      ],
+      "@vendora/db": ["../../packages/db/src/index.ts"]
     }
   },
   "include": [

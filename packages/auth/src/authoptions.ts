@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { clientPromise, connectDB } from "../../db";
+import { clientPromise, connectDB } from "../../db/src/connection/client";
 import User from "../../db/src/models/user";
 import Seller from "../../db/src/models/seller";
 import Buyer from "../../db/src/models/buyer";
