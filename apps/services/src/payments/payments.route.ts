@@ -2,7 +2,7 @@
 import express, { Router, type Request, type Response } from "express";
 import Stripe from "stripe";
 import { stripe } from "./stripe.config.js";
-import { Variant, Order, type IVariant, connectDB, LeanArray } from "@vendora/db";
+import { Variant, Order, type IVariant, connectDB, type LeanArray } from "@vendora/db";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import { sendOrderConfirmation } from "./email.services.js";
