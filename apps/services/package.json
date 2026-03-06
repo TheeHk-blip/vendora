@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
+  "exports": {
+    "./connection/client": "./dist/connection/client.js",
+    "./models/variant": "./dist/models/variant.js",
+    "./models/order": "./dist/models/order.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/index.ts",

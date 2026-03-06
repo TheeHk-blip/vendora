@@ -2,10 +2,7 @@
 import express, { Router, type Request, type Response } from "express";
 import Stripe from "stripe";
 import { stripe } from "./stripe.config.js";
-import { connectDB } from "@vendora/db/src/connection/client.js";
-import Variant, { type IVariant } from "@vendora/db/src/models/variant.js";
-import Order from "@vendora/db/src/models/order.js";
-import { type LeanArray } from "@vendora/db/src/models/types.js";
+import { Variant, Order, type IVariant, connectDB, LeanArray } from "@vendora/db";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import { sendOrderConfirmation } from "./email.services.js";
@@ -46,13 +43,13 @@ router.post("/stk-push", async (req, res) => {
     await connectDB();
 
     const variantIds = orderItems.map((item: any) => item.variantId);    
-    const dbVariants: LeanArray<IVariant> = await Variant.find({ _id: {$in: variantIds }}).lean();
+    const dbVariants: LeanArray<IVariant> = await Variant.find({ _id: {$in: variantIds }}).lean<LeanArray<IVariant>>();
 
     let totalProductValue = 0;
     let amountToPay: number;
     let balanceDue: number;    
     const verifiedItems = orderItems.map(( item: any ) => {
-      const dbVar = dbVariants.find(v => v._id.toString() === item.variantId);
+      const dbVar = dbVariants.find((v: { _id: { toString: () => any; }; }) => v._id.toString() === item.variantId);
 
       if (!dbVar) throw new Error(`Product variant ${item.variantId} not found`);
       const itemTotal = dbVar.price * item.quantity;
@@ -306,7 +303,7 @@ router.post("/create-checkout-session", async (req, res) => {
     let commitmentFee: number;
     let balanceDue: number;
     const verifiedItems = orderItems.map(( item: any ) => {
-      const dbVar = dbVariants.find(v => v._id.toString() === item.variantId);
+      const dbVar = dbVariants.find((v: { _id: { toString: () => any; }; }) => v._id.toString() === item.variantId);
 
       if (!dbVar) throw new Error(`Product variant ${item.variantId} not found`);
       const itemTotal = dbVar.price * item.quantity;
