@@ -10,6 +10,10 @@ import Buyer from "../../db/src/models/buyer";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { Adapter } from "next-auth/adapters";
 
+const useSecureCookies = process.env.NODE_ENV === "production";
+const cookiePrefix = useSecureCookies ? "_Secure-" : "";
+const hostName = "vendora.sbs";
+
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise) as Adapter,
   providers: [
@@ -48,19 +52,6 @@ export const authOptions: NextAuthOptions = {
     })
   ],
 
-  cookies: {
-    sessionToken: {
-      name:"_Secure-next-auth.session.token",
-      options: {
-        domain: ".vendora.sbs",
-        path: "/",
-        secure: true,
-        sameSite: "lax",
-        httpOnly: true,
-      }      
-    }
-  },
-
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24, // 1 day(s)
@@ -69,6 +60,19 @@ export const authOptions: NextAuthOptions = {
 
   jwt: {
     maxAge: 60 * 60 * 24 * 7, // 7 days(s)
+  },
+
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        domain: useSecureCookies ? `.${hostName}` : undefined,
+      }
+    }
   },
 
   callbacks: {
