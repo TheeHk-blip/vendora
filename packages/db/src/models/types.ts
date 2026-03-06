@@ -1,4 +1,4 @@
-import { Document, FlattenMaps, Model, Require_id } from "mongoose";
+import { Document, type FlattenMaps, Model, type Require_id } from "mongoose";
 
 /** 
  * Strongly typed Mongoose model helper
