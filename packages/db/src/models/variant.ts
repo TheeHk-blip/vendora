@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
-import { TypedModel } from "./types.js";
+import type { TypedModel } from "./types.js";
 
 export interface IVariantBase {
   productId?: Types.ObjectId;
