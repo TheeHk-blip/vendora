@@ -1,13 +1,21 @@
-import { connectDB } from "@vendora/db/src/connection/client";
-import Product from "@vendora/db/src/models/product";
 import ProductCard from "./components/productCard";
-import { SerializeData } from "@vendora/ui/src/utilities/serialize";
 import { Suspense } from "react";
 import ProductFilter from "./components/productFilter";
 import { getStoreData } from "./components/getProducts";
-import mongoose from "mongoose";
-import Category from "@vendora/db/src/models/category";
+import mongoose, { FilterQuery, PipelineStage } from "mongoose";
 import { BreadCrumbs } from "./components/breadCrumbs";
+import { MobileFilter } from "./components/mobileFilter";
+import { SerializeData } from "@vendora/ui";
+import { Product, Category, connectDB, LeanArray, type IProduct } from "@vendora/db";
+
+
+type Params = Promise<{
+  q?: string;
+  categoryId?: string;
+  brand?: string;
+  minPrice?: string;
+  maxPrice?: string;
+}>;
 
 async function getCategoryBranch(categoryId: string): Promise<mongoose.Types.ObjectId[]> {
   const children = await Category.find({ parentId: categoryId }).select("_id").lean();
@@ -22,17 +30,18 @@ async function getCategoryBranch(categoryId: string): Promise<mongoose.Types.Obj
   return ids;
 }
 
-async function getProducts({searchParams}: {searchParams: Promise<{q?: string, categoryId?: string}>}) {
-  const { q: query, categoryId } = await searchParams;
+async function getProducts({searchParams}: {searchParams: Params}) {
+  const { q: query, categoryId, brand, minPrice, maxPrice } = await searchParams;
   await connectDB();
 
+  const brandList = brand ? brand.split(",") : [];
   let categoryIds: mongoose.Types.ObjectId[] = [];
   if (categoryId && mongoose.Types.ObjectId.isValid(categoryId)) {
     categoryIds = await getCategoryBranch(categoryId);
   }
 
   if (query) {
-    const searchStages: any[] = [
+    const searchStages: PipelineStage[] = [
       {
         $search: {
           index: "products",
@@ -46,15 +55,20 @@ async function getProducts({searchParams}: {searchParams: Promise<{q?: string, c
                 }
               }
             ],
-                // use "filter" inside $search for strict category matching
-            ...(categoryId && {
-              filter: [{
+            filter: [
+              ...(categoryId ? [{
                 equals: {
                   path: "categoryId",
                   value: new mongoose.Types.ObjectId(categoryId)
                 }
-              }]
-            })
+              }]: []),
+              ...(brandList.length > 0 ? [{
+                in: {
+                  path: "fields.brand",
+                  value: brandList
+                }
+              }] : [])
+            ]           
           }
         }
       },
@@ -62,13 +76,36 @@ async function getProducts({searchParams}: {searchParams: Promise<{q?: string, c
       { $limit: 40}
     ];
 
-    const products = await Product.aggregate(searchStages);
+    const products: LeanArray<IProduct> = await Product.aggregate(searchStages);
     return products.map(p => SerializeData(p));
   }
 
-  const filter: any = { status: "live" };
+  const filter: FilterQuery<IProduct> = { status: "live" };
   if (categoryIds.length > 0) {
     filter.categoryId = { $in: categoryIds };
+  }
+
+  if (brandList.length > 0) {
+    filter["fields.brand"] = { $in: brandList };
+  }
+
+  if (minPrice || maxPrice) {
+    filter.price = {};
+    if (minPrice) filter.price.$gte = Number(minPrice);
+    if (maxPrice) filter.price.$lte = Number(maxPrice);
+  }
+
+  if (query) {
+    const searchFilter = [];
+    if (minPrice || maxPrice) {
+      searchFilter.push({
+        range: {
+          path: "price",
+          gte: Number(minPrice),
+          lte: Number(maxPrice)
+        }
+      });
+    }
   }
   
   const products = await Product.find(filter)
@@ -79,18 +116,21 @@ async function getProducts({searchParams}: {searchParams: Promise<{q?: string, c
   return products.map(p => SerializeData(p));
 }
 
-export default async function Store({searchParams}: { searchParams: Promise<{ q?: string, categoryId: string}>}) {
+export default async function Store({searchParams}: { searchParams: Params}) {
   await connectDB();
   const products = await getProducts({ searchParams });
   const dynamicData = await getStoreData({ searchParams });
   return (  
     <div className="flex flex-row max-w-7xl mx-auto w-full gap-2.5">
-      <aside className="hidden sm:flex w-[250px] shrink-0">
+      <aside className="hidden sm:flex w-min">
         <ProductFilter dynamicData={dynamicData}/>
       </aside>
-      <div className="flex flex-col" >
-        <BreadCrumbs crumbs={dynamicData.breadCrumbs} />
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2">
+      <div className="flex flex-col w-full" >
+        <div className="sticky top-[58px] bg-background" >
+          <MobileFilter dynamicData={SerializeData(dynamicData)} />
+          <BreadCrumbs crumbs={dynamicData.breadCrumbs} />
+        </div>        
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 mt-1">
           {products.length > 0 ? (
             products.map((product, index) => (      
               <Suspense

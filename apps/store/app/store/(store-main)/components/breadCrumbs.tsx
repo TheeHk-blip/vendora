@@ -1,17 +1,18 @@
 import ArrowRight from "@mui/icons-material/ArrowRight";
 import Home from "@mui/icons-material/Home";
 import Link from "next/link";
+import { CategoryDoc } from "./getProducts";
 
-export function BreadCrumbs({ crumbs }: {crumbs: any[]}) {
+export function BreadCrumbs({ crumbs }: {crumbs: CategoryDoc[]}) {
   return (
-    <nav className="hidden md:flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap">
+    <nav className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap">
       <Link href="/store" prefetch={false} className="flex hover:text-blue-600 items-center">
         <Home />
         Store
       </Link>
 
       {crumbs.map(( crumb, index ) => (
-        <div key={crumb._id}>
+        <div key={crumb._id.toString()}>
           <ArrowRight />
           <Link
             href={`/store?categoryId=${crumb._id}`}

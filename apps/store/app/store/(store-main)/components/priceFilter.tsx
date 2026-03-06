@@ -1,0 +1,55 @@
+"use client";
+
+import { InputField } from "@vendora/ui";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+
+interface PriceProps {
+  maxStorePrice: number;
+  minStorePrice: number
+}
+
+export function PriceFilter({ maxStorePrice, minStorePrice } : PriceProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [range, setRange] = useState({
+    min: Number(searchParams.get("minPrice")) || minStorePrice,
+    max: Number(searchParams.get("maxPrice")) || maxStorePrice
+  });
+
+  const handlePriceChange = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("minPrice", range.min.toString());
+    params.set("maxPrice", range.max.toString());
+    router.push(`/store?${params.toString()}`);
+  };
+
+  return (
+     <div className="flex flex-col gap-2 my-1">
+      <h3 className="text-sm uppercase text-gray-600 dark:text-gray-300">Price Range</h3>
+      <div className="flex flex-row items-center justify-center gap-2">
+        <InputField
+          type="number" 
+          label="MIN"
+          placeholder="Min"
+          value={range.min}
+          onChange={(e) => setRange({ ...range, min: Number(e.target.value) })}          
+        />
+        <InputField
+          type="number" 
+          label="MAX"
+          placeholder="Max"
+          value={range.max}
+          onChange={(e) => setRange({ ...range, max: Number(e.target.value) })}         
+        />
+      </div>
+      <button 
+        onClick={handlePriceChange}
+        className="bg-blue-600 text-white text-xs py-1.5 rounded hover:bg-blue-700"
+      >
+        Apply Price
+      </button>
+    </div>
+  )
+}

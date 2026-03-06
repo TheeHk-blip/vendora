@@ -1,6 +1,5 @@
 import { connectDB } from "@vendora/db";
-import Product from "@vendora/db/src/models/product";
-import Variant from "@vendora/db/src/models/variant";
+import { Product, Variant } from "@vendora/db";
 import ProductView from "./components/productView";
 import { groupVariants } from "@/app/utilities/variantHelper";
 import { SerializeData } from "@vendora/ui/src/utilities/serialize";
@@ -8,19 +7,27 @@ import { SerializeData } from "@vendora/ui/src/utilities/serialize";
 type Params = Promise<{slug: string}>;
 
 export default async function ProductDetails({params}: {params : Params}) {
-  const id = (await params).slug.split("-")[0];
+  const slug = (await params).slug.split("-")[0];
+  const id = decodeURIComponent(slug)
   await connectDB();
 
   const [product, variants] = await Promise.all([
-    Product.findById(id).select("name images price discountedPrice description fields").lean(),
+    Product.findById(id)      
+      .populate([
+        {
+          path: "sellerId",
+          model: "Seller",
+          select: "businessName rating",
+          foreignField: "userId"
+        }
+      ])
+      .lean(),
     Variant.find({ productId: id }).lean()
   ])
 
   const serializedProduct = SerializeData(product);
   const serializedVariants = SerializeData(variants);
-
   const { options, colors } = groupVariants(serializedVariants);
-
   const initialSelections = {
     color: colors[0] || "",
     ...Object.keys(options).reduce((acc, key) => ({
@@ -33,6 +40,7 @@ export default async function ProductDetails({params}: {params : Params}) {
     <div>
       <ProductView 
         product={serializedProduct} 
+        sellerInfo={serializedProduct.sellerId}
         variants={serializedVariants} 
         options={options}
         initialSelections={initialSelections}

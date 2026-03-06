@@ -12,6 +12,8 @@ import { useDrawer } from "@vendora/ui/src/context/drawerContext";
 import { Button } from "@vendora/ui/src/components/Button";
 import { SideNav } from "@vendora/ui/src/components/sidenav";
 import { ThemeToggle } from "@vendora/ui/src/providers/theme";
+import { useToast } from "@vendora/ui";
+import { useEffect } from "react";
 
 interface ProfileProps {
   src?: string;  
@@ -20,9 +22,28 @@ interface ProfileProps {
 
 export default function Profile({src, initials}: ProfileProps) {
   const { openDrawer, closeDrawer } = useDrawer();
+  const { showToast } = useToast();
   const { data: session, status} = useSession();
 
   const isAuthenticated = status === "authenticated";
+  const isUnverified = session?.user?.isVerified !== true;
+
+  useEffect(() => {
+    if (isAuthenticated && isUnverified) {
+      showToast("Please verify your email", "warning")
+    }
+  }, [isAuthenticated, isUnverified, showToast]);
+
+  if (isUnverified && session) {    
+    return(       
+      <Link 
+        href={`/verify-email?email=${session?.user?.email}`}
+        className="text-orange-500 ring rounded-xl px-2 py-1"
+      >
+        Verify
+      </Link>     
+    )                  
+  }
 
   return (
     <>
@@ -45,6 +66,7 @@ export default function Profile({src, initials}: ProfileProps) {
       ): (
         <AccountCircle 
           onClick={() => openDrawer("profile")}
+          className="cursor-pointer"
         />
       )}      
       <SideNav

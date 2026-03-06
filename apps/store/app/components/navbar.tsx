@@ -5,12 +5,12 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@vendora/auth";
 import Profile from "./profile";
-import Cart from "./cart";
+import Cart from "../cart/cart";
 import { Navbar } from "@vendora/ui/src/components/Navbar";
 import { title } from "@vendora/ui/src/primitives";
 import { getInitials } from "@vendora/ui/src/utilities/getInitials";
 import { ThemeToggle } from "@vendora/ui/src/providers/theme";
-import { Search } from "@mui/icons-material";
+import { Logo } from "@vendora/ui";
 
 const limeLight = Limelight({
   subsets: ["latin"],
@@ -25,7 +25,8 @@ export default async function Navigation() {
     <Navbar 
       app="store" 
       sticky={true}
-      title={<span className={title({ color: "green", size: "sm", className: limeLight.className})}>Vendora</span>}      
+      title={<span className={title({ color: "green", size: "sm", className: limeLight.className})}>Vendora</span>} 
+      brand={<Logo width={50} height={50} />}     
       links={siteConfig.navLinks}
       menuToggle={
         <>                

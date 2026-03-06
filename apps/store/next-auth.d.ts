@@ -7,6 +7,7 @@ declare module "next-auth" {
     email: string;
     password?: string;
     hasPassword?: boolean;
+    isVerified?: boolean;
   }
 
   interface Session {
@@ -17,6 +18,7 @@ declare module "next-auth" {
       email: string;
       image?: string;
       hasPassword?: boolean;
+      isVerified?: boolean;
     }
   }
 }

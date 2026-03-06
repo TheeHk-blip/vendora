@@ -1,15 +1,19 @@
-import { connectDB } from "@vendora/db/src/connection/client";
-import Category from "@vendora/db/src/models/category";
-import Product from "@vendora/db/src/models/product";
+import { connectDB, Category, Product, LeanArray, ICategory, RequireIdLean } from "@vendora/db";
 import { SerializeData } from "@vendora/ui";
 import mongoose from "mongoose";
 
-interface CategoryDoc {
+/**
+ * Filter system that retrieves data from DB depending on searchParams
+ * 
+ */
+
+export interface CategoryDoc {
   _id: mongoose.Types.ObjectId | string;
   name: string;
   parentId: mongoose.Types.ObjectId | string | null;
 }
-type Params = Promise<any>
+
+type Params = Promise<Record<string, string | string[] | undefined>>;
 
 async function getBreadCrumbs(categoryId: string | null): Promise<CategoryDoc[]> {
   if (!categoryId || !mongoose.Types.ObjectId.isValid(categoryId)) return [];
@@ -30,30 +34,31 @@ async function getBreadCrumbs(categoryId: string | null): Promise<CategoryDoc[]>
   return crumbs;
 }
 
+
 export async function getStoreData({ searchParams }: { searchParams: Params}) {
   const resolvedParams = await searchParams;
 
-  const categoryId = resolvedParams.categoryId;
+  const categoryId = resolvedParams.categoryId as string | null;
   await connectDB(); 
 
-  const isValid = mongoose.Types.ObjectId.isValid(categoryId);
+  const isValid = categoryId ? mongoose.Types.ObjectId.isValid(categoryId) : false;
   const targetId = isValid ? categoryId: null;
 
-  const parentCategory = await Category.find({ parentId: null }).lean();
+  const parentCategory = await Category.find({ parentId: null }).lean<ICategory[]>();
 
-  let subCategory: any[] = [];
-  let leafCategory: any [] = [];
-  let activeCategory: any = null;
+  let subCategory: LeanArray<ICategory> = [];
+  let leafCategory: LeanArray<ICategory> = [];
+  let activeCategory: RequireIdLean<ICategory> | null = null;
   let brandCounts: { name: string; count: number }[] = [];
 
   if (targetId) {
-    activeCategory = await Category.findById(targetId).lean();
+    activeCategory = await Category.findById(targetId).lean<RequireIdLean<ICategory>>();
 
-    subCategory = await Category.find({ parentId: targetId }).lean();
+    subCategory = await Category.find({ parentId: targetId }).lean<LeanArray<ICategory>>();
 
     if (subCategory.length > 0) {
       const subCategoryIds = subCategory.map(cat => cat._id);
-      leafCategory = await Category.find({ parentId: { $in: subCategoryIds }}).lean();
+      leafCategory = await Category.find({ parentId: { $in: subCategoryIds }}).lean<LeanArray<ICategory>>();
     }
 
     brandCounts = await Product.aggregate([
@@ -69,12 +74,26 @@ export async function getStoreData({ searchParams }: { searchParams: Params}) {
           count: { $sum: 1}
         }
       },
-      { $project: { name: "$_id", count: 1, _id: 0 }},
+      { $project: { name: { $ifNull: ["$_id", "Unknown Brand"]}, count: 1, _id: 0 }},
       { $sort: { name: 1 }}      
     ]);
   }
 
   const breadCrumbs = await getBreadCrumbs(categoryId);
+  const maxPriceDoc = await Product.find({})
+    .sort({ price: -1})
+    .limit(1)
+    .select("price")
+    .lean();
+
+  const minPriceDoc = await Product.find({})
+    .sort({ price: 1})
+    .limit(1)
+    .select("price")
+    .lean();
+
+  const maxStorePrice: number = maxPriceDoc.length > 0 ? maxPriceDoc[0].price : 500000;
+  const minStorePrice: number = minPriceDoc.length > 0 ? minPriceDoc[0].price : 500000;
 
   return {
     parentCategory,
@@ -82,6 +101,8 @@ export async function getStoreData({ searchParams }: { searchParams: Params}) {
     leafCategory,
     activeCategory,
     availableBrands: brandCounts,
-    breadCrumbs
+    breadCrumbs,
+    maxStorePrice,
+    minStorePrice
   }
 }

@@ -1,20 +1,31 @@
 "use client";
 
-import { InputField, SelectField } from "@vendora/ui";
 import { Button } from "@vendora/ui/src/components/Button";
 import { SearchInput } from "@vendora/ui/src/components/searchInput";
 import { useRouter, useSearchParams } from "next/navigation";
+import { PriceFilter } from "./priceFilter";
+import { ProductProps } from "./productFilter";
+import { CategoryDoc } from "./getProducts";
+import { ICategory, RequireIdLean } from "@vendora/db";
 
-export function ProductSearch({dynamicData}:{dynamicData: any}) {
+export function ProductSearch({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedBrands = searchParams.get("brand")?.split(",") || [];
+  const currentCatId = searchParams.get("categoryId")
 
   const categories = dynamicData?.parentCategory || [];
   const subCategories = dynamicData?.subCategory || [];
   const leafCategories = dynamicData?.leafCategory || [];
-  const activeCategory = dynamicData?.activeCategory || [];
   const availableBrands = dynamicData?.availableBrands || [];
+
+  const diaplayCategories = currentCatId
+    ? categories.filter((cat: ICategory) => {
+      if (cat._id.toString() === currentCatId) return true;
+
+      return dynamicData.breadCrumbs?.some((crumb: CategoryDoc) => crumb._id.toString() === cat._id.toString());
+    })
+    : categories;
 
   const handleSearch = (query: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -53,71 +64,89 @@ export function ProductSearch({dynamicData}:{dynamicData: any}) {
   }
 
   return (
-    <div className="flex flex-col px-1.5" >
-      <div className="mb-2.5">
+    <div className="flex flex-col" >
+      <div className="hidden md:flex mb-2.5">
         <SearchInput onSearch={handleSearch} />
       </div>      
+      <p className="uppercase" >Filter By:</p>
 
-      {/*Dynamic category */}
-      <section className="mb-2" >
-        <h3 className="uppercase tracking-widest text-gray-600 dark:text-gray-300 mb-2 ">
-          Main Categories
-        </h3>
-        <div className="flex flex-col gap-2">
-          {categories.length > 0 ? (
-            categories.map((cat:any) => (
-              <Button
-                key={cat._id}
-                onClick={() => handleCategoryClick(cat._id)}
-                variant="filter"                
-              >
-                {cat.name}
-              </Button>
-            ))
-          ):(
-            <p className="text-xs italic text-gray-500" >No further sub-categories</p>
-          )}        
-        </div>
-      </section>
-
-      {/*Dynamic Brands */}
-      {subCategories.length > 0 && (
-        <section className="mb-2">
-          <h3 className="font-medium text-xs uppercase tracking-widest text-gray-500 mb-3">Sub Categories</h3>
+      <div>       
+        <section className="mb-2" >
+          <h3 className="uppercase text-sm text-gray-600 dark:text-gray-300 mb-2 ">
+            {currentCatId ? "Selected Category" : "Main Categories"}
+          </h3>
+          {currentCatId && (
+            <Button
+              onClick={() => router.push("/store")}
+              className="text-blue-600 mb-1.5"
+              variant="outlined"
+            >
+              Show All
+            </Button>
+          )}
           <div className="flex flex-col gap-2">
-            {subCategories.map((sub: any) => (
-              <Button
-                key={sub._id}
-                onClick={() => handleCategoryClick(sub._id)}
-                variant="filter"
-              >
-                {sub.name}
-              </Button>
-            ))}
+            {categories.length > 0 ? (
+              diaplayCategories.map((cat: ICategory) => {
+                const isActive = currentCatId === cat._id.toString();
+                return (
+                <Button
+                  key={cat._id.toString()}
+                  onClick={() => handleCategoryClick(cat._id.toString())}
+                  variant="filter"               
+                  className={`transition-all ${
+                    isActive
+                    ? "bg-blue-500"
+                    : ""
+                  } `}
+                >
+                  {cat.name}
+                </Button>
+              )})
+            ):(
+              <p className="text-xs italic text-gray-500" >No further sub-categories</p>
+            )}        
           </div>
         </section>
-      )}
+        
+        {subCategories.length > 0 && (
+          <section className="mb-2">
+            <h3 className="font-medium text-xs uppercase tracking-widest text-gray-500 mb-3">Sub Categories</h3>
+            <div className="flex flex-col gap-2">
+              {subCategories.map((sub: RequireIdLean<ICategory>) => (
+                <Button
+                  key={sub._id.toString()}
+                  onClick={() => handleCategoryClick(sub._id.toString())}
+                  variant="filter"
+                >
+                  {sub.name}
+                </Button>
+              ))}
+            </div>
+          </section>
+        )}
 
-      {leafCategories.length > 0 && (
-        <section className="mb-2">
-          <h3 className="font-medium text-xs uppercase tracking-widest text-gray-500 mb-3">Leaf Categories</h3>
-          <div className="flex flex-col gap-2">
-            {leafCategories.map((leaf: any) => (
-              <Button
-                key={leaf._id}
-                onClick={() => handleCategoryClick(leaf._id)}
-                variant="filter"
-              >
-                {leaf.name}
-              </Button>
-            ))}
-          </div>
-        </section>
-      )}
-      
+        {leafCategories.length > 0 && (
+          <section className="mb-2">
+            <h3 className="font-medium text-xs uppercase tracking-widest text-gray-500 mb-3">Leaf Categories</h3>
+            <div className="flex flex-col gap-2">
+              {leafCategories.map((leaf: RequireIdLean<ICategory>) => (
+                <Button
+                  key={leaf._id.toString()}
+                  onClick={() => handleCategoryClick(leaf._id.toString())}
+                  variant="filter"
+                >
+                  {leaf.name}
+                </Button>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+      <PriceFilter maxStorePrice={dynamicData?.maxStorePrice ?? 0} minStorePrice={dynamicData?.minStorePrice ?? 0} />      
       {availableBrands.length > 0 && (
         <div className="spec-filters">
-          <h4 className="font-medium text-gray-600 dark:text-gray-300">{activeCategory.name} Filters</h4>
+          <h4 className="text-sm uppercase text-gray-600 dark:text-gray-300">Brand</h4>
           {availableBrands.map((brand: { name: string, count: number}) => (
             <label
               key={brand.name}

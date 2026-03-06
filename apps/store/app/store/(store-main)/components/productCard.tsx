@@ -1,12 +1,9 @@
-"use client";
-
 import { Card } from "@vendora/ui/src/components/Card";
-import { useCurrency } from "@vendora/ui/src/context/currencyContext";
 import { getTailwindSizes } from "@vendora/ui/src/utilities/image-helper";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { IProductBase } from "@vendora/ui/src/types/IProductBase";
+import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
 
 
 interface ProductProps {  
@@ -14,11 +11,10 @@ interface ProductProps {
   index : number;
 }
 
-export default React.memo(function ProductCard({ product, index} : ProductProps) {
-  const { formatPrice } = useCurrency();
+export default function ProductCard({ product, index} : ProductProps) {
   const sizes = getTailwindSizes({
     xl: "25vw",
-    lg: "33vw",
+    lg: "35vw",
     md: "50vw",
     default: "100vw"
   });
@@ -32,8 +28,8 @@ export default React.memo(function ProductCard({ product, index} : ProductProps)
       <Card 
         key={index} 
         header={            
-          <span className="flex flex-col w-full h-13 gap-1 md:gap-2">
-            <span className="text-gray-600 dark:text-gray-400 text-xs line-clamp-2 leading-tight justify-self-start">{product.name}</span>
+          <span className="flex flex-col gap-0.5 h-10 md:gap-1">
+            <span className="text-gray-600 dark:text-gray-400 text-xs line-clamp-1 leading-tight justify-self-start">{product.name}</span>
             <div className="flex items-center">
               {!!product.discount && product.discount > 0 && (
                 <span className="text-[10px] sm:text-xs font-medium text-orange-500 bg-orange-50 dark:bg-orange-900/30 px-2 rounded-lg" >
@@ -44,17 +40,17 @@ export default React.memo(function ProductCard({ product, index} : ProductProps)
           </span>          
         }
         footer={                    
-          <div className="flex flex-col items-center" >  
+          <div className="flex flex-col justify-start" >  
             <span className="font-medium" suppressHydrationWarning>
               {product.discount && product.discount > 0
-                ? formatPrice(product.discountedPrice!)
-                : formatPrice(product.price)
+                ? <PriceDisplay amount={product.discountedPrice!} />
+                : <PriceDisplay amount={product.price} />
               }
             </span>    
 
             {!!product.discount && product.discount > 0 && (                
               <span className="line-through text-xs text-gray-500" >
-                {formatPrice(product.price)}
+                <PriceDisplay amount={product.price} />
               </span>                                  
             )}               
           </div>                                   
@@ -73,4 +69,4 @@ export default React.memo(function ProductCard({ product, index} : ProductProps)
       </Card>    
     </Link>
   )
-})
+}

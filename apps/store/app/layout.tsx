@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ActiveSessionProvider, CurrencyProvider, DrawerProvider, SearchInput, ThemeProvider, ToastProvider } from "@vendora/ui"
 import Navigation from "./components/navbar";
+import { ThemeProvider } from "@vendora/ui/src/providers/theme";
+import { ActiveSessionProvider } from "@vendora/ui/src/providers/session";
+import { ToastProvider } from "@vendora/ui/src/context/toastContext";
+import { CurrencyProvider } from "@vendora/ui/src/context/currencyContext";
+import { DrawerProvider } from "@vendora/ui/src/context/drawerContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,10 +41,7 @@ export default async function RootLayout({
           <CurrencyProvider>   
           <DrawerProvider>  
             <div className="flex flex-col min-h-screen max-w-full">   
-              <Navigation />
-              <div className="flex sm:hidden self-center mb-2.5">
-                <SearchInput />
-              </div>  
+              <Navigation />             
               <main className="container max-w-full px-2.5">               
                 {children}
               </main>                 

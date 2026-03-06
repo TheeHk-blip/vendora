@@ -28,7 +28,7 @@ export interface SideNavProps {
   title?: React.ReactNode;
   closeButton?: React.ReactNode;
   links?: { label: string; href: string }[];
-  children?: React.ReactNode;
+  body?: React.ReactNode;
   actions?: React.ReactNode;
 }
 
@@ -38,7 +38,7 @@ export function SideNav({
   title,
   closeButton,
   links,
-  children,
+  body,
   actions,
 }: SideNavProps) {
   const styles = sideNav({ variant})
@@ -89,7 +89,7 @@ export function SideNav({
               </Link>
             ))}
           </div>
-          {children && <div className={styles.children()}>{children}</div>}
+          {body && <div className={styles.children()}>{body}</div>}
 
           {actions && <div className={styles.actions()} onClick={closeDrawer}>{actions}</div>}
         </motion.div>

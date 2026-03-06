@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { CartItem } from "../types/cartItem";
-import { setCookie, getCookie } from "cookies-next";
+import { setCookie, getCookie, deleteCookie } from "cookies-next";
 
 type CartState = readonly CartItem[];
 type Listener = () => void;
@@ -61,6 +61,7 @@ class CartStore {
 
   public clearCart = (): void => {
     this.cart = [];
+    deleteCookie("shopping_cart");
     this.notify();
   }
 

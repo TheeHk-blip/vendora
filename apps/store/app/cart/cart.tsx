@@ -1,15 +1,20 @@
 "use client";
 
-import { Button, SideNav, useCurrency, useDrawer } from "@vendora/ui";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
-import { cartStore, useCart } from "../cart/cartStore";
+import { cartStore, useCart } from "./cartStore";
 import Image from "next/image";
-import { Add, CreditCard, Remove } from "@mui/icons-material";
+import Link from "next/link";
+import { useDrawer } from "@vendora/ui/src/context/drawerContext";
+import { SideNav } from "@vendora/ui/src/components/sidenav";
+import { Button } from "@vendora/ui/src/components/Button";
+import Remove from "@mui/icons-material/Remove";
+import Add from "@mui/icons-material/Add";
+import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
+import CreditCard from "@mui/icons-material/CreditCard";
 
 export default function Cart() {
   const { openDrawer, closeDrawer } = useDrawer()
   const items = useCart();
-  const { formatPrice } = useCurrency();
 
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
   const handleRemove = (variantId: string) => {          
@@ -39,22 +44,22 @@ export default function Cart() {
             X
           </button>
         }
-        children={
-          <div className="px-1.5 py-1 gap-2 flex flex-col">
+        body={
+          <div className="gap-2 flex flex-col">
             {items.map((cartItem) => {                                 
               return (     
               <div 
                 key={cartItem.variantId}
-                className="bg-black/15 dark:bg-white/25 px-1 py-1 gap-1 flex flex-col rounded-md"
+                className="bg-black/15 dark:bg-white/25 px-1.5 py-1 gap-1 flex flex-col rounded-md"
               >
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-row justify-between">
                     <span className="text-gray-700 dark:text-gray-300">{cartItem.name}</span>
-                    <Button
+                    <button
                       onClick={() => handleRemove(cartItem.variantId)}
                     >
                       X
-                    </Button>
+                    </button>
                   </div>
                   <span className="text-sm" >SKU: {cartItem.sku}</span>
                 </div>
@@ -75,7 +80,7 @@ export default function Cart() {
                       >
                         <Remove />
                       </Button>
-                      <span className="text-[10px]" >{cartItem.quantity}</span>
+                      <span className="text-xs" >{cartItem.quantity}</span>
                       <Button
                         disabled={cartItem.quantity >= cartItem.stock!}
                         onClick={() => cartStore.updateQuantity(cartItem.variantId, cartItem.quantity + 1, cartItem.stock)}
@@ -84,7 +89,7 @@ export default function Cart() {
                         <Add />
                       </Button>
                     </div>                                                              
-                    <span>{formatPrice(cartItem.price * cartItem.quantity)}</span>
+                    <PriceDisplay amount={(cartItem.price * cartItem.quantity)} />
                   </div>                  
                 </div>
               </div>
@@ -97,18 +102,18 @@ export default function Cart() {
             {items.length > 0 ? (
               <div className="flex flex-col gap-2" >
                 <div className="flex justify-between items-center">
-                  <span>Subtotal</span>
-                  <span>
-                    {formatPrice(subTotal)}
+                  <span className="text-gray-600 dark:text-gray-300" >Subtotal:</span>
+                  <span className="text-gray-600 dark:text-gray-300 font-medium" >
+                    <PriceDisplay amount={subTotal} />
                   </span>
                 </div>
-                <Button
-                  type="button"
-                  className="gap-2 text-green-500"                  
+                <Link 
+                  href={"/store/checkout"}
+                  className="flex gap-2 bg-green-600 hover:ring rounded-lg px-2 py-1"
                 >
                   Checkout
-                  <CreditCard />
-                </Button>
+                  <CreditCard />                  
+                </Link>
               </div>
             ): (
               <div className="p-8 text-center text-gray-500">

@@ -1,5 +1,10 @@
 export interface CartItem {
   id: string;
+  sellerInfo?: {
+    _id: string;
+    businessName: string;
+    rating: number;
+  };
   variantId: string;
   imageUrl?: string;
   sku: string;

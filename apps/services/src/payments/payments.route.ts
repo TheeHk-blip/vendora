@@ -9,6 +9,7 @@ import { sendOrderConfirmation } from "./email.services.js";
 import { getMpesaAccessToken } from "./mpesa.service.js";
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const shipping = Number(process.env.SHIPPING_FEE ?? 0);
 const router = Router();
 
 const formatPhoneNumber = (phone: string) => {
@@ -38,7 +39,7 @@ const getMpesaAuth = () => {
 router.post("/stk-push", async (req, res) => {
   let order: any = null;
   try {
-    const { formData, orderItems, buyerId, shipping, checkoutSelection } = req.body;
+    const { formData, orderItems, buyerId, checkoutSelection } = req.body;
     const phoneNumber = formatPhoneNumber(formData.phone);    
     await connectDB();
 
@@ -293,7 +294,7 @@ router.post("/webhook", express.raw({ type: "application/json"}), async (req: Re
 
 router.post("/create-checkout-session", async (req, res) => {
   try {
-    const { orderItems, formData, buyerId, checkoutSelection,  shipping } = req.body;
+    const { orderItems, formData, buyerId, checkoutSelection } = req.body;
     await connectDB();
 
     const variantIds = orderItems.map((item: any) => item.variantId);    
@@ -369,7 +370,7 @@ router.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"], 
       line_items: [{
         price_data: {
-          currency: "KES",
+          currency: "USD",
           product_data: {
             name: `Order Purchase: ${order.orderNumber}`,            
           },
