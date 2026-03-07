@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 export const title = tv ({
-  base: "tracking-tight inline font-semibold",
+  base: "tracking-tight inline-block font-semibold",
   variants: {
     color: {
       white: "from-[#FFFFFF] to-[#E5E5E5]",
@@ -38,7 +38,7 @@ export const title = tv ({
         "pink",
         "foreground",
       ],
-      class: "bg-clip-text text-transparent bg-gradient-to-b",
+      class: "gradient-text bg-linear-to-b",
     },
   ],
 })

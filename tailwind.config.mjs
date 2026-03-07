@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from "tailwindcss/plugin";
 
 module.exports = {
   content: [
@@ -17,5 +18,17 @@ module.exports = {
       scrollBehavior: { smooth: "smooth" },
     }
   },
-  plugins: [require("./tailwind.theme")]
+  plugins: [
+    require("./tailwind.theme"),
+    plugin(function ({ addUtilities}) {
+      addUtilities({
+        ".gradient-text": {
+          "background-clip": "text",
+          "-webkit-background-clip": "text",
+          "color": "transparent",
+          "-webkit-text-fill-color": "transparent",
+        },
+      });
+    })
+  ]
 }

@@ -118,14 +118,14 @@ export function Shipping({
           <div className="flex flex-col md:flex-row gap-5 mt-2">
             <div              
               onClick={() => setCheckoutSelection("upfront")}
-              className={`flex flex-col px-2 py-1 rounded-md bg-foreground/10 shadow-sm cursor-pointer ring-2 ${checkoutSelection === "upfront" ? "ring-green-500": "ring-transparent"}`}
+              className={`flex flex-col px-2 py-1 rounded-md bg-black/20 dark:bg-white/20 shadow-sm cursor-pointer ring-2 ${checkoutSelection === "upfront" ? "ring-green-500": "ring-transparent"}`}
             >
               <h1 className="text-xl font-semibold" >Upfront Payment</h1>
               <div className="pl-1.5 text-start">Pay the full price of the product + shipping to initiate delivery.</div>                
             </div>
             <div              
               onClick={() => setCheckoutSelection("partial")}
-              className={`flex flex-col px-2 py-1 rounded-md bg-foreground/10 shadow-sm cursor-pointer ring-2 ${checkoutSelection === "partial" ? "ring-green-500": "ring-transparent"}`}
+              className={`flex flex-col px-2 py-1 rounded-md shadow-sm bg-black/20 dark:bg-white/20 cursor-pointer ring-2 ${checkoutSelection === "partial" ? "ring-green-500": "ring-transparent"}`}
             >
               <h1 className="text-xl font-semibold" >Partial Payment</h1>
               <div className="pl-1.5 text-start">Pay the shipping fee first and the rest upon delivery</div>        

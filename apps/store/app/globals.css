@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@config "../../../tailwind.config.cjs";
+@config "../../../tailwind.config.mjs";
 
 @theme {
   --breakpoint-xs: 480px;
@@ -19,4 +19,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--color-background);
   color: var(--color-foreground);
+}
+
+@layer utilities {
+  .gradient-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+  }
 }

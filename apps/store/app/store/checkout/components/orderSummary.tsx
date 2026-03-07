@@ -29,7 +29,7 @@ export function OrderSummary({
       <div className="md:overflow-scroll md:h-fit md:max-h-[400px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none md:px-1 md:my-1.5 md:rounded-2xl md:ring-1 md:ring-green-500">
         {items.map((cartItem) => (
           <div key={cartItem.variantId} className="flex flex-col w-full gap-2.5" >
-            <div className="flex flex-col bg-foreground/20 shadow-sm px-2.5 py-2 my-2 rounded-xl">
+            <div className="flex flex-col bg-black/20 dark:bg-white/20 shadow-sm px-2.5 py-2 my-2 rounded-xl">
               <span className="mb-2 text-xl">{cartItem.name}</span>
               <div className="flex flex-row gap-5 w-full" >
                 <div className="relative z-0 aspect-square w-[100px]">
@@ -64,7 +64,7 @@ export function OrderSummary({
         ))}
       </div>
       <div className="flex flex-col gap-2.5 my-2.5" >
-        <div className="flex justify-between bg-foreground/25 rounded-xl px-2 py-1">
+        <div className="flex justify-between bg-black/20 dark:bg-white/20 rounded-xl px-2 py-1">
           <div className="flex flex-col" >
             <span>Subtotal</span>
             <span>Shipping Fee</span>

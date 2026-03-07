@@ -12,7 +12,6 @@ import { Adapter } from "next-auth/adapters";
 
 const useSecureCookies = process.env.NODE_ENV === "production";
 const cookiePrefix = useSecureCookies ? "_Secure-next-auth.session-token" : "next-auth.session-token";
-const hostName = "vendora.sbs";
 
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise) as Adapter,
@@ -67,10 +66,9 @@ export const authOptions: NextAuthOptions = {
       name: cookiePrefix,
       options: {
         httpOnly: true,
-        sameSite: "lax",
+        sameSite: "none",
         path: "/",
-        secure: useSecureCookies,
-        domain: useSecureCookies ? ".vendora.sbs" : undefined,
+        secure: useSecureCookies,   
       }
     }
   },
