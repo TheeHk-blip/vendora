@@ -31,6 +31,7 @@ export default async function proxy(request: NextRequest) {
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
       sameSite: "lax",      
+      domain: ".vendora.sbs"
     }); 
     return response;
   }
