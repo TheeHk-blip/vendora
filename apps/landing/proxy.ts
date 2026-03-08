@@ -3,13 +3,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export default async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   const token = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SECRET,   
-    secureCookie: process.env.NODE_ENV === "production"
+    secret: process.env.NEXTAUTH_SECRET,    
   });
-
-  const { pathname } = request.nextUrl;
 
   if (pathname === "/onboarding" || pathname.startsWith("/register")) {
     return NextResponse.next();
