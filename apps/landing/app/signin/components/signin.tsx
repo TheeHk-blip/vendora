@@ -11,11 +11,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignIn() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,7 +48,7 @@ export default function SignIn() {
       });
 
       if ((res)?.ok) {
-        router.push("/");
+        window.location.href = "/"
       } else {
         const message = (res)?.error ?? "Sign in failed";
         setError(message);      

@@ -98,7 +98,7 @@ export default function Checkout() {
         checkoutSelection
       };
 
-      const response = await fetch(`http://localhost:3005/payments${endpoint}`, {
+      const response = await fetch(`${process.env.SERVER}/payments${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
