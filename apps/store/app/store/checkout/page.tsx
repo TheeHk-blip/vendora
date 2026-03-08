@@ -94,26 +94,31 @@ export default function Checkout() {
         formData,
         orderItems,
         buyerId: userSession,
+        buyerEmail: session?.user.email,
         shipping,        
         checkoutSelection
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/payments${endpoint}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}payments${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
       const result = await response.json();
-      if (result.ok) {
-        showToast("Payment successful")
-      }
+      if (response.ok) {
+        if (result.url) {
+          cartStore.clearCart();
+          window.location.href = result.url;
+        } else {
+          showToast(`Error: ${result.error}`, "error");
+        }      
 
-      if (result.url) {
+        showToast("STK Push Sent! Enter your PIN to authorize the transaction", "success");
         cartStore.clearCart();
-        window.location.href = result.url;
+        window.location.href = "/store/success"
       } else {
-        showToast(`Error: ${result.error}`, "error");
+        showToast(`Error: ${result.error || "Failed to initialize payment. Try again"}`, "error")
       }      
 
     } catch (error) {

@@ -54,9 +54,10 @@ export interface IOrder extends Document {
       paidAt?: Date;
     },
     balance: {
-      status: "pending" | "paid" | "failed";
+      status: "pending" | "paid";
       checkoutRequestId?: string;
       receiptNumber?: string;
+      balanceDue?: number;
       paidAt: Date;
     }
   },
@@ -212,7 +213,7 @@ const orderSchema = new Schema<IOrder>({
     balance: {
       status: {
         type: String,
-        enum: ["pending", "paid", "failed"],
+        enum: ["pending", "paid"],
         default: "pending"
       },
       checkoutRequestId: {
@@ -220,6 +221,9 @@ const orderSchema = new Schema<IOrder>({
       },
       receiptNumber: {
         type: String
+      },
+      balanceDue: {
+        type: Number
       },
       paidAt: Date,
     }

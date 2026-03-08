@@ -39,7 +39,7 @@ const getMpesaAuth = () => {
 router.post("/stk-push", async (req, res) => {
   let order: any = null;
   try {
-    const { formData, orderItems, buyerId, checkoutSelection } = req.body;
+    const { formData, orderItems, buyerId, buyerEmail, checkoutSelection } = req.body;
     const phoneNumber = formatPhoneNumber(formData.phone);    
     await connectDB();
 
@@ -83,6 +83,7 @@ router.post("/stk-push", async (req, res) => {
         paymentType: checkoutSelection,
         buyer: {
           buyerId: buyerId,
+          email: buyerEmail,
           phone: formData.phone,
           name: `${formData.firstName} ${formData.lastName}`,
           location: {
@@ -108,6 +109,10 @@ router.post("/stk-push", async (req, res) => {
         payments: {
           commitment: {
             status: "pending",           
+          },
+          balance: {
+            balanceDue: balanceDue,
+            status: balanceDue === 0 ? "paid" : "pending"
           }
         },
         status: "awaitingCommitment"
@@ -130,11 +135,10 @@ router.post("/stk-push", async (req, res) => {
         PhoneNumber: phoneNumber,
         CallBackURL: `${process.env.PAYMENT_CALLBACK}`,
         AccountReference: "VendoraPay",
-        TransactionDesc: "Product Purchase"
+        TransactionDesc: "Online Order"
       },
       { 
-        headers: { Authorization: `Bearer ${accessToken}` },  
-        timeout: 15000     
+        headers: { Authorization: `Bearer ${accessToken}` },          
       }
     );
 
@@ -144,6 +148,7 @@ router.post("/stk-push", async (req, res) => {
 
     if (stkResponse.data.ResponseCode === "0") {
       return res.json({
+        success: true,
         message: "STK Push Sent",       
         orderNumber: order.orderNumber
       });
@@ -152,6 +157,8 @@ router.post("/stk-push", async (req, res) => {
     }
 
   } catch (error: any) {
+    console.error("STK Push Error:", error);
+
     if (order) {
       await Order.findByIdAndUpdate(order._id, {
         status: "rejected",
@@ -166,11 +173,10 @@ router.post("/stk-push", async (req, res) => {
 
     if (error.response) {
       console.error("Safaricom Error Data:", error.response.data)
-      return res.status(error.response.status).json(error.response.data)
+      return res.status(503).json(error.response.data)
     }
 
-    console.error("Genneral Error:", error);
-    res.status(500).json({ error: error.message || "Internal Server Error" });
+    return res.status(500).json({ error: error.message || "Internal Server Error"});
   }
 });
 
@@ -184,27 +190,43 @@ router.post("/callback", async (req, res) => {
 
     await connectDB();
 
-    const updatedOrder = await Order.findOneAndUpdate(
-      {"payments.commitment.checkoutRequestId": CheckoutRequestID},
-      {
-        status: "awaitingDispatch",
-        "payments.commitment.status": "paid",
-        "payments.commitment.receiptNumber": mpesaReceipt,
-        "payments.commitment.paidAt": new Date()
-      },
-      { new: true }
-    );
+    const order = await Order.findOne({
+      $or: [
+        { "payments.commitment.checkoutRequestId": CheckoutRequestID },
+        { "payments.balance.checkoutRequestId": CheckoutRequestID }        
+      ]
+    });
 
-    if (updatedOrder && updatedOrder.buyer.email) {
-      await sendOrderConfirmation(
-        updatedOrder.buyer.email,
-        updatedOrder.orderNumber,
-        updatedOrder.financials.commitmentFee
-      )
-      console.log(`Order ${updatedOrder.orderNumber} marked as PAID via M-Pesa`)      
-    } else {
-      console.error(`Order not found for CheckoutRequestID: ${CheckoutRequestID}`);
-    }
+    if (order) {
+      const isBalancePayment = order.payments.balance.checkoutRequestId === CheckoutRequestID;
+      const updatePath = isBalancePayment ? "payments.balance" : "payments.commitment";
+
+      const updatedOrder = await Order.findOneAndUpdate(
+        { _id: order._id },
+        {          
+          status: "awaitingDispatch",
+          [`${updatePath}.status`]: "paid",
+          [`${updatePath}.receiptNumber`]: mpesaReceipt,
+          [`${updatePath}.paidAt`]: new Date()
+        },
+        { new: true }
+      );
+
+      if (updatedOrder && updatedOrder.buyer.email) {
+        const amountPaid = isBalancePayment
+          ? updatedOrder.financials.balanceDue
+          : updatedOrder.financials.commitmentFee;
+
+        await sendOrderConfirmation(
+          updatedOrder.buyer.email,
+          updatedOrder.orderNumber,
+          amountPaid
+        )
+        console.log(`Order ${updatedOrder.orderNumber} marked as PAID via M-Pesa`)      
+      } else {
+        console.error(`Order not found for CheckoutRequestID: ${CheckoutRequestID}`);
+      }
+    }    
   } else {
     console.warn(`M-Pesa Payment Failed: ${ResultDesc} (code: ${ResultCode}) `);
   }
