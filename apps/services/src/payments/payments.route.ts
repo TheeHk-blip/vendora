@@ -174,13 +174,13 @@ router.post("/stk-push", async (req, res) => {
   }
 });
 
-router.post("/v1/update", async (req, res) => {
+router.post("/callback", async (req, res) => {
   const { Body } = req.body;
   console.log("Callback:", req.body);
   const { ResultCode, ResultDesc, CheckoutRequestID, CallbackMetadata } = Body.stkCallback;
 
   if (ResultCode === 0) {
-    const mpesaReceipt = CallbackMetadata.Item.find((i: any) => i.Name === "MpesaReceiptNumber").Value;
+    const mpesaReceipt = CallbackMetadata.Item.find((i: any) => i.Name === "MpesaReceiptNumber")?.Value;
 
     await connectDB();
 
