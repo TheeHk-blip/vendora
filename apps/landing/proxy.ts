@@ -1,4 +1,3 @@
-import { geolocation } from "@vercel/functions";
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
@@ -11,30 +10,6 @@ export default async function proxy(request: NextRequest) {
   });
 
   const { pathname } = request.nextUrl;
-  const { country } = geolocation(request);   
-
-  const existingCurrency = request.cookies.get("user-currency");
-  let currencyToSet = existingCurrency?.value
-
-  if (!currencyToSet) {
-    currencyToSet = country === "KE" ? "KES" : "KSH";
-  }
-
-  const redirectWithCookie = (destination:string) => {
-    const url = new URL(destination, request.url);
-
-    if (request.nextUrl.href === url.href) {
-      return NextResponse.next();      
-    }
-    const response = NextResponse.redirect(url);
-    response.cookies.set("user-currency", currencyToSet!, {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30,
-      sameSite: "lax",      
-      domain: ".vendora.sbs"
-    }); 
-    return response;
-  }
 
   if (pathname === "/onboarding" || pathname.startsWith("/register")) {
     return NextResponse.next();
@@ -50,13 +25,13 @@ export default async function proxy(request: NextRequest) {
 
   switch (token.role) {
     case "buyer":
-      return redirectWithCookie(process.env.NEXT_PUBLIC_STORE_URL!);
+      return NextResponse.redirect(new URL(process.env.NEXT_PUBLIC_STORE_URL!, request.url));
     case "seller":
-      return redirectWithCookie(process.env.NEXT_PUBLIC_SELLER_URL!);
+      return NextResponse.redirect(new URL(process.env.NEXT_PUBLIC_SELLER_URL!, request.url));
     case "admin":
-      return redirectWithCookie(process.env.NEXT_PUBLIC_ADMIN_URL!);
+      return NextResponse.redirect(new URL(process.env.NEXT_PUBLIC_ADMIN_URL!, request.url));
     default:
-      return redirectWithCookie("/")
+      return NextResponse.redirect(new URL("/", request.url));
   }    
 }
 

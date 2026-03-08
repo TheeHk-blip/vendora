@@ -69,7 +69,7 @@ export const authOptions: NextAuthOptions = {
         sameSite: "none",
         secure: true,
         path: "/",        
-        domain: ".vendora.sbs"
+        domain: useSecureCookies ? ".vendora.sbs" : undefined
       }
     }
   },
