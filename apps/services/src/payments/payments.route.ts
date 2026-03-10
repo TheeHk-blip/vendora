@@ -2,7 +2,7 @@
 import express, { Router, type Request, type Response } from "express";
 import Stripe from "stripe";
 import { stripe } from "./stripe.config.js";
-import { Variant, Order, type IVariant, connectDB, type LeanArray } from "@vendora/db";
+import { Buyer, Order, Variant, type IVariant, type LeanArray } from "@vendora/db";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import { sendOrderConfirmation } from "./email.services.js";
@@ -40,18 +40,38 @@ router.post("/stk-push", async (req, res) => {
   let order: any = null;
   try {
     const { formData, orderItems, buyerId, buyerEmail, checkoutSelection } = req.body;
-    const phoneNumber = formatPhoneNumber(formData.phone);    
-    await connectDB();
+    const phoneNumber = formatPhoneNumber(formData.phone);       
+
+    Buyer.findOneAndUpdate(
+      { userId: buyerId },
+      {
+        $set: {
+          phoneNumber: formData.phone,
+          shippingAddress: {
+            county: formData.county,
+            subCounty: formData.subCounty,
+            ward: formData.ward
+          }
+        }
+      },
+      {   
+        new: true,
+        setDefaultsOnInsert: true
+      }
+    ).exec();
 
     const variantIds = orderItems.map((item: any) => item.variantId);    
-    const dbVariants: LeanArray<IVariant> = await Variant.find({ _id: {$in: variantIds }}).lean<LeanArray<IVariant>>();
+    const [dbVariants, accessToken] = await Promise.all([
+      Variant.find({ _id: {$in: variantIds }}).lean<IVariant[]>(),
+      getMpesaAccessToken()
+    ]) 
+    const variantMap = new Map<string, IVariant>(dbVariants.map((v: IVariant) => [v._id.toString(), v]));
 
     let totalProductValue = 0;
     let amountToPay: number;
     let balanceDue: number;    
     const verifiedItems = orderItems.map(( item: any ) => {
-      const dbVar = dbVariants.find((v: { _id: { toString: () => any; }; }) => v._id.toString() === item.variantId);
-
+      const dbVar = variantMap.get(item.variantId);
       if (!dbVar) throw new Error(`Product variant ${item.variantId} not found`);
       const itemTotal = dbVar.price * item.quantity;
       totalProductValue += itemTotal;
@@ -77,51 +97,48 @@ router.post("/stk-push", async (req, res) => {
       balanceDue = 0;
     }
 
-    const [createdOrder, accessToken] = await Promise.all([
-      Order.create({
-        orderNumber: `VEN-${nanoid(8).toUpperCase()}`,
-        paymentType: checkoutSelection,
-        buyer: {
-          buyerId: buyerId,
-          email: buyerEmail,
-          phone: formData.phone,
-          name: `${formData.firstName} ${formData.lastName}`,
-          location: {
-            county: formData.county,
-            constituency: formData.constituency,
-            ward: formData.ward
-          }
+    order = await Order.create({
+      orderNumber: `VEN-${nanoid(8).toUpperCase()}`,
+      paymentType: checkoutSelection,
+      buyer: {
+        buyerId: buyerId,
+        email: buyerEmail,
+        phone: formData.phone,
+        name: `${formData.firstName} ${formData.lastName}`,
+        location: {
+          county: formData.county,
+          subCounty: formData.subCounty,
+          ward: formData.ward
+        }
+      },
+      seller: {
+        sellerId: orderItems[0]?.merchantId,
+        storeName: orderItems[0]?.merchant,
+        isWarehoused: false
+      },
+      items: verifiedItems,
+      financials: {
+        totalProductValue,
+        commitmentFee: amountToPay,
+        balanceDue,
+        commisionRate: 0.1,
+        platformRevenue: totalProductValue * 0.1,
+        sellerPayout: totalProductValue * 0.9
+      },
+      payments: {
+        commitment: {
+          status: "pending",           
         },
-        seller: {
-          sellerId: orderItems[0]?.merchantId,
-          storeName: orderItems[0]?.merchant,
-          isWarehoused: false
-        },
-        items: verifiedItems,
-        financials: {
-          totalProductValue,
-          commitmentFee: amountToPay,
-          balanceDue,
-          commisionRate: 0.1,
-          platformRevenue: totalProductValue * 0.1,
-          sellerPayout: totalProductValue * 0.9
-        },
-        payments: {
-          commitment: {
-            status: "pending",           
-          },
-          balance: {
-            balanceDue: balanceDue,
-            status: balanceDue === 0 ? "paid" : "pending"
-          }
-        },
-        status: "awaitingCommitment"
-      }),
-      getMpesaAccessToken()
-    ])
+        balance: {
+          balanceDue: balanceDue,
+          status: balanceDue === 0 ? "paid" : "pending"
+        }
+      },
+      status: "awaitingCommitment"
+    });
 
-    order = createdOrder;
     const { timestamp, password } = getMpesaAuth();
+
     const stkResponse = await axios.post(
       "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
       {
@@ -137,20 +154,20 @@ router.post("/stk-push", async (req, res) => {
         AccountReference: "VendoraPay",
         TransactionDesc: "Online Order"
       },
-      { 
-        headers: { Authorization: `Bearer ${accessToken}` },          
-      }
+      { headers: { Authorization: `Bearer ${accessToken}` } },
     );
 
-    await Order.findByIdAndUpdate(order._id, {
+    Order.findByIdAndUpdate(order._id, {
       "payments.commitment.checkoutRequestId": stkResponse.data.CheckoutRequestID
-    });
+    }).exec();
 
     if (stkResponse.data.ResponseCode === "0") {
       return res.json({
         success: true,
         message: "STK Push Sent",       
-        orderNumber: order.orderNumber
+        orderNumber: order.orderNumber,
+        orderId: order._id,
+        amount: amountToPay
       });
     } else {
       throw new Error("Safaricom rejected the STK request");
@@ -181,59 +198,80 @@ router.post("/stk-push", async (req, res) => {
 });
 
 router.post("/callback", async (req, res) => {
+  res.json({  ResultCode: 0, ResultDesc: "Success"});
+
   const { Body } = req.body;
-  console.log("Callback:", req.body);
   const { ResultCode, ResultDesc, CheckoutRequestID, CallbackMetadata } = Body.stkCallback;
 
-  if (ResultCode === 0) {
+  if (ResultCode !== 0) {
+    return console.warn(`M-Pesa Payment Failed: ${ResultDesc}`);
+  }
+  
+  try {
     const mpesaReceipt = CallbackMetadata.Item.find((i: any) => i.Name === "MpesaReceiptNumber")?.Value;
 
-    await connectDB();
+    const updatedOrder = await Order.findOneAndUpdate(
+      {
+        $or: [
+          {"payments.commitment.checkoutRequestId": CheckoutRequestID},
+          {"payments.balance.checkoutRequestId": CheckoutRequestID}
+        ]
+      },
+      {
+        $set: {
+          status: "awaitingDispatch"
+        }
+      },
+      { new: true }
+    );
 
-    const order = await Order.findOne({
-      $or: [
-        { "payments.commitment.checkoutRequestId": CheckoutRequestID },
-        { "payments.balance.checkoutRequestId": CheckoutRequestID }        
-      ]
+    if (!updatedOrder) return console.error("Order not found for ID:", CheckoutRequestID);
+    const isBalance = updatedOrder.payments.balance.checkoutRequestId === CheckoutRequestID;
+    const updatePath = isBalance ? "payments.balance" : "payments.commitment";
+
+    await updatedOrder.updateOne({
+      $set: {
+        [`${updatePath}.status`]: "paid",
+        [`${updatePath}.receipNumber`]: mpesaReceipt,
+        [`${updatePath}.paidAt`]: new Date()
+      }
     });
 
-    if (order) {
-      const isBalancePayment = order.payments.balance.checkoutRequestId === CheckoutRequestID;
-      const updatePath = isBalancePayment ? "payments.balance" : "payments.commitment";
+    const io = req.app.get("io");
+    io.to(updatedOrder._id.toString()).emit("payment-status", {
+      status: "paid",
+      receipt: mpesaReceipt
+    });
 
-      const updatedOrder = await Order.findOneAndUpdate(
-        { _id: order._id },
-        {          
-          status: "awaitingDispatch",
-          [`${updatePath}.status`]: "paid",
-          [`${updatePath}.receiptNumber`]: mpesaReceipt,
-          [`${updatePath}.paidAt`]: new Date()
-        },
-        { new: true }
-      );
+    if (updatedOrder && updatedOrder.buyer.email) {
+      const amountPaid = isBalance
+        ? updatedOrder.financials.balanceDue
+        : updatedOrder.financials.commitmentFee;
 
-      if (updatedOrder && updatedOrder.buyer.email) {
-        const amountPaid = isBalancePayment
-          ? updatedOrder.financials.balanceDue
-          : updatedOrder.financials.commitmentFee;
-
-        await sendOrderConfirmation(
-          updatedOrder.buyer.email,
-          updatedOrder.orderNumber,
-          amountPaid
-        )
-        console.log(`Order ${updatedOrder.orderNumber} marked as PAID via M-Pesa`)      
-      } else {
-        console.error(`Order not found for CheckoutRequestID: ${CheckoutRequestID}`);
-      }
+      sendOrderConfirmation(
+        updatedOrder.buyer.email,
+        updatedOrder.orderNumber,
+        amountPaid
+      ).catch(err => console.error("Email failed:", err));    
     }    
-  } else {
-    console.warn(`M-Pesa Payment Failed: ${ResultDesc} (code: ${ResultCode}) `);
+  } catch (error) {
+    console.error("Callback Error:", error);
   }
-
-  res.json({  ResultCode: 0, ResultDesc: "Success"});
 });
 
+router.post("/cancel-order", async (req,res) => {
+  const { orderId } = req.body;
+
+  await Order.findByIdAndUpdate(orderId, {
+    status: "rejected",
+    "payments.commitment.status": "failed",
+    "rejectionMetaData.reason": "User cancelled on status page"
+  })
+
+  req.app.get("io").to(orderId).emit("payment-status", { status: "failed" });
+
+  res.json({ success: true });
+})
 
 router.post("/webhook", express.raw({ type: "application/json"}), async (req: Request, res: Response) => {
   const sig = req.headers["stripe-signature"];
@@ -260,8 +298,7 @@ router.post("/webhook", express.raw({ type: "application/json"}), async (req: Re
       const session = event.data.object as Stripe.Checkout.Session;
       const orderId = session.metadata?.orderId;
       
-      if (orderId) {
-        await connectDB();
+      if (orderId) {        
         const updatedOrder = await Order.findByIdAndUpdate(orderId, {
           status: "awaitingDispatch",
           "payments.commitment.status": "paid",      
@@ -270,14 +307,13 @@ router.post("/webhook", express.raw({ type: "application/json"}), async (req: Re
         }, { new: true });
 
         if (updatedOrder) {
-          await sendOrderConfirmation(
+          sendOrderConfirmation(
             session.customer_details?.email || updatedOrder.buyer.email,
             updatedOrder.orderNumber,
             session.amount_total!
-          );
+          ).catch(err => console.error("Email failed:", err));
         }
-
-      console.log(`Payment succeeded for session: ${session.id}`);
+        console.log(`Payment succeeded for session: ${session.id}`);
       }
       break; 
     }
@@ -292,17 +328,13 @@ router.post("/webhook", express.raw({ type: "application/json"}), async (req: Re
       const session = event.data.object as Stripe.Checkout.Session;
       const orderId = session.metadata?.orderId;
 
-      if (orderId) {
-        await connectDB();
+      if (orderId) {      
         await Order.findByIdAndUpdate(orderId, {
           status: "rejected",
           "payments.commitment.status": "failed",
           "rejectionMetaData.reason": "Stripe Checkout session expired"
-        });
-
-        await Order.findByIdAndDelete(orderId);
-
-        console.log(`Order ${orderId} cancelled due to session expiry.`)
+        });      
+        console.log(`Order ${orderId} marked as failed due to session expiry.`)
       }
       break;
     }
@@ -317,16 +349,15 @@ router.post("/webhook", express.raw({ type: "application/json"}), async (req: Re
 router.post("/create-checkout-session", async (req, res) => {
   try {
     const { orderItems, formData, buyerId, checkoutSelection } = req.body;
-    await connectDB();
 
     const variantIds = orderItems.map((item: any) => item.variantId);    
     const dbVariants: LeanArray<IVariant> = await Variant.find({ _id: {$in: variantIds }});
 
+    const variantMap = new Map<string, IVariant>(dbVariants.map((v: IVariant) => [v._id.toString(), v]));
+
     let totalProductValue = 0;
-    let commitmentFee: number;
-    let balanceDue: number;
     const verifiedItems = orderItems.map(( item: any ) => {
-      const dbVar = dbVariants.find((v: { _id: { toString: () => any; }; }) => v._id.toString() === item.variantId);
+      const dbVar = variantMap.get(item.variantId);
 
       if (!dbVar) throw new Error(`Product variant ${item.variantId} not found`);
       const itemTotal = dbVar.price * item.quantity;
@@ -337,22 +368,13 @@ router.post("/create-checkout-session", async (req, res) => {
         name: item.name,
         price: dbVar.price,
         quantity: item.quantity,
-        seller: {
-          sellerId: item.merchantId,
-          storeName: item.merchant
-        },
+        seller: { sellerId: item.merchantId, storeName: item.merchant },
         deliveryToHub: { status: "pending" }
       };
     });
-    const orderTotal = totalProductValue + shipping;
-
-    if (checkoutSelection === "upfront") {
-      commitmentFee = orderTotal;
-      balanceDue = 0;
-    } else {
-      commitmentFee = shipping;
-      balanceDue = totalProductValue;
-    }
+  
+    const commitmentFee = checkoutSelection === "upfront" ? (totalProductValue + shipping) : shipping;
+    const balanceDue = checkoutSelection === "upfront" ? 0 : totalProductValue;
 
     const order = await Order.create({
       orderNumber: `VEN-${nanoid(8).toUpperCase()}`,
@@ -392,11 +414,11 @@ router.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"], 
       line_items: [{
         price_data: {
-          currency: "USD",
+          currency: "KES",
           product_data: {
             name: `Order Purchase: ${order.orderNumber}`,            
           },
-          unit_amount: commitmentFee,         
+          unit_amount: commitmentFee * 100,         
         },
         quantity: 1
       }],
@@ -404,10 +426,14 @@ router.post("/create-checkout-session", async (req, res) => {
         orderId: order._id.toString()
       },
       mode: "payment",
-      success_url: (`${process.env.FRONTEND}/success?session_id={CHECKOUT_SESSION_ID}`),
-      cancel_url: (`${process.env.FRONTEND}/store/checkout`),
+      success_url: (`${process.env.FRONTEND}/store/order-status/success/?session_id={CHECKOUT_SESSION_ID}&no=${order.orderNumber}`),
+      cancel_url: (`${process.env.FRONTEND}/store`),
       expires_at: Math.floor(Date.now() / 1000) + (30 * 60)
     });
+
+    Order.findByIdAndUpdate(order._id, {
+      "payments.commitment.checkoutRequestId": session.id
+    }).exec();
 
     res.json({ url: session.url });
   } catch (err: any) {
