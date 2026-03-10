@@ -9,7 +9,6 @@ import { Shipping } from "./components/shipping";
 import { OrderSummary } from "./components/orderSummary";
 import { useRouter } from "next/navigation";
 import { socket } from "@/app/utilities/socket";
-import { Buyer, connectDB, IBuyer } from "@vendora/db";
 
 export interface CheckoutProps {
   firstName: string;

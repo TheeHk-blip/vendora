@@ -34,7 +34,7 @@ const OrderStatus = () => {
     return () => {
       socket.off("payment-status");  
     }
-  }, [orderId]);
+  }, [orderId, showToast]);
 
   const handleCancel = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}payments/cancel-order`, {
