@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { VerifyOtp } from "../actions/verifyOtp";
 import { InputField } from "./Input";
@@ -14,7 +13,6 @@ export function OtpForm({ email }: { email: string}) {
   const [countdown, setCountdown] = useState(0);
   const [message, setMessage] = useState("");
   const [isPending, setIsPending] = useState(false);
-  const router = useRouter();
   const { update } = useSession();
 
   useEffect(() => {

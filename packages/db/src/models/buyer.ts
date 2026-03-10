@@ -3,11 +3,9 @@ import mongoose, { Document, Schema, Types} from "mongoose";
 export interface IBuyer extends Document {
   userId: Types.ObjectId;
   shippingAddress?:{
-    street: string,
-    city: string,
-    state: string,
-    country: string,
-    zipcode: string,
+    county: string,
+    subCounty: string,
+    ward: string,
   }[];
   wishlist?: Types.ObjectId;
   preferences?: {
@@ -20,11 +18,9 @@ export interface IBuyer extends Document {
 }
 
 const addressSchema = new Schema({
-  street: String,
-  city: String,
-  state: String,
-  country: String,
-  zipcode: String
+  county: String,
+  subCounty: String,
+  ward: String,
 }, {_id: false})
 
 const buyerSchema = new Schema<IBuyer>({

@@ -2,6 +2,7 @@
 
 import { cartStore } from "@/app/cart/cartStore";
 import { CartItem } from "@/app/types/cartItem";
+import { Star } from "@mui/icons-material";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import { SerializeData } from "@vendora/ui";
 import { Button } from "@vendora/ui/src/components/Button";
@@ -56,7 +57,7 @@ export function VariantSelection({ initialSelections, options, variants, product
       {Object.entries(options).map(([attrName, values]) => (
         <div key={attrName} >                
           <p className="capitalize text-sm text-gray-600 dark:text-gray-400" >{attrName.replace(/-/g, ' ')}</p>
-          <div className="flex gap-1 sm:gap-2 mb-1" >
+          <div className="flex gap-2 sm:gap-2 mb-1" >
             {(values as string[]).map((val) => (
               <Button
                 key={val}
@@ -87,7 +88,7 @@ export function VariantSelection({ initialSelections, options, variants, product
                 : "Configuration unavailable"
               }
             </span>
-            <span>Merchant: {sellerInfo.businessName}</span>
+            <span className="flex flex-row items-center" >Merchant: {sellerInfo.businessName} (<Star className="text-yellow-500" sx={{ width: 20, height: 20}} />{sellerInfo.rating}/5)</span>
           </div>
         </div>    
        <Button

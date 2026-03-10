@@ -8,7 +8,7 @@ import { Portal } from "./Portal";
 import React from "react";
 
 const sideNav = tv({
-  base: "fixed top-0 right-0 z-99 h-screen flex flex-col bg-background w-[250px] px-1",
+  base: "fixed top-0 right-0 z-99 h-dvh flex flex-col bg-background w-[250px] px-1",
   slots: {
     overlay: "fixed inset-0 bg-black/20 dark:bg-white/20 z-40",
     header: "flex flex-row justify-between",

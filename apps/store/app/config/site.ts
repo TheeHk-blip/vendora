@@ -13,6 +13,10 @@ export const siteConfig = {
     {
       label: "Popular",
       href: "/popular"
+    },
+    {
+      label: "Orders",
+      href: "/orders"
     }
   ]
 }

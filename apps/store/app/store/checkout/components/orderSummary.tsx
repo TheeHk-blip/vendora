@@ -26,7 +26,7 @@ export function OrderSummary({
   return(
     <div className="flex flex-col w-full ">
       <h1 className={title()}>Order Summary</h1>
-      <div className="md:overflow-scroll md:h-fit md:max-h-[400px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none md:px-1 md:my-1.5 md:rounded-2xl md:ring-1 md:ring-green-500">
+      <div className="md:overflow-scroll md:h-fit md:max-h-[330px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none md:px-1 md:my-1.5 md:rounded-2xl md:ring-1 md:ring-green-500">
         {items.map((cartItem) => (
           <div key={cartItem.variantId} className="flex flex-col w-full gap-2.5" >
             <div className="flex flex-col bg-black/20 dark:bg-white/20 shadow-sm px-2.5 py-2 my-2 rounded-xl">

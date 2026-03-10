@@ -11,7 +11,7 @@ export interface IOrder extends Document {
     name: string;
     location: {
       county: string,
-      constituency: string;
+      subCounty: string;
       ward: string;     
     } 
   },  

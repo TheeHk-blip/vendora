@@ -24,6 +24,7 @@ export * from "./components/ProductGallery";
 export * from "./components/Portal";
 export * from "./components/filePicker";
 export * from "./components/priceDisplay";
+export * from "./components/searchableSelect";
 
 export * from "./types/user";
 export * from "./types/productvariant";

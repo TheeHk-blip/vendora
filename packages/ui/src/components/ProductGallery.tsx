@@ -11,7 +11,7 @@ export function ProductGallery ({images} : ImagesProps) {
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2.5 md:h-screen">
       <div className="items-center self-center" >
         <Image
           alt={`${selectedImage} image`}
@@ -22,7 +22,7 @@ export function ProductGallery ({images} : ImagesProps) {
           fetchPriority="high"
         />
       </div>
-      <div className="grid grid-cols-6 gap-1" >
+      <div className="grid grid-cols-6 gap-1 my-auto" >
         {images.map((img, index) => {
           const isSelected = img === selectedImage;
 

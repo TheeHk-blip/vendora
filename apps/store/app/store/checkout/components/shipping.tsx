@@ -4,6 +4,7 @@ import { title } from "@vendora/ui/src/primitives";
 import Image from "next/image";
 import { CheckoutProps } from "../page";
 import Link from "next/link";
+import { LocationForm } from "./locationForm";
  
 interface ShippingProps {
   formData: CheckoutProps;
@@ -60,39 +61,8 @@ export function Shipping({
             autoComplete="tel"
             required
           />      
-          <InputField
-            onChange={handleChange}
-            type="text"
-            name="county"
-            value={formData.county}     
-            label="County"         
-            placeholder="Nairobi"
-            autoComplete="adress-level1"
-            required
-          />
-        </div>
-        <div className="flex flex-row justify-between gap-3.5 my-2 w-full">
-          <InputField
-            onChange={handleChange}
-            type="text"
-            name="constituency"
-            value={formData.constituency}
-            label="Constituency"
-            placeholder="Kasarani"
-            autoComplete="address-level2"
-            required
-          />
-          <InputField
-            onChange={handleChange}
-            type="text"
-            name="ward"
-            value={formData.ward}
-            label="Ward"
-            placeholder="Kasarani"
-            autoComplete="address-level3"
-            required
-          />
-        </div>  
+        </div>      
+        <LocationForm formData={formData} setFormData={setFormData} />          
         <div className="flex flex-col gap-4">
           <h2 className={title({ size: "xs"})} >Choose Payment Method</h2>          
           <div className="flex flex-row items-center justify-center gap-5">

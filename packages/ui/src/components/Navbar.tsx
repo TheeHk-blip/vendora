@@ -17,7 +17,7 @@ const navbar = tv({
     navLinks: "flex gap-2 md:gap-5",
     actions: "hidden md:flex gap-1 md:gap-3",
     link: "",
-    menuToggle: "flex md:hidden items-center gap-1",
+    menuToggle: "flex md:hidden items-center gap-2.5",
     avatar: "flex items-center cursor-pointer",
   },
 
@@ -33,8 +33,8 @@ const navbar = tv({
       },
       store: {
         wrapper: "flex flex-row items-center justify-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
-        sectionLeft: "flex items-center space-x-2 flex-1",  
-        brand: "md:hidden flex",          
+        sectionLeft: "flex items-center space-x-2 md:flex-1",  
+        brand: "md:hidden flex w-fit",          
         sectionCenter: "flex justify-center flex-1",
         sectionRight: "flex items-center justify-end space-x-2 flex-1",
         actions: "items-center"
@@ -160,13 +160,13 @@ export function Navbar({
       <div className={styles.sectionCenter()}>
         {links &&
           <div className={styles.navLinks()}>
-            {links.map((link) => {
+            {links.map((link, index) => {
               const isActive = pathname === link.href;
               return(
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={navLink({ app, active: pathname === link.href})}
+                  className={`${navLink({ app, active: pathname === link.href})} ${index >=3 ? "hidden md:flex" : "flex"}`}
                   aria-current={isActive ? "page" : undefined}
                 >                  
                   {link.icon && <span className="hidden md:flex" ><link.icon /></span>}

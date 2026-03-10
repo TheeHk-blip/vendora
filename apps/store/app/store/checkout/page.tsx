@@ -8,13 +8,14 @@ import { useToast } from "@vendora/ui/src/context/toastContext";
 import { Shipping } from "./components/shipping";
 import { OrderSummary } from "./components/orderSummary";
 import { useRouter } from "next/navigation";
+import { socket } from "@/app/utilities/socket";
+import { Buyer, connectDB, IBuyer } from "@vendora/db";
 
 export interface CheckoutProps {
   firstName: string;
   lastName: string;
   county: string;
   subCounty: string;
-  constituency: string;
   ward: string;
   phone: string;  
 }
@@ -32,7 +33,6 @@ export default function Checkout() {
     lastName: "",
     county: "",
     subCounty: "",
-    constituency: "",
     ward: "",
     phone: "",
   })
@@ -41,6 +41,38 @@ export default function Checkout() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const fetchBuyerData = async () => {
+      if (session?.user._id) {
+        try {
+          const res = await fetch(`/api/buyer?id=${session.user._id}`);
+          const data = await res.json();          
+          const user = data?.userId;        
+          const savedAddress = Array.isArray(data.shippingAddress)  
+            ? data.shippingAddress[0]
+            : data.shippingAddress;
+          const nameParts = user?.name ? user.name.split(" ") : ["", ""];
+          const fName = nameParts[0] || "";
+          const lName = nameParts.slice(1).join("") || "";
+
+          if (savedAddress) {
+            setFormData({
+              firstName: fName || "",
+              lastName: lName || "",
+              county: savedAddress.county || "",
+              subCounty: savedAddress.subCounty || "",
+              ward: savedAddress.ward || "",
+              phone: data.phoneNumber || ""
+            })
+          }
+        } catch (error) {
+          console.error("Failed to fetch buyer info:", error);
+        }
+      }
+    };
+    fetchBuyerData();
+  }, [session?.user?._id]);
 
   if (!mounted) return null;
 
@@ -105,18 +137,20 @@ export default function Checkout() {
         body: JSON.stringify(payload)
       });
 
-      const result = await response.json();
-      if (response.ok) {
-        if (result.url) {
-          cartStore.clearCart();
-          window.location.href = result.url;
-        } else {
-          showToast(`Error: ${result.error}`, "error");
-        }      
-
-        showToast("STK Push Sent! Enter your PIN to authorize the transaction", "success");
+      const result = await response.json();      
+      if (result.url) {
         cartStore.clearCart();
-        window.location.href = "/store/success"
+        window.location.href = result.url;
+      } else {
+        showToast(`Error: ${result.error}`, "error");
+      }  
+
+      if (response.ok && !result.url) {
+        const { orderId, orderNumber, amount } = result;
+        showToast("STK Push Sent! Enter your PIN to authorize the transaction", "success");
+        
+        socket.emit("join-order-room", orderId);
+        router.push(`/store/order-status?id=${orderId}&no=${orderNumber}&amt=${amount}`);      
       } else {
         showToast(`Error: ${result.error || "Failed to initialize payment. Try again"}`, "error")
       }      

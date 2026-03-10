@@ -39,7 +39,8 @@ export default function Cart() {
         closeButton={
           <button
             type="button"
-            onClick={() => closeDrawer()}         
+            onClick={() => closeDrawer()}   
+            className="px-2"      
           >
             X
           </button>
@@ -57,6 +58,7 @@ export default function Cart() {
                     <span className="text-gray-700 dark:text-gray-300">{cartItem.name}</span>
                     <button
                       onClick={() => handleRemove(cartItem.variantId)}
+                      className="px-2 cursor-pointer hover:bg-background rounded-xl"
                     >
                       X
                     </button>

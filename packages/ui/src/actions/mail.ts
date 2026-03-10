@@ -10,7 +10,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function sendVerificationEmail({email, otp}: EmailProps) {
   try {
     await resend.emails.send({
-      from: "Vendora Security <auth@contact.vendora.sbs>",
+      from: "Vendora Security <auth@support.vendora.sbs>",
       to: email,
       subject: "Verify your Vendora Account",
       html: `

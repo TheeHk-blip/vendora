@@ -11,6 +11,8 @@ export interface InputProps {
   step?: string | number;
   onChange: ChangeEventHandler<HTMLInputElement>;
   checked?: boolean;
+  disabled?: boolean;
+  onFocus?: () => void;
   placeholder?: string;
   label?: React.ReactNode;
   passwordToggle?:  ReactNode;
@@ -27,11 +29,13 @@ export function InputField({
   value,
   step,
   onChange,
+  onFocus,
   autoComplete,
   label,
   placeholder,
   multiple,
   checked,
+  disabled,
   className,
   maxLength,
   passwordToggle,
@@ -49,6 +53,8 @@ export function InputField({
         step={step}
         onChange={onChange}
         checked={checked}        
+        disabled={disabled}
+        onFocus={onFocus}
         placeholder={placeholder}
         multiple={multiple}        
         maxLength={maxLength}

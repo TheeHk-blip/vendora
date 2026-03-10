@@ -13,14 +13,22 @@ export const ToastProvider = ({ children }:{ children: React.ReactNode}) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState<AlertColor>("success");
+  const [seenMessages, setSeenMessages] = useState<Set<string>>(new Set());
 
   const showToast = (msg: string, sev: AlertColor = "success") => {
+    if (seenMessages.has(msg)) return;
+
     setMessage(msg);
     setSeverity(sev);
     setOpen(true);
+
+    setSeenMessages((prev) => new Set(prev).add(msg));
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") return;    
+    setOpen(false);
+  } 
 
   return (
     <ToastContext.Provider value={{showToast}}>
