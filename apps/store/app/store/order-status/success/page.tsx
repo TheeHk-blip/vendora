@@ -2,8 +2,9 @@
 
 import { CheckCircle } from "@mui/icons-material";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function OrderSuccess() {
+function OrderSuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderNumber = searchParams.get("no");
@@ -22,5 +23,13 @@ export default function OrderSuccess() {
         Track My Order
       </button>
     </div>
+  )
+}
+
+export default function OrderSuccess() {
+  return(
+    <Suspense fallback={<div>Loading your order status...</div>}>
+      <OrderSuccessContent />
+    </Suspense>
   )
 }
