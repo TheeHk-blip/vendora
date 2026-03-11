@@ -2,14 +2,14 @@
 
 import { ArrowBack, CheckCircle } from "@mui/icons-material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { socket } from "@/app/utilities/socket";
 import { Button, useToast } from "@vendora/ui";
 import { cartStore } from "@/app/cart/cartStore";
 import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
 
-const OrderStatus = () => {
+const OrderStatusContent = () => {
   const router = useRouter();
   const { showToast } = useToast();
   const searchParams = useSearchParams();
@@ -100,4 +100,10 @@ const OrderStatus = () => {
   )
 }
 
-export default OrderStatus;
+export default function OrderStatus() {
+  return (
+    <Suspense fallback={<div>Loading order status...</div>}>
+      <OrderStatusContent />
+    </Suspense>
+  )
+}
