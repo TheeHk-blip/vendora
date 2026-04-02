@@ -89,8 +89,8 @@ const OrderStatusContent = () => {
           </div>                    
           <p>Your order <strong>{orderNo}</strong> is now being processed.</p>
           <button 
-            onClick={() => router.push('/orders')}
-            className="mt-6 px-8 py-3 rounded-full bg-gray-500 dark:bg-gray-800 transition"
+            onClick={() => router.push("/orders")}
+            className="mt-6 px-8 py-3 cursor-pointer active:scale-[0.99] rounded-full bg-gray-500 dark:bg-gray-800 transition"
           >
             Track My Order
           </button>
