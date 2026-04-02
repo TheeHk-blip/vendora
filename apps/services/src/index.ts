@@ -5,17 +5,30 @@ import { Server } from "socket.io";
 import cors from "cors";
 import compression from "compression";
 import { PaymentRouter } from "./payments/payments.route.js";
-import { connectDB } from "@vendora/db";
+import { connectDB, initJobs } from "@vendora/db";
 
-await connectDB();
+
 
 const app: Application = express();
 const httpServer = createServer(app);
 const PORT = 3005;
 
+const allowedOrigins = [
+  process.env.STORE_APP,
+  process.env.SELLER_APP
+]
+
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.FRONTEND,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "OPTIONS"],
     credentials: true
   }, 
@@ -23,27 +36,60 @@ const io = new Server(httpServer, {
   pingTimeout: 60000
 });
 
-app.set("io", io);
+async function startServer() {
+  try {
+    await connectDB();
+    console.log("DB connected");
 
-app.use(compression())
-app.use(cors({ origin: process.env.FRONTEND, credentials: true, methods: ["GET", "POST", "OPTIONS"] }));
+    await initJobs(io);
+    console.log("Simulation Engine Ready")
 
-app.use((req, res, next) => {
-  if (req.originalUrl === "/payments/webhook") {
-    return next();
-  } 
-  express.json()(req, res, next);  
-});
+    app.set("io", io);
+    app.use(compression())
+    app.use(cors({ 
+      origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
 
-io.on("connection", (socket) => {
-  socket.on("join-order-room", (orderId) => {
-    socket.join(orderId);
-    console.log(`User joined room: ${orderId}`)
-  });
-});
+        if (allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true, 
+      methods: ["GET", "POST", "OPTIONS"] 
+    }));
 
-app.use("/payments", PaymentRouter);
+    app.use((req, res, next) => {
+      if (req.originalUrl === "/payments/webhook") {
+        return next();
+      } 
+      express.json()(req, res, next);  
+    });
 
-httpServer.listen(PORT, () => {
-  console.log(`Standalone services running on port ${PORT}`);
-});
+    io.on("connection", (socket) => {
+      socket.on("join-order-room", (orderId) => {
+        socket.join(orderId);
+        console.log(`User joined room: ${orderId}`)
+      });
+
+      socket.on("join-subscription-room", (sellerId) => {
+        socket.join(sellerId);
+        console.log(`Seller joined subscription room: ${sellerId}`)
+      })
+    });
+
+    app.use("/payments", PaymentRouter);
+
+    httpServer.listen(PORT, () => {
+      console.log(`Standalone services running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("Failed to start server", err);
+  }
+}
+
+startServer();
+
+
+
