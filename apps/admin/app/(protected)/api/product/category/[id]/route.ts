@@ -20,10 +20,9 @@ export async function PATCH(req: Request, {params}: {params: Params}) {
       }
     });
 
-    return NextResponse.json({updatedCategory}, {status: 201});
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
+    return NextResponse.json({updatedCategory}, {status: 201});  
+  } catch (error) {
     console.error("Category update error:", error);
-    return NextResponse.json({ error: error.message }, { status: 400 })
+    return NextResponse.json({ error: "Category update failed" }, { status: 400 })
   }
 }

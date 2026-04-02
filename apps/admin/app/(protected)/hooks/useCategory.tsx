@@ -1,7 +1,8 @@
+import { ICategory } from "@vendora/db";
 import { useEffect, useState } from "react";
 
 export function useCategories() {
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {

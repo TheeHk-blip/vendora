@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { connectDB, Category } from "@vendora/db";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
@@ -29,9 +27,9 @@ export async function POST(request: Request) {
 
     revalidatePath("/products/category")
     return NextResponse.json({ category }, {status: 201})
-  } catch (error: any) {
+  } catch (error) {
     console.error("Category creation error:", error);
-    return NextResponse.json({ error: error.message }, { status: 400 })
+    return NextResponse.json({ error: "Experienced an error while creating category. Please try again later." }, { status: 400 })
   }
 }
 
@@ -42,8 +40,8 @@ export async function GET() {
 
     if (!publishedCategory || publishedCategory.length === 0) return NextResponse.json({error:"No category found"}, {status: 404})
     return NextResponse.json({publishedCategory}, {status: 200})
-  } catch (error: any) {
+  } catch (error) {
     console.error("Fetch erro:", error)
-    return NextResponse.json({error: "Internal server error", details: error.message}, {status: 404})
+    return NextResponse.json({error: "Internal server error"}, {status: 404})
   }
 }

@@ -12,7 +12,7 @@ export default function Unauthorized() {
   return (
     <main className="max-w-7xl flex justify-center items-center h-screen my-auto px-10 py-10" >
       <Card 
-        variant="glass"
+        variant="solid"
         header={
           <div className="flex flex-col gap-2 items-center justify-center">    
             <span className={title({ color: "yellow", size: "md"})}>Access Denied</span> 

@@ -28,7 +28,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json(jsonResponse);
   } catch (error) {
     return NextResponse.json(
-      {error: (error as Error).message},
+      {"Failed to upload image(s)": error},
       {status: 400}
     )
   }
@@ -48,6 +48,6 @@ export async function DELETE(request: Request) {
     await del(urlToDelete);
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: "Delete failed" }, { status: 500 });
+    return NextResponse.json({ "Delete failed": error }, { status: 500 });
   }
 }
