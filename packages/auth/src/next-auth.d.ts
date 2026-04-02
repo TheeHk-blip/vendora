@@ -28,7 +28,7 @@ declare module "next-auth" {
       name: string;
       email: string;
       image?: string;
-      isVerified: boolean;
+      isVerified?: boolean;
       hasPassword?: boolean;
     }
   }
