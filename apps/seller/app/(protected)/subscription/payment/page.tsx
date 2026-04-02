@@ -2,11 +2,11 @@
 
 import { Button, InputField, socket, title, useToast } from "@vendora/ui";
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
-export default function Payments() {
+function Payments() {
   const { showToast } = useToast();
   const router = useRouter();
   const { data: session } = useSession();
@@ -104,6 +104,13 @@ export default function Payments() {
         </Button>
       </form>
     </div>
+  )  
+}
+
+export default function PaymentsPage() {
+  return (
+    <Suspense fallback={<span className="animate-pulse">Loading payment gateway</span>} >
+      <Payments />
+    </Suspense>
   )
-  
 }
