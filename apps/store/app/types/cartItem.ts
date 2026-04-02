@@ -3,7 +3,8 @@ export interface CartItem {
   sellerInfo?: {
     _id: string;
     businessName: string;
-    rating: number;
+    averageRating: number;
+    totalReviews: number;
   };
   variantId: string;
   imageUrl?: string;

@@ -2,14 +2,14 @@
 
 import { InputField } from "@vendora/ui";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 interface PriceProps {
   maxStorePrice: number;
   minStorePrice: number
 }
 
-export function PriceFilter({ maxStorePrice, minStorePrice } : PriceProps) {
+function Filter({ maxStorePrice, minStorePrice } : PriceProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -51,5 +51,13 @@ export function PriceFilter({ maxStorePrice, minStorePrice } : PriceProps) {
         Apply Price
       </button>
     </div>
+  )
+}
+
+export function PriceFilter({maxStorePrice, minStorePrice}: PriceProps) {
+  return (
+    <Suspense fallback={<span className="animate-pulse w-40 h-20 bg-foreground/25 rounded-md" >Loading price filter...</span>} >
+      <Filter maxStorePrice={maxStorePrice} minStorePrice={minStorePrice} />
+    </Suspense>
   )
 }

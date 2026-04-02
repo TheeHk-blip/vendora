@@ -2,14 +2,15 @@
 
 import { cartStore } from "@/app/cart/cartStore";
 import { CartItem } from "@/app/types/cartItem";
-import { Star } from "@mui/icons-material";
+import { StarRate } from "@mui/icons-material";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
-import { SerializeData } from "@vendora/ui";
+import { IReview, SerializeData } from "@vendora/ui";
 import { Button } from "@vendora/ui/src/components/Button";
 import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
 import { IProductBase } from "@vendora/ui/src/types/IProductBase";
 import { IVariantBase } from "@vendora/ui/src/types/IVariantBase";
 import { useMemo, useState } from "react";
+import { ReviewsModal } from "./reviewsmodal";
 
 interface VariantProps {
   initialSelections: Record<string, string>;
@@ -19,11 +20,14 @@ interface VariantProps {
   sellerInfo: {
     _id: string,
     businessName: string,
-    rating: number
+    rating: number,
+    averageRating: number,
+    totalReviews: number,
   };
+  reviewInfo: IReview[]
 }
 
-export function VariantSelection({ initialSelections, options, variants, product, sellerInfo}: VariantProps) {
+export function VariantSelection({ initialSelections, options, variants, product, sellerInfo, reviewInfo}: VariantProps) {
   const [selections, setSelections] = useState(initialSelections);
   const activeVariant = useMemo(() => { 
     return variants?.find((v) => {
@@ -65,7 +69,7 @@ export function VariantSelection({ initialSelections, options, variants, product
                 className={`px-2 py-1 rounded-xl transition-all ${
                   selections[attrName] === val 
                     ? "ring text-green-500 bg-transparent" 
-                    : "bg-black/30 dark:bg-white/20"
+                    : "bg-black/15 dark:bg-white/15"
                 }`}
               >
                 {val}
@@ -87,11 +91,10 @@ export function VariantSelection({ initialSelections, options, variants, product
                 ? (activeVariant.stock! > 0 ? `${activeVariant.stock} in stock` : "Out of Stock")
                 : "Configuration unavailable"
               }
-            </span>
-            <span className="flex flex-row items-center" >Merchant: {sellerInfo.businessName} (<Star className="text-yellow-500" sx={{ width: 20, height: 20}} />{sellerInfo.rating}/5)</span>
+            </span>            
           </div>
         </div>    
-       <Button
+        <Button
           onClick={handleAdd}
           color={`${activeVariant && (activeVariant?.stock ?? 0)  > 10 ? "success": "warning"}`}
           disabled={!activeVariant || (activeVariant?.stock ?? 0) <= 0}
@@ -100,7 +103,24 @@ export function VariantSelection({ initialSelections, options, variants, product
           {activeVariant?.stock ?? 0 > 0 ? "Add to Cart" : "Sold Out"}
           <ShoppingCart />
         </Button>         
-      </div>                                     
+      </div>  
+      <div className="flex flex-col">
+        <span className="flex flex-row items-center gap-2" >
+          Merchant: {sellerInfo.businessName} 
+          <span className="flex items-center" > {sellerInfo.averageRating} <StarRate className="text-yellow-500 mb-1" sx={{ width: 19, height: 19}} /> 
+            <span className="mb-1 ml-2.5">({sellerInfo.totalReviews})</span>
+          </span>
+        </span>                              
+        <span className="flex flex-row items-center gap-2">
+          Product Rating: 
+          <span className="flex items-center">{product.averageRating}<StarRate className="text-yellow-500 mb-1" sx={{ width: 20, height: 20}} />  
+            <span className="mb-1 ml-2.5">({product.totalReviews})</span>
+          </span>
+        </span>
+        <div>
+          <ReviewsModal reviewInfo={reviewInfo} />      
+        </div>
+      </div>
     </div>
   )
 }

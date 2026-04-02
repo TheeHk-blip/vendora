@@ -38,7 +38,7 @@ export default function Profile({src, initials}: ProfileProps) {
     return(       
       <Link 
         href={`/verify-email?email=${session?.user?.email}`}
-        className="text-orange-500 ring rounded-xl px-2 py-1"
+        className="text-orange-500 ring rounded-xl px-2 py-1 hover:bg-orange-500 hover:ring-0 hover:text-white transition-all duration-500"
       >
         Verify
       </Link>     

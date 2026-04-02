@@ -126,7 +126,7 @@ export default async function Store({searchParams}: { searchParams: Params}) {
         <ProductFilter dynamicData={dynamicData}/>
       </aside>
       <div className="flex flex-col w-full" >
-        <div className="sticky top-[58px] bg-background" >
+        <div className="sticky top-14.5 bg-background" >
           <MobileFilter dynamicData={SerializeData(dynamicData)} />
           <BreadCrumbs crumbs={dynamicData.breadCrumbs} />
         </div>        
@@ -135,7 +135,7 @@ export default async function Store({searchParams}: { searchParams: Params}) {
             products.map((product, index) => (      
               <Suspense
                 key={product._id}
-                fallback={<div className="animate-pulse bg-gray-500 gap-2 w-[150px] h-[150px]"></div>}
+                fallback={<div className="animate-pulse bg-gray-500 gap-2 w-37.5 h-37.5"></div>}
               >
                 <ProductCard 
                   key={product._id}

@@ -3,14 +3,18 @@ import { IVariantBase } from "@vendora/ui/src/types/IVariantBase";
 import dynamic from "next/dynamic";
 import { title } from "@vendora/ui/src/primitives";
 import { VariantSelection } from "./variantSelection";
+import { IReview } from "@vendora/ui";
 
 interface ProductProps {
   product: IProductBase;
   sellerInfo: {
     _id: string,
     businessName: string,
-    rating: number
+    rating: number,
+    averageRating: number,
+    totalReviews: number
   };
+  reviewInfo: IReview[];
   variants: IVariantBase[];
   options: Record<string, string[]>;
   initialSelections: Record<string, string>;
@@ -21,7 +25,7 @@ const ProductGallery = dynamic(() => import("@vendora/ui/src/components/ProductG
   loading: () => <div className="aspect-square w-full, bg-gray-100 animate-pulse rounded-lg" />
 })
 
-export default function ProductView({ product, variants, options, initialSelections, sellerInfo}: ProductProps) {
+export default function ProductView({ product, variants, options, initialSelections, sellerInfo, reviewInfo}: ProductProps) {
   return (
     <div className="flex flex-col w-full py-2" >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5" >
@@ -37,9 +41,10 @@ export default function ProductView({ product, variants, options, initialSelecti
             variants={variants}
             product={product}        
             sellerInfo={sellerInfo}
+            reviewInfo={reviewInfo}
           />
 
-          <div className="mt-4" >
+          <div className="mt-2" >
             <h2 className={title({size: "xs"})}>Features</h2>
             {Object.entries(product.fields || {}).map(([key, value]) => (
               <div key={key}>

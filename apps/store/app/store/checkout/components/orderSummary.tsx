@@ -26,13 +26,13 @@ export function OrderSummary({
   return(
     <div className="flex flex-col w-full ">
       <h1 className={title()}>Order Summary</h1>
-      <div className="md:overflow-scroll md:h-fit md:max-h-[330px] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none md:px-1 md:my-1.5 md:rounded-2xl md:ring-1 md:ring-green-500">
+      <div className="md:overflow-scroll md:h-fit md:max-h-82.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:display-none md:px-1 md:my-1.5 md:rounded-2xl md:ring-1 md:ring-green-500">
         {items.map((cartItem) => (
           <div key={cartItem.variantId} className="flex flex-col w-full gap-2.5" >
             <div className="flex flex-col bg-black/20 dark:bg-white/20 shadow-sm px-2.5 py-2 my-2 rounded-xl">
               <span className="mb-2 text-xl">{cartItem.name}</span>
               <div className="flex flex-row gap-5 w-full" >
-                <div className="relative z-0 aspect-square w-[100px]">
+                <div className="relative z-0 aspect-square w-25">
                   <Image 
                     src={cartItem.imageUrl!}
                     alt={`${cartItem.name} image`}
@@ -54,8 +54,9 @@ export function OrderSummary({
                   <span>Merchant: {cartItem.sellerInfo?.businessName}</span>
                   <div className="flex flex-row items-center gap-1" >
                     <span>Rating:</span>
-                    <Star className="text-yellow-500" />
-                    {cartItem.sellerInfo?.rating.toFixed(1)} / 5                
+                    {cartItem.sellerInfo?.averageRating} 
+                    <Star className="text-yellow-500 mb-0.5" />      
+                    ({cartItem.sellerInfo?.totalReviews})                            
                   </div>    
                 </div>                 
               </div>

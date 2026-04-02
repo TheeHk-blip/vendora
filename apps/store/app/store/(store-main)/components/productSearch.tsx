@@ -7,8 +7,9 @@ import { PriceFilter } from "./priceFilter";
 import { ProductProps } from "./productFilter";
 import { CategoryDoc } from "./getProducts";
 import { ICategory, RequireIdLean } from "@vendora/db";
+import { Suspense } from "react";
 
-export function ProductSearch({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
+function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedBrands = searchParams.get("brand")?.split(",") || [];
@@ -166,5 +167,13 @@ export function ProductSearch({dynamicData}:{dynamicData: ProductProps["dynamicD
         </div>
       )}
     </div>    
+  )
+}
+
+export function ProductSearch({ dynamicData}: {dynamicData: ProductProps["dynamicData"]}) {
+  return (
+    <Suspense fallback={<span className="animate-pulse" >Loading search filters...</span>}>
+      <Search dynamicData={dynamicData} />
+    </Suspense>
   )
 }

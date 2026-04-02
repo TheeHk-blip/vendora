@@ -24,8 +24,8 @@ export function Shipping({
   setCheckoutSelection 
 }: ShippingProps ) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, value } =e.target;
-  setFormData((prev) => ({ ...prev, [name]: value}));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value}));
   }  
   return (
     <div className="flex flex-col w-full">
@@ -69,14 +69,14 @@ export function Shipping({
             <Button
               type="button"
               onClick={() => setPaymentMethod("card")}
-              className={`w-[200px] h-20 ring-2 ${paymentMethod === "card" ? "ring-green-500": "ring-transparent"}`}
+              className={`w-50 h-20 ring-2 ${paymentMethod === "card" ? "ring-green-500": "ring-transparent"}`}
             >
               <Image alt="card image" src="/card.png" fetchPriority="high" width={100} height={100} /> 
             </Button>
             <Button
               type="button"
               onClick={() => setPaymentMethod("mpesa")}
-              className={`w-[200px] h-20 ring-2 ${paymentMethod === "mpesa" ? "ring-green-500": "ring-transparent"}`}
+              className={`w-50 h-20 ring-2 ${paymentMethod === "mpesa" ? "ring-green-500": "ring-transparent"}`}
             >
               <Image alt="mpesa icon" src="/mpesa.png" fetchPriority="high" width={100} height={100} />            
             </Button>

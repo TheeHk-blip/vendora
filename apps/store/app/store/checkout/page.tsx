@@ -8,7 +8,7 @@ import { useToast } from "@vendora/ui/src/context/toastContext";
 import { Shipping } from "./components/shipping";
 import { OrderSummary } from "./components/orderSummary";
 import { useRouter } from "next/navigation";
-import { socket } from "@/app/utilities/socket";
+import { socket } from "@vendora/ui/src/utilities/socket";
 
 export interface CheckoutProps {
   firstName: string;
@@ -90,7 +90,7 @@ export default function Checkout() {
   }, 0);
   const total = subTotal + shipping;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -100,7 +100,7 @@ export default function Checkout() {
     };
 
     const endpoint = paymentMethod === "card" 
-    ? "/create-checkout-session" 
+    ? "/create-checkout-session"
     : "/stk-push";
 
     const currentItems = Array.isArray(items) ? items: [];
@@ -122,6 +122,7 @@ export default function Checkout() {
       }));     
 
       const payload = {
+        type:"order",
         formData,
         orderItems,
         buyerId: userSession,
@@ -129,6 +130,9 @@ export default function Checkout() {
         shipping,        
         checkoutSelection
       };
+
+      const url = `${process.env.NEXT_PUBLIC_SERVER}payments${endpoint}}`;
+      console.log("Endpoint:", url)
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}payments${endpoint}`, {
         method: "POST",
@@ -141,7 +145,7 @@ export default function Checkout() {
         cartStore.clearCart();
         window.location.href = result.url;
       } else {
-        showToast(`Error: ${result.error}`, "error");
+        showToast(`Error making payment`, "error");
       }  
 
       if (response.ok && !result.url) {
