@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { ActiveSessionProvider, ThemeProvider } from "@vendora/ui";
+import { ActiveSessionProvider, CurrencyProvider, DrawerProvider, ThemeProvider, ToastProvider } from "@vendora/ui";
 import SideBar from "./components/sidebar";
 import Navbar from "./components/navbar";
 
@@ -33,17 +33,25 @@ export default function RootLayout({
       >
         <ActiveSessionProvider>
           <ThemeProvider>
-            <div className="flex flex-row max-w-7xl">
-              <div>
-                <SideBar />
+            <DrawerProvider>
+            <CurrencyProvider>
+            <ToastProvider>
+              <div className="flex flex-row w-full">
+                <div className="hidden md:flex" >
+                  <SideBar />
+                </div>
+                <div className="flex flex-col w-full" >
+                  <div className="flex md:hidden" >
+                    <Navbar />
+                  </div>                  
+                  <main className="w-full px-2.5" >
+                    {children}
+                  </main>
+                </div> 
               </div>
-              <div className="flex flex-col w-full max-w-full" >
-                <Navbar />
-                <main className="container px-2" >
-                  {children}
-                </main>
-              </div> 
-            </div>
+            </ToastProvider>
+            </CurrencyProvider>
+            </DrawerProvider>
           </ThemeProvider>  
         </ActiveSessionProvider>             
       </body>

@@ -1,8 +1,10 @@
-import { Notifications } from "@mui/icons-material";
-import { Navbar, SearchInput } from "@vendora/ui";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
-import { authOptions } from "@vendora/auth";
+import { authOptions } from "@vendora/auth/src/authoptions";
+import Profile from "./profile";
+import { siteConfig } from "../config/site";
+import { Navbar } from "@vendora/ui/src/components/Navbar";
+import { Logo } from "@vendora/ui/src/components/logo";
+import { getInitials } from "@vendora/ui/src/utilities/getInitials";
 
 
 export default async function NavBar() {
@@ -10,22 +12,9 @@ export default async function NavBar() {
   return (
     <Navbar 
       app="adminnav"
-      title={
-        <SearchInput />
-      }
-      actions={
-        <span className="flex gap-2 items-center" >
-          <Notifications />
-          <Image 
-            alt="Profile Picture"
-            src={session?.user.image!}
-            width={35}
-            height={35}
-            className="rounded-full"
-            loading="eager"
-          />
-        </span>
-      }
+      menuToggle={<Profile src={session?.user.image} initials={getInitials(session?.user.name ?? "")} />}
+      brand={<Logo width={50} height={50} />}
+      links={siteConfig.navLinks}
     />
   )
 }

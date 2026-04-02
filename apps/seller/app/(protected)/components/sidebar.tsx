@@ -17,7 +17,21 @@ export default function SideBar() {
       brand={<Logo width={50} height={50} />}
       links={siteConfig.navLinks}
       actions={
-        <>
+        <>          
+          <Link
+            href="/settings"
+            className={`flex rounded-[14px] px-3 py-1.5 gap-2 items-center transition-all duration-300 ${pathname.startsWith("/settings") 
+              ? "text-purple-700 bg-purple-500/15 dark:bg-purple-400/10 scale-105 -translate-y-1 -translate-x-1" 
+              : "text-neutral-700 dark:text-neutral-400 bg-black/15 hover:text-purple-700 dark:bg-black/50 dark:hover:bg-black/20"}`
+            }
+          >
+            <Settings />
+            Settings
+          </Link>
+          <span className="flex flex-row justify-between items-center rounded-[14px] ring text-zinc-800 dark:text-orange-500 px-3 py-1" >
+            Theme Switch
+            <ThemeToggle />
+          </span>
           {session ? (
             <Button
               onClick={() => signOut({callbackUrl: process.env.NEXT_PUBLIC_BASE_URL})}
@@ -28,22 +42,9 @@ export default function SideBar() {
               <Logout />
             </Button>
           ):(
-            <></>
+            <Button>
+            </Button>
           )}
-          <Link
-            href="/settings"
-            className={`flex rounded-[14px] px-3 py-2 gap-2 items-center transition-all duration-300 ${pathname.startsWith("/settings") 
-              ? "text-violet-600 bg-purple-400/20 dark:bg-purple-400/30 scale-105 -translate-y-1 -translate-x-1" 
-              : "bg-white/25 hover:text-violet-600 hover:bg-purple-200/70 dark:bg-black/40 dark:hover:bg-black/20"}`
-            }
-          >
-            <Settings />
-            Settings
-          </Link>
-          <span className="flex flex-row justify-between items-center rounded-[14px] bg-purple-400/45 dark:bg-orange-300/40 px-3 py-2" >
-            Theme Switch
-            <ThemeToggle />
-          </span>
         </>
       }
     />
