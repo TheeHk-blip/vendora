@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import User from "@vendora/db/src/models/user";
+import { User } from "@vendora/db";
 
 
 dotenv.config();

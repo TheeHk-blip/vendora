@@ -17,18 +17,7 @@ export default function Navigation() {
       brand={<Logo width={50} height={50} />}    
       links={siteConfig.navLinks}    
       actions={      
-        <>
-          {session ? (
-            <Button            
-              onClick={() => signOut({callbackUrl: process.env.NEXT_PUBLIC_BASE_URL})}  
-              color="danger"     
-              rightIcon={<Logout />}         
-            >
-              Log out
-            </Button>
-          ):(
-            <></>
-          )}
+        <>          
           <Link
             href="/settings"
             className={`flex rounded-[14px] px-3 py-2 gap-2 items-center transition-all duration-300 ${pathname.startsWith("/settings") 
@@ -44,6 +33,17 @@ export default function Navigation() {
             Theme Switch
             <ThemeToggle />
           </span>
+          {session ? (
+            <Button            
+              onClick={() => signOut({callbackUrl: process.env.NEXT_PUBLIC_BASE_URL})}  
+              color="danger"     
+              rightIcon={<Logout />}         
+            >
+              Log out
+            </Button>
+          ):(
+            <></>
+          )}
         </>
       }         
     />

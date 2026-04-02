@@ -1,5 +1,4 @@
-import User from "@vendora/db/src/models/user";
-import { connectDB } from "@vendora/db";
+import { connectDB, User } from "@vendora/db";
 
 export  async function TotalUsers() {
   await connectDB();
@@ -33,5 +32,5 @@ export async function WeeklyUserStats() {
   ? (thisWeekCount > 0 ? 100 : 0)
   : ((thisWeekCount - lastWeekCount) / lastWeekCount) * 100;
 
-  return growth;
+  return growth.toFixed();
 }

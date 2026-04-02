@@ -12,7 +12,7 @@ export function Header({handleSort}: FilterProps) {
 
   const handleSearch = (query: string) => {
     const url = query ? `/user?q=${query}` : `/user`;
-    router.push(url);
+    router.replace(url);
   }
 
   return (

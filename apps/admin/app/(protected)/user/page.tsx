@@ -1,5 +1,4 @@
-import { connectDB } from "@vendora/db";
-import User from "@vendora/db/src/models/user";
+import { connectDB, User } from "@vendora/db";
 import UserClient from "./components/userclient";
 import { Users } from "@vendora/ui";
 import { Metadata } from "next";
@@ -17,8 +16,6 @@ export default async function VUsers({ searchParams }:{
   }>
 }) {
   await connectDB();
-
-  console.time("Query Time")
   
   const params = await searchParams;
   const query = String(params?.q ?? "").trim();
@@ -39,8 +36,6 @@ export default async function VUsers({ searchParams }:{
     .skip((page -1) * pageSize)
     .limit(pageSize)
     .lean();
-  
-  console.timeEnd("Query Time")
     
   const safeUsers: Users[] = users.map(user => ({
     _id: String(user._id),

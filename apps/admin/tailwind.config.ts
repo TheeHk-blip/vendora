@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { Config } from "tailwindcss";
 
 const config: Config = {
   // Inherit root config
-  presets: [require("../../tailwind.config.cjs")],
+  presets: [require("../../tailwind.config.mjs")],
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",

@@ -1,4 +1,5 @@
-import { TrendingDown, TrendingUp } from "@mui/icons-material";
+import TrendingDown from "@mui/icons-material/TrendingDown";
+import TrendingUp from "@mui/icons-material/TrendingUp";
 import { WeeklyUserStats } from "./usercount";
 
 export async function UserGrowth() {
