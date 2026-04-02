@@ -26,7 +26,7 @@ function signInWithGoogleAs(role: "buyer", setLoading: (loading: boolean) => voi
   }
 }
 
-export default function BuyerRegistration() {
+export function BuyerRegistration() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -143,7 +143,7 @@ export default function BuyerRegistration() {
                 exit={{ opacity: 0, x: -15}}
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 onSubmit={nextStep}
-                className="space-y-5 w-full max-w-[250px]"
+                className="space-y-5 w-full max-w-62.5"
               >
                 <div className="flex flex-col items-center gap-3 w-full">
                   <GoogleSignIn 
@@ -205,7 +205,7 @@ export default function BuyerRegistration() {
                 animate={{ opacity: 1, x: 0}}
                 transition={{ duration: 0.25}}
                 onSubmit={handleSubmit}
-                className="space-y-5 w-full max-w-[250px]"
+                className="space-y-5 w-full max-w-62.5"
               >
                 <InputField 
                   required

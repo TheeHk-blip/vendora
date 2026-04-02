@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { NextResponse } from "next/server";
-import { connectDB, User, Seller } from "@vendora/db";
+import { connectDB, User, Seller, Subscription, Plan } from "@vendora/db";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { sendVerificationEmail } from "@vendora/ui/src/actions/mail";
+import mongoose from "mongoose";
 
 export async function POST(request: Request) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
     const { name, businessName, email, password } = await request.json();
 
@@ -23,27 +26,54 @@ export async function POST(request: Request) {
 
     // create user
     const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      verificationOtp: { code: otp, expiresAt},      
-      role: "seller",      
-    });
+    const [user] = await User.create(
+      [{
+        name,
+        email,
+        password: hashedPassword,
+        verificationOtp: { code: otp, expiresAt},      
+        role: "seller",      
+      }],   
+      { session }  
+    );
 
-    await sendVerificationEmail({email:user.email, otp});
+    // create seller profile  
+    const plan = await Plan.findOne({ slug: "basic" }, {_id: 1});
+    const expiry = new Date();
+    expiry.setFullYear(expiry.getFullYear() + 100);
 
-    // create seller profile
-    const seller = await Seller.create({
-      userId: user._id,
-      businessName: businessName
-    })
+    const [subscription] = await Subscription.create(
+      [{
+        subscriberId: user._id,
+        plan: plan?._id,
+        status: "active",
+        isLifeTime: true,
+        expiryDate: expiry,
+      }],
+      { session }
+    );
+
+    await Seller.create(
+      [{
+        userId: user._id,
+        businessName: businessName,  
+        subscriptionId: subscription._id
+      }],
+      { session }
+    );
+
+    await session.commitTransaction();
+
+    await sendVerificationEmail({email: user.email, otp});       
     
-    return NextResponse.json({ user, seller, success: true }, { status: 201});
+    return NextResponse.json({ success: true }, { status: 201});
 
   } catch (error: any) {
+    await session.abortTransaction();
     console.error("Error registering seller:", error);
     return NextResponse.json({ error: error.message || "Something went wrong" }, { status: 400 });
+  } finally {
+    await session.endSession()
   }
 }
 

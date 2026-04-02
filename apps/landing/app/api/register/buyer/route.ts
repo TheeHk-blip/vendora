@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { connectDB, Buyer, User } from "@vendora/db";
+import { connectDB, Buyer, User, IUser } from "@vendora/db";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
@@ -22,7 +20,7 @@ export async function POST(request: Request) {
 
     // create user
     const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
-    const user = await User.create({
+    const user: IUser = await User.create({
       name,
       email,
       password:hashedPassword,
@@ -37,9 +35,9 @@ export async function POST(request: Request) {
       userId: user._id,        
     });
 
-    return NextResponse.json({ user, buyer, success: true }, {status: 201});
-  } catch (error: any) {
+    return NextResponse.json({user: user.name, buyer: buyer.userId, success: true }, {status: 201});
+  } catch (error) {
     console.error("Register buyer error:", error)
-    return NextResponse.json({ error: error.message}, {status: 400 })
+    return NextResponse.json({ error: "Failed to register your account. Please try again"}, {status: 400 })
   }
 }

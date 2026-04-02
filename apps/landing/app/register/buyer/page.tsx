@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import BuyerRegistration from "./components/buyer";
+import { BuyerRegistration } from "./components/registration";
 
 export const metadata: Metadata = {
   title: "Buyer Registration | Vendora",

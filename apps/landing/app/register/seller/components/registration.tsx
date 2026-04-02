@@ -21,13 +21,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function signInWithGoogleAs(role: "seller", setLoading: (loading: boolean) => void) {
   // short lived cookie so server can read it on OAuth callback
   document.cookie = `vendora_role=${role}; Path=/; Max-Age=300; SameSite=Lax`;
   signIn("google", { callbackUrl: "/" });
 }
 
-export default function SellerRegistration() {
+export function SellerRegistration() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -145,7 +146,7 @@ export default function SellerRegistration() {
                 exit={{ opacity: 0, x: -15}}
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 onSubmit={nextStep}
-                className="space-y-5 w-full max-w-[250px]"
+                className="space-y-5 w-full max-w-62.5"
               >
                 <div className="flex flex-col gap-3 w-full">
                   <GoogleSignIn
@@ -217,7 +218,7 @@ export default function SellerRegistration() {
                 animate={{ opacity: 1, x: 0}}
                 transition={{ duration: 0.25}}
                 onSubmit={handleSubmit}
-                className="space-y-5 w-full max-w-[250px]"
+                className="space-y-5 w-full max-w-62.5"
               >
                 {error && (
                   <div className="text-sm text-red-500 rounded-2xl px-1.5 py-1 bg-red-500/20">
