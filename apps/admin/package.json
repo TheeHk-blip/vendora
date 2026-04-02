@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3003",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "tsx scripts/seedAdmin.ts",
+    "seedAdmin": "tsx -r dotenv/config scripts/seedAdmin.ts",
+    "seedPlans": "tsx -r dotenv/config scripts/seedPlans.ts",
     "refresh-baseline-browser-mapping": "pnpm add -D baseline-browser-mapping@latest"
   },
   "dependencies": {
