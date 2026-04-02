@@ -1,8 +1,9 @@
 import { connectDB, Category } from "@vendora/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 export async function GET(
+  _request: NextRequest,
   {params}: {params: Promise<{id: string}>}
 ) {
   try {
