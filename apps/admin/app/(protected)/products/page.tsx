@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Add from "@mui/icons-material/Add";
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { unstable_noStore as noStore } from "next/cache";
-import { connectDB, Product } from "@vendora/db";
+import { connectDB, IProduct, Product } from "@vendora/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@vendora/auth/src/authoptions";
 import { redirect } from "next/navigation";
@@ -12,6 +11,7 @@ import StatusTabs from "@vendora/ui/src/components/statusTabs";
 import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
 import { title } from "@vendora/ui/src/primitives";
 import { STATUS_COLORS } from "@vendora/ui/src/utilities/statusColor";
+import { ObjectId } from "mongoose";
 
 export const metadata: Metadata = {
   title: "Products | Vendora",
@@ -33,14 +33,14 @@ export default async function Products({searchParams}: PageProps) {
   if (!session) redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`);
 
 
-  const query: any = {};
+  const query: Record<string, ObjectId | string>  = {};
   if (status) {
     query.status = status;
   }
 
   const products = await Product.find(query)
     .sort({ createdAt: -1})
-    .lean();
+    .lean<IProduct[]>();
 
   const [liveCount, pendingCount, rejectedCount] = await Promise.all([
     Product.countDocuments({ status: "live"}),
@@ -71,7 +71,7 @@ export default async function Products({searchParams}: PageProps) {
         />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 w-full gap-2.5">        
-        {products.map((product: any) => (
+        {products.map((product) => (
           <Link
             key={product._id.toString()}
             href={`/products/${product._id.toString()}`}
@@ -100,7 +100,7 @@ export default async function Products({searchParams}: PageProps) {
               <div className="flex flex-row gap-1.5 ml-2 items-center w-full">
                 <span>Status:</span>
                 <span className={`text-xs px-2 py-0.5 rounded-full ${
-                  STATUS_COLORS[product.status] || "bg-gray-500/20 text-gray-600"
+                  STATUS_COLORS[product.status ?? ""] || "bg-gray-500/20 text-gray-600"
                   }`}
                 >
                   {product.status}

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { upload } from "@vercel/blob/client";
 import { useCategories } from "../../hooks/useCategory";
 import FilePicker from "@vendora/ui/src/components/filePicker";
-import { ICategory, Lean } from "@vendora/db";
+import { ICategory } from "@vendora/db";
 
 interface ICategoryField {
   id: string;
@@ -31,7 +31,7 @@ export default function CategoryBuilder() {
 
   useEffect(() => {
     if (isSubCategory && categories.length > 0 && !parentId) {
-      setParentId(categories[0]._id);
+      setParentId(categories[0]._id.toString());
     } 
   }, [isSubCategory, categories, parentId]);
 
@@ -163,7 +163,7 @@ export default function CategoryBuilder() {
               onChange={(e) => setParentId(e.target.value)}            
             >
               <option value="" disabled>Select Parent Category</option> 
-              {categories.map((cat: Lean<ICategory>) => {
+              {categories.map((cat) => {
                 const catId = cat._id.toString();
                 return(
                   <option key={catId} value={catId}>
@@ -279,7 +279,7 @@ export default function CategoryBuilder() {
             {
               key: "fields", 
               title: "Attributes",
-              render: (row) => row.fields?.length ? `${row.fields.length} Fields` : "None"
+              render: (row) => row.fields && Array.isArray(row.fields) ? `${row.fields.length} Fields` : "None"
             },
             {
               key: "action", 
