@@ -13,7 +13,7 @@ const card = tv({
       product: {
         wrapper: "relative rounded-lg bg-black/25 dark:bg-white/15",        
         body: "shadow-sm",
-        footer: "text-sm my-auto h-15  items-center px-1.5",        
+        footer: "text-sm h-15 items-center px-1.5",        
       }
     },
     shadow: {

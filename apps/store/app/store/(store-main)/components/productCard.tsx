@@ -29,30 +29,17 @@ export default function ProductCard({ product, index} : ProductProps) {
         variant="product"
         key={index} 
         footer={                    
-          <div className="flex flex-col justify-start" >  
-            <span className="flex flex-row gap-0.5 justify-between md:gap-1">
-              <span className="text-gray-600 dark:text-gray-400 text-xs line-clamp-1 leading-tight justify-self-start">{product.name}</span>
-              <div className="flex items-center">
-                {!!product.discount && product.discount > 0 && (
-                  <span className="text-[10px] sm:text-xs font-medium text-orange-500 bg-orange-50 dark:bg-orange-900/30 px-2 rounded-lg" >
-                    - {product.discount}%
-                  </span>
-                )}     
-              </div>       
-            </span>          
-            
-            <span className="font-medium" suppressHydrationWarning>
+          <div className="flex flex-col justify-start" >            
+            <span className="text-gray-600 dark:text-gray-400 text-xs line-clamp-1 leading-tight justify-self-start">{product.name}</span>                                                
+            <span className="flex flex-col" suppressHydrationWarning>           
               {product.discount && product.discount > 0
                 ? <PriceDisplay amount={product.discountedPrice!} />
                 : <PriceDisplay amount={product.price} />
-              }
-            </span>    
-
-            {!!product.discount && product.discount > 0 && (                
-              <span className="line-through text-xs text-gray-600 dark:text-gray-500" >
-                <PriceDisplay amount={product.price} />
-              </span>                                  
-            )}               
+              }          
+              {!!product.discount && product.discount > 0 && (                              
+                <PriceDisplay amount={product.price} className="line-through text-[10px] md:text-xs text-gray-500" />                                             
+              )}                                        
+            </span>                
           </div>                                   
         }                    
       >          
@@ -62,9 +49,16 @@ export default function ProductCard({ product, index} : ProductProps) {
             src={product.images[0]}
             fill
             sizes={sizes}        
-            className=" object-contain shadow-sm"
+            className=" object-contain shadow-md"
             fetchPriority="high"          
           />     
+          <div className="flex items-center">
+            {!!product.discount && product.discount > 0 && (
+              <span className="text-[9px] absolute top-0 right-0 sm:text-xs font-medium text-orange-500 bg-orange-50 dark:bg-orange-900/30 px-1 py-0.5 " >
+                - {product.discount}%
+              </span>
+            )}     
+          </div>  
         </div>                          
       </Card>    
     </Link>
