@@ -26,7 +26,7 @@ export default function StatusTabs({ tabs, paramName}: StatusTabsProps) {
   };
 
   return (
-    <div className="flex flex-row justify-evenly w-full mt-2.5" >
+    <div className="flex flex-row justify-evenly w-full mt-2.5 gap-1" >
       {tabs.map((tab) => (
         <Button
           key={tab.value}
@@ -35,7 +35,7 @@ export default function StatusTabs({ tabs, paramName}: StatusTabsProps) {
             ${activeValue === tab.value
               ? "bg-purple-500/40"
               : "text-purple-600 ring"
-            } gap-2
+            } gap-1 sm:gap-2
           `}
         >
           {tab.label}

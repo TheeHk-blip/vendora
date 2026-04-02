@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface ICategory extends Document {
-  slug: string; // e.g. "electronics"
-  name: string; // e.g. "Electronics & Gadgets"
+  slug: string;
+  name: string;
   images: [string];
   parentId: Schema.Types.ObjectId;
-  fields: Schema.Types.Mixed // The JSON array of field definitions
+  fields: Schema.Types.Mixed;
 }
 
 const categorySchema = new Schema<ICategory>({

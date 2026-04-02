@@ -39,3 +39,5 @@ export function SerializeData<T>(data: T): any {
   }
   return data
 }
+
+export default SerializeData;

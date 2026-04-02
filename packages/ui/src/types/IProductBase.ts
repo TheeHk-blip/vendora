@@ -9,4 +9,11 @@ export interface IProductBase {
   discountedPrice?:number; 
   images: [string];
   featured?: boolean;
+  averageRating?: number;
+  totalReviews?: number;
+  reviews: [{
+    rating: number;
+    comment: string;
+    reviewerId: string;
+  }]
 }

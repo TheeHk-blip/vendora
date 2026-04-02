@@ -49,12 +49,12 @@ const navbar = tv({
         actions: "flex flex-col w-full"
       },
       adminnav: {
-        wrapper: "flex flex-row items-center px-1.5 py-1.5 sticky top-0.5 max-w-full mx-auto mb-3.5 z-50 backdrop-blur-sm rounded-xl",
+        wrapper: "flex flex-row items-center px-1.5 py-1.5 sticky top-0 max-w-full mx-auto mb-3.5 z-50 bg-background",
         sectionLeft: "flex items-center space-x-2 flex-1",
-        brand: "hidden sm:flex",
+        brand: "flex md:hidden",
         sectionCenter: "md:hidden flex justify-center flex-1",
         sectionRight: "flex items-center justify-end space-x-2 flex-1",
-        actions: "sm:flex"
+        actions: "flex"
       },
       storeFilter: {
         wrapper: "flex flex-col px-1 sticky top-[58px] z-50 w-full h-[calc(100vh-58px)] overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",

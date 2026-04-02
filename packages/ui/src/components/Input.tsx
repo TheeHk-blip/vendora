@@ -8,6 +8,7 @@ export interface InputProps {
   name?: string;
   type?: string;
   value?: string | number | readonly string[] | undefined;
+  defaultValue?: string | number | readonly string[] | undefined;
   step?: string | number;
   onChange: ChangeEventHandler<HTMLInputElement>;
   checked?: boolean;
@@ -34,6 +35,7 @@ export function InputField({
   label,
   placeholder,
   multiple,
+  defaultValue,
   checked,
   disabled,
   className,
@@ -56,7 +58,8 @@ export function InputField({
         disabled={disabled}
         onFocus={onFocus}
         placeholder={placeholder}
-        multiple={multiple}        
+        multiple={multiple}       
+        defaultValue={defaultValue} 
         maxLength={maxLength}
         autoComplete={autoComplete}
         className={`${className} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none 

@@ -16,8 +16,8 @@ const table = tv({
     headCell: "font-medium truncate",
     body: "divide-y divide-neutral-200 dark:divide-neutral-600",
     row:
-      "grid gap-2 px-2 py-2 items-center hover:bg-neutral-100/60 dark:hover:bg-neutral-800/70 cursor-default",
-    cell: "text-sm text-gray-700 dark:text-gray-200 truncate",
+      "grid gap-2 px-2 py-1.5 items-center hover:bg-neutral-100/60 dark:hover:bg-neutral-800/70 cursor-default",
+    cell: "text-sm text-gray-700 dark:text-gray-200 py-1 truncate",
     actions: "flex items-center justify-end gap-2",
     empty: "p-6 text-center text-sm text-neutral-500",
     loading: "p-6 text-center text-sm text-neutral-500",
@@ -78,7 +78,7 @@ export function Table<T>({
   size,
   className,
   page = 1,
-  pageSize = 12,
+  pageSize = 10,
   total,
   onPageChange,
   renderFooter

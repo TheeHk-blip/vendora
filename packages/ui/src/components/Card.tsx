@@ -4,11 +4,17 @@ import { tv, type VariantProps } from "tailwind-variants";
 import { ReactNode } from "react";
 
 const card = tv({
-  base: "relative rounded-xl",
   variants: {
     variant: {
       flat: "p-1.5",
-      solid: "bg-white/25 dark:bg-zinc-700/60 backdrop-blur-md px-2 py-1",      
+      solid: {
+        wrapper: "bg-white/25 dark:bg-zinc-700/60 backdrop-blur-md px-2 py-1 rounded-lg",
+      },     
+      product: {
+        wrapper: "relative rounded-lg bg-black/25 dark:bg-white/15",        
+        body: "shadow-sm",
+        footer: "text-sm my-auto h-15  items-center px-1.5",        
+      }
     },
     shadow: {
       none: "",
@@ -23,9 +29,10 @@ const card = tv({
     shadow: "sm"
   },
   slots: {
-    header: "pt-2",
-    body: "py-2 text-sm ",
-    footer: "text-sm mt-auto h-[40px] py-2",
+    wrapper: "relative",
+    header: "",
+    body: " text-sm ",
+    footer: "text-sm my-auto py-2",
   },
 });
 
@@ -47,7 +54,7 @@ export function Card({
   const styles = card({ variant, shadow });
 
   return (
-    <div className={styles.base({ class: className})}>
+    <div className={styles.wrapper({ class: className})}>
       {/* 🔹 Header */}
       {header && <div className={styles.header()}>{header}</div>}
 

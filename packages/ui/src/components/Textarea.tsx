@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler } from "react";
 
 export interface TextProps {
   required?: boolean;
@@ -27,7 +27,7 @@ export function TextField({
   const isUnderMin = currentLength < minChar;
   const isAtMax = currentLength >= limit;
   return (
-    <div className="relative w-full flex mt-2 gap-2.5 rounded-xl bg-black/15 dark:bg-white/10">
+    <div className="relative w-full flex mt-2 gap-2.5 pb-5 rounded-xl bg-black/15 dark:bg-white/10">
       <div className="flex w-full items-center" >
         <textarea 
           required={required}
@@ -51,7 +51,7 @@ export function TextField({
         </label>
       </div>
 
-      <span className={`text-xs mt-2.5 self-end absolute right-1 top-27 rounded-md px-1.5
+      <span className={`text-xs mt-2.5 self-end absolute right-1 bottom-1 rounded-md px-1.5
         ${isUnderMin || isAtMax ? "text-red-600 backdrop-blur-md" : "text-gray-700 dark:text-gray-300 backdrop-blur-md"}
       `}
       >

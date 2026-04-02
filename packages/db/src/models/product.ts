@@ -23,7 +23,10 @@ export interface IProduct extends Document {
   fields?: Schema.Types.Mixed;
   images: [string];
   featured?: boolean;
+  releaseYear: Date;
   status?: "live" | "pending" | "rejected";
+  averageRating: number;
+  totalReviews: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -70,10 +73,23 @@ const productSchema = new Schema<IProduct>({
     type: Boolean,
     default: false
   },
+  releaseYear: {
+    type: Date
+  },
   status: {
     type: String,
     enum: ["live", "pending", "rejected"]
-  }
+  },
+  averageRating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 5
+  },
+  totalReviews: {
+    type: Number,
+    default: 0
+  }  
 }, { timestamps: true });
 
 productSchema.index({categoryId: 1, price: 1})

@@ -19,7 +19,10 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      allowDangerousEmailAccountLinking: true      
+      allowDangerousEmailAccountLinking: true,
+      httpOptions: {
+        timeout: 10000
+      }      
     }),
 
     Credentials({
@@ -34,8 +37,11 @@ export const authOptions: NextAuthOptions = {
         const user = await User.findOne({ email: credentials?.email });
 
         if (!user || !user.email) throw new Error("User not found");
-
-        const isValid = await bcrypt.compare(credentials!.password, user.password);
+        if (!user.password) {
+          throw new Error("This account was created using Google. Please sign in with Google")
+        }
+        
+        const isValid = await bcrypt.compare((credentials?.password ?? ""), user.password);
         if (!isValid) throw new Error("Invalid Email or Password");
 
         return {

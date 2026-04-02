@@ -3,6 +3,7 @@ import type { TypedModel } from "./types.js";
 
 export interface IOrder extends Document {
   orderNumber: string;
+  lifeCycleStarted: boolean;
   paymentType: "upfront" | "partial";
   buyer: {
     buyerId: Types.ObjectId;
@@ -57,11 +58,10 @@ export interface IOrder extends Document {
       status: "pending" | "paid";
       checkoutRequestId?: string;
       receiptNumber?: string;
-      balanceDue?: number;
       paidAt: Date;
     }
   },
-  status: "awaitingCommitment" | "awaitingDispatch" | "inTransit" | "completed" | "rejected";
+  status: "awaitingCommitment" | "awaitingDispatch" | "inTransit" | "delivered" | "rejected";
   rejectionMetaData?: {
     reason: string;
     evidenceImage: [string]
@@ -80,6 +80,10 @@ const orderSchema = new Schema<IOrder>({
     type: String,
     enum: ["upfront", "partial"],
     required: true
+  },
+  lifeCycleStarted: {
+    type: Boolean,
+    default: false
   },
   buyer: {
     buyerId: {
@@ -230,7 +234,7 @@ const orderSchema = new Schema<IOrder>({
   },
   status: {
     type: String,
-    enum: ["awaitingCommitment", "awaitingDispatch", "inTransit", "completed", "rejected"],
+    enum: ["awaitingCommitment", "awaitingDispatch", "inTransit", "delivered", "rejected"],
     default: "awaitingCommitment",
   },
   rejectionMetaData: {
@@ -241,7 +245,8 @@ const orderSchema = new Schema<IOrder>({
   },  
 }, {timestamps: true});
 
-const Order: TypedModel<IOrder> = 
-  mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema);
+orderSchema.index({createdAt: 1});
+
+const Order: TypedModel<IOrder> = mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema);
 
 export default Order;

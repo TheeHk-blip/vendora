@@ -12,8 +12,10 @@ export interface ISeller extends Document {
     accountNumber: string;
     routingNumber: string;
   };
-  rating: number;
-  reviewCount: number;
+  subscription: "basic" | "startup" | "pro";
+  subscriptionId: Types.ObjectId;
+  totalReviews: number;
+  averageRating: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -36,6 +38,12 @@ const sellerSchema = new Schema<ISeller>(
       required: true,
       unique: true,
     },
+    subscriptionId: {
+      type: Schema.Types.ObjectId,
+      ref: "Subscription",
+      required: true,
+      unique: true
+    },
     businessName: { 
       type: String, 
       trim: true 
@@ -57,13 +65,16 @@ const sellerSchema = new Schema<ISeller>(
       type: paymentSchema, 
       default: {} 
     },
-    rating: {
-      type: Number,
-      default: 0,
-      min: [0, "Rating cannot be below 0"],
-      max: [5, "Rating cannot exceed 5"]
+    subscription: {
+      type: String,
+      enum: ["basic", "startup", "pro"],
+      default: "basic"
     },
-    reviewCount: {
+    totalReviews: {
+      type: Number,
+      default: 0
+    },
+    averageRating: {
       type: Number,
       default: 0
     }

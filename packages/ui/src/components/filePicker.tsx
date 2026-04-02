@@ -105,6 +105,7 @@ export default React.memo(function FilePicker({onFilesChange, progress, value: f
               <Button
                 onClick={() => handleDelete(index)}
                 className="absolute top-0 right-0 z-10 text-red-500"
+                radius="sm"
               >
                 <Delete sx={{fontSize: 18}} />  
               </Button>  

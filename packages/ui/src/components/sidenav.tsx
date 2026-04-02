@@ -30,6 +30,7 @@ export interface SideNavProps {
   links?: { label: string; href: string }[];
   body?: React.ReactNode;
   actions?: React.ReactNode;
+  className?: string;
 }
 
 export function SideNav({
@@ -40,6 +41,7 @@ export function SideNav({
   links,
   body,
   actions,
+  className
 }: SideNavProps) {
   const styles = sideNav({ variant})
   const { openDrawerId, closeDrawer } = useDrawer();
@@ -70,7 +72,7 @@ export function SideNav({
             restDelta: 2 
           }}
           role="dialog"
-          className={styles.base()}
+          className={styles.base({className:className})}
         >
           <div className={styles.header()}>
             <span className={styles.title()}>{title}</span>

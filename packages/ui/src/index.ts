@@ -28,12 +28,14 @@ export * from "./components/searchableSelect";
 
 export * from "./types/user";
 export * from "./types/productvariant";
+export * from "./types/IReview";
 
 export * from "./utilities/getInitials";
 export * from "./utilities/convertToSubCurrency";
 export * from "./utilities/statusColor";
-export * from "./utilities/serialize";
+export { SerializeData } from "./utilities/serialize";
 export * from "./utilities/image-helper";
+export * from "./utilities/socket";
 
 export * from "./constants/breakpoints";
 
