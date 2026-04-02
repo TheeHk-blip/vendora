@@ -4,7 +4,7 @@ import { WeeklyUserStats } from "./usercount";
 
 export async function UserGrowth() {
   const trend = await WeeklyUserStats();
-  const trendUp = trend >= 0;
+  const trendUp = Number(trend) >= 0;
 
   return(
     <div className="flex flex-col gap-1">
