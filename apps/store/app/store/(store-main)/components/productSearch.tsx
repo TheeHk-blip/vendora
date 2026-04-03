@@ -5,9 +5,9 @@ import { SearchInput } from "@vendora/ui/src/components/searchInput";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PriceFilter } from "./priceFilter";
 import { ProductProps } from "./productFilter";
-import { CategoryDoc } from "./getProducts";
 import { ICategory, RequireIdLean } from "@vendora/db";
 import { Suspense } from "react";
+import { CategoryDoc } from "@/app/storeData";
 
 function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   const router = useRouter();
@@ -67,7 +67,7 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   return (
     <div className="flex flex-col" >
       <div className="hidden md:flex mb-2.5">
-        <SearchInput onSearch={handleSearch} />
+        <SearchInput onSearch={handleSearch} name="product search" />
       </div>      
       <p className="uppercase" >Filter By:</p>
 

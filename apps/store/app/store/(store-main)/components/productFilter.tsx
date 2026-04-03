@@ -2,7 +2,7 @@ import { Navbar } from "@vendora/ui/src/components/Navbar";
 import { ProductSearch } from "./productSearch";
 import { SerializeData } from "@vendora/ui";
 import { ICategory, LeanArray } from "@vendora/db";
-import { CategoryDoc } from "./getProducts";
+import { CategoryDoc } from "@/app/storeData";
 
 export interface ProductProps {
   dynamicData: {

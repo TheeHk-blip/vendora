@@ -61,14 +61,14 @@ export function VariantSelection({ initialSelections, options, variants, product
       {Object.entries(options).map(([attrName, values]) => (
         <div key={attrName} >                
           <p className="capitalize text-sm text-gray-600 dark:text-gray-400" >{attrName.replace(/-/g, ' ')}</p>
-          <div className="flex gap-2 sm:gap-2 mb-1" >
+          <div className="grid grid-cols-3 gap-2 sm:gap-2 mb-1" >
             {(values as string[]).map((val) => (
               <Button
                 key={val}
                 onClick={() => setSelections(prev => ({...prev, [attrName]: val}))}
-                className={`px-2 py-1 rounded-xl transition-all ${
+                className={`px-2 py-1 rounded-xl transition-all duration-300 ${
                   selections[attrName] === val 
-                    ? "ring text-green-500 bg-transparent" 
+                    ? "bg-green-600/25 dark:bg-green-600/15 shadow-sm" 
                     : "bg-black/15 dark:bg-white/15"
                 }`}
               >

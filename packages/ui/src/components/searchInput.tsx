@@ -6,12 +6,13 @@ import { useState } from "react";
 
 type SearchInputProps = {
   onSearch?: ( query: string) => void;
+  name: string;
 };
 
-export function SearchInput({ onSearch}: SearchInputProps) {
+export function SearchInput({ onSearch, name }: SearchInputProps) {
   const [value, setValue] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     onSearch?.(value)
   };
@@ -21,6 +22,7 @@ export function SearchInput({ onSearch}: SearchInputProps) {
       <input 
         type="search"
         placeholder="Search..."
+        name={name}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className="outline-none rounded-xl w-[200px] bg-black/10 dark:bg-white/25 px-2.5 py-0.5"

@@ -4,9 +4,11 @@ import dynamic from "next/dynamic";
 import { title } from "@vendora/ui/src/primitives";
 import { VariantSelection } from "./variantSelection";
 import { IReview } from "@vendora/ui";
+import { SimilarProducts } from "./similarProducts";
 
 interface ProductProps {
   product: IProductBase;
+  similarProduct: IProductBase[];
   sellerInfo: {
     _id: string,
     businessName: string,
@@ -25,7 +27,7 @@ const ProductGallery = dynamic(() => import("@vendora/ui/src/components/ProductG
   loading: () => <div className="aspect-square w-full, bg-gray-100 animate-pulse rounded-lg" />
 })
 
-export default function ProductView({ product, variants, options, initialSelections, sellerInfo, reviewInfo}: ProductProps) {
+export default function ProductView({ product, similarProduct, variants, options, initialSelections, sellerInfo, reviewInfo}: ProductProps) {
   return (
     <div className="flex flex-col w-full py-2" >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5" >
@@ -43,6 +45,10 @@ export default function ProductView({ product, variants, options, initialSelecti
             sellerInfo={sellerInfo}
             reviewInfo={reviewInfo}
           />
+
+          {similarProduct && similarProduct.length > 0 &&
+            <SimilarProducts product={similarProduct} />
+          }          
 
           <div className="mt-2" >
             <h2 className={title({size: "xs"})}>Features</h2>

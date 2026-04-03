@@ -44,7 +44,7 @@ export function ReviewsModal({reviewInfo}: ReviewProps) {
             damping: 10,
             restDelta: 2
           }}
-          className="h-50 bg-white dark:bg-black px-2.5 py-1.5 rounded-xl overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="h-fit max-h-50 bg-white dark:bg-black px-2.5 py-1.5 rounded-xl overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           <div id="reviews" >                
             {reviewInfo && reviewInfo.map((review) => (

@@ -245,7 +245,7 @@ const orderSchema = new Schema<IOrder>({
   },  
 }, {timestamps: true});
 
-orderSchema.index({createdAt: 1});
+orderSchema.index({createdAt: 1, "items.seller.sellerId": 1});
 
 const Order: TypedModel<IOrder> = mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema);
 

@@ -10,11 +10,6 @@ export interface PopulatedVariant {
   productId: {
     _id: string;
     name: string;
-    reviews: [{
-      rating: number,
-      comment: string,
-      reviewerId: string
-    }]
   };
 }
 
@@ -69,10 +64,10 @@ export default async function Orders() {
       }       
     ])
     .sort({ createdAt: -1 })
-    .lean();  
+    .lean<PopulatedOrder[]>();  
 
   const productIds = orders.flatMap(order =>
-    order.items.map((item) => item.variantId._id)
+    order.items.map((item) => item.variantId.productId._id)
   ).filter(Boolean);
 
   const userReviews = await Review.find({

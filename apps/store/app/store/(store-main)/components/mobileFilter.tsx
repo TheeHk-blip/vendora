@@ -28,7 +28,7 @@ export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynami
   return (
     <div className="flex md:hidden">         
       <div className="flex flex-row justify-between w-full" >
-        <SearchInput onSearch={handleSearch} />
+        <SearchInput onSearch={handleSearch} name="mobile search input" />
         <Button
           onClick={() => openDrawer("mobileFilter")}
           className="flex w-fit self-end"

@@ -1,7 +1,7 @@
+import { CategoryDoc } from "@/app/storeData";
 import ArrowRight from "@mui/icons-material/ArrowRight";
 import Home from "@mui/icons-material/Home";
 import Link from "next/link";
-import { CategoryDoc } from "./getProducts";
 
 export function BreadCrumbs({ crumbs }: {crumbs: CategoryDoc[]}) {
   return (

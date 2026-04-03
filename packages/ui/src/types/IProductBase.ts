@@ -1,5 +1,6 @@
 export interface IProductBase {  
   _id: string;
+  categoryId?: string;
   sellerId?: string;
   name?: string;
   price: number;
@@ -11,9 +12,4 @@ export interface IProductBase {
   featured?: boolean;
   averageRating?: number;
   totalReviews?: number;
-  reviews: [{
-    rating: number;
-    comment: string;
-    reviewerId: string;
-  }]
 }

@@ -23,7 +23,7 @@ export interface IProduct extends Document {
   fields?: Schema.Types.Mixed;
   images: [string];
   featured?: boolean;
-  releaseYear: Date;
+  releaseYear: number;
   status?: "live" | "pending" | "rejected";
   averageRating: number;
   totalReviews: number;
@@ -74,7 +74,7 @@ const productSchema = new Schema<IProduct>({
     default: false
   },
   releaseYear: {
-    type: Date
+    type: Number
   },
   status: {
     type: String,
