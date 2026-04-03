@@ -63,7 +63,7 @@ To explore the platform's lifecycle, please use these entry points and test cred
 # Storefront.
 - Access url https://store.vendora.sbs
 - Role: Guest
-- Checkout: To access you'll need credentials; user@test.com / pass123
+- Checkout: To access you'll need credentials.
 - Key Features:
   -- subdomain-scoping and custom cart.
   -- session protected checkout.
@@ -71,14 +71,12 @@ To explore the platform's lifecycle, please use these entry points and test cred
 # Seller Dashboard
 - Access url https://seller.vendora.sbs
 - Role: seller
-- Credentials: seller@test.com / pass123
 - Key Features:
   -- Tenant scoped inventory management
 
 # Admin Panel
 - Access url https://admin.vendora.sbs
 - Role: admin
-- Credentials: admin@test.com / pass123
 - Key Features:
   -- Platform-wide RBAC & Analytics
 
