@@ -1,6 +1,7 @@
 import { Category, connectDB, ICategory, IProduct, LeanArray, Product, RequireIdLean } from "@vendora/db";
 import { SerializeData } from "@vendora/ui/src/utilities/serialize";
 import mongoose, { FilterQuery, PipelineStage } from "mongoose";
+import { cacheLife } from "next/cache";
 
 export type Params = Promise<{
   q?: string;
@@ -11,6 +12,8 @@ export type Params = Promise<{
 }>;
 
 export async function getHomeData() {
+  "use cache"
+  cacheLife("hours")
   const [categories, exclusiveOffers, latestProducts] = await Promise.all([
     Category.find()
     .select("name slug images")
@@ -25,7 +28,7 @@ export async function getHomeData() {
     .lean<IProduct[]>()
   ]);
 
-  return { categories, exclusiveOffers, latestProducts}
+  return { categories: SerializeData(categories), exclusiveOffers: SerializeData(exclusiveOffers), latestProducts: SerializeData(latestProducts) }
 }
 
 export async function getCategoryBranch(categoryId: string): Promise<mongoose.Types.ObjectId[]> {
@@ -42,6 +45,12 @@ export async function getCategoryBranch(categoryId: string): Promise<mongoose.Ty
 }
 
 export async function getProducts({searchParams}: {searchParams: Params}) {
+  "use cache";
+  cacheLife({
+    stale: 600,
+    revalidate: 720,
+    expire: 1200
+  });
   const { q: query, categoryId, brand, minPrice, maxPrice } = await searchParams;
   await connectDB();
 
@@ -155,6 +164,12 @@ async function getBreadCrumbs(categoryId: string | null): Promise<CategoryDoc[]>
 }
 
 export async function getStoreData({ searchParams }: { searchParams: FilterParams}) {
+  "use cache";
+  cacheLife({
+    stale: 3600,
+    revalidate: 5400,
+    expire: 10800
+  });
   const resolvedParams = await searchParams;
 
   const categoryId = resolvedParams.categoryId as string | null;
@@ -215,12 +230,12 @@ export async function getStoreData({ searchParams }: { searchParams: FilterParam
   const minStorePrice: number = minPriceDoc.length > 0 ? minPriceDoc[0].price : 500000;
 
   return {
-    parentCategory,
-    subCategory,
-    leafCategory,
-    activeCategory,
-    availableBrands: brandCounts,
-    breadCrumbs,
+    parentCategory: SerializeData(parentCategory),
+    subCategory: SerializeData(subCategory),
+    leafCategory: SerializeData(leafCategory),
+    activeCategory: SerializeData(activeCategory),
+    availableBrands: SerializeData(brandCounts),
+    breadCrumbs: SerializeData(breadCrumbs),
     maxStorePrice,
     minStorePrice
   }

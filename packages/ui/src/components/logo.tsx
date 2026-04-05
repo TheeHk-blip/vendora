@@ -7,6 +7,6 @@ type Props = {
 
 export function Logo({width, height, className}: Props) {
   return(
-    <img src="/brand.png" alt="Logo" width={width} height={height} fetchPriority="high" className={className} />
+    <img src="/brand.png" alt="Logo" width={width} height={height} fetchPriority="low" className={className} />
   )
 }

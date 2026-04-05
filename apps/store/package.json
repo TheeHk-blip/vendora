@@ -11,7 +11,8 @@
   "dependencies": {
     "@vendora/auth": "workspace:*",
     "@vendora/db": "workspace:*",
-    "@vendora/ui": "workspace:*"
+    "@vendora/ui": "workspace:*",
+    "@vercel/speed-insights": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

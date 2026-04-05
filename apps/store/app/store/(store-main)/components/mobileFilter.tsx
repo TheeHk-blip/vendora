@@ -50,3 +50,16 @@ export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynami
     
   )
 }
+
+export function FilterSkeleton() {
+  return (
+    <div className="flex md:hidden">
+      <div className="flex flex-row justify-between w-full">
+        <div className="px-2 py-0.5 w-50" >
+          Search...
+        </div>
+        <Sort />
+      </div>
+    </div>
+  )
+}

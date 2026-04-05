@@ -11,6 +11,7 @@ import { title } from "@vendora/ui/src/primitives";
 import { getInitials } from "@vendora/ui/src/utilities/getInitials";
 import { ThemeToggle } from "@vendora/ui/src/providers/theme";
 import { Logo } from "@vendora/ui";
+import { Suspense } from "react";
 
 const limeLight = Limelight({
   subsets: ["latin"],
@@ -18,7 +19,7 @@ const limeLight = Limelight({
   weight: ["400"] 
 })
 
-export default async function Navigation() {
+async function Nav() {
   const session = await getServerSession(authOptions);  
 
   return (
@@ -66,5 +67,13 @@ export default async function Navigation() {
         </>
       }
     />
+  )
+}
+
+export default function Navigation(){
+  return (
+    <Suspense fallback={<Navbar app="store" />}>
+      <Nav />
+    </Suspense>
   )
 }

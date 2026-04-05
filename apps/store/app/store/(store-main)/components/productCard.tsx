@@ -14,8 +14,9 @@ interface ProductProps {
 export default function ProductCard({ product, index} : ProductProps) {
   const sizes = getTailwindSizes({
     xl: "25vw",
-    lg: "35vw",
+    lg: "33vw",
     md: "50vw",
+    sm: "50vw",
     default: "100vw"
   });
   const urlName = product.name?.toLowerCase().replace(/ /g, "-");
@@ -57,9 +58,10 @@ export default function ProductCard({ product, index} : ProductProps) {
             alt={`${product.name} image`}
             src={product.images[0]}
             fill
-            sizes={sizes}        
-            className=" object-contain shadow-md"
-            fetchPriority="auto"          
+            sizes={sizes}                    
+            className=" object-contain shadow-md"     
+            fetchPriority="auto"                 
+            loading="eager"
           />               
         </div>                          
       </Card>    

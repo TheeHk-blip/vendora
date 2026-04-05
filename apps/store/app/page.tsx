@@ -4,8 +4,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getHomeData } from "./storeData";
-
-export const revalidate = 3600;
+import { ICategory, IProduct } from "@vendora/db";
 
 export const metadata:Metadata = ({
   title: "Store | Vendora",
@@ -13,7 +12,7 @@ export const metadata:Metadata = ({
 })
 
 export default async function Home() {
-  const {categories, exclusiveOffers, latestProducts} = await getHomeData();
+  const { categories, exclusiveOffers, latestProducts } = await getHomeData();
   const sizes = getTailwindSizes({
     xl: "25vw",
     lg: "35vw",
@@ -25,7 +24,7 @@ export default async function Home() {
       <div className="flex flex-col gap-2.5">
         <h1 className={title({ className: "text-center"})}>Shop By Category</h1>
         <div className="flex flex-row gap-2.5 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 px-1.5">
-          {categories.map((category, index) => (
+          {categories.map((category: ICategory, index: number) => (
             <div key={category.slug} className="gap-2.5">            
               <Link href={`/store?categoryId=${category.id}`}>
                 <Card
@@ -41,8 +40,8 @@ export default async function Home() {
                       fill
                       sizes={sizes}
                       className="rounded-xl object-contain"
-                      fetchPriority={index < 3 ? "high" : "auto"}      
-                      loading={index < 3 ? "eager" : "lazy"}             
+                      fetchPriority={index < 2 ? "high" : "auto"}      
+                      loading={index < 2 ? "eager" : "lazy"}             
                     />
                   </div>
                 </Card>
@@ -55,7 +54,7 @@ export default async function Home() {
         <div className="flex flex-col">
           <span className={title({className: "text-center"})}>Exclusive Offers</span>     
           <div className="flex flex-row gap-2.5 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 px-1.5">
-            {exclusiveOffers.map((product, index) => (
+            {exclusiveOffers.map((product: IProduct, index: number) => (
               <div key={product._id.toString()} className="gap-2.5">            
                 <Link href={`/store/${product._id}`}>
                   <Card
@@ -80,8 +79,8 @@ export default async function Home() {
                         fill
                         sizes={sizes}
                         className="rounded-xl object-contain"
-                        fetchPriority={index < 3 ? "high" : "auto"}      
-                        loading={index < 3 ? "eager" : "lazy"}   
+                        fetchPriority={index < 2 ? "high" : "auto"}      
+                        loading={index < 2 ? "eager" : "lazy"}   
                       />
                     </div>
                   </Card>
@@ -93,7 +92,7 @@ export default async function Home() {
         <div className="flex flex-col" >
           <span className={title({className: "text-center"})}>New Arrivals</span> 
           <div className="flex flex-row gap-2.5 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 px-1.5">
-            {latestProducts.map((product, index) => (
+            {latestProducts.map((product: IProduct, index: number) => (
               <div key={product._id.toString()} className="gap-2.5">            
                 <Link href={`/store/${product._id}`}>
                   <Card
@@ -118,8 +117,8 @@ export default async function Home() {
                         fill
                         sizes={sizes}
                         className="rounded-xl object-contain"
-                        fetchPriority={index < 3 ? "high" : "auto"}      
-                        loading={index < 3 ? "eager" : "lazy"}   
+                        fetchPriority={index < 2 ? "high" : "auto"}      
+                        loading={index < 2 ? "eager" : "lazy"}   
                       />
                     </div>
                   </Card>

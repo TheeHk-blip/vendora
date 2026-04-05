@@ -7,6 +7,7 @@ import { ActiveSessionProvider } from "@vendora/ui/src/providers/session";
 import { ToastProvider } from "@vendora/ui/src/context/toastContext";
 import { CurrencyProvider } from "@vendora/ui/src/context/currencyContext";
 import { DrawerProvider } from "@vendora/ui/src/context/drawerContext";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SpeedInsights/>
         <ThemeProvider> 
           <ActiveSessionProvider>
           <ToastProvider>
@@ -50,7 +52,7 @@ export default async function RootLayout({
           </CurrencyProvider>  
           </ToastProvider>
           </ActiveSessionProvider>
-        </ThemeProvider>       
+        </ThemeProvider>              
       </body>
     </html>
   );
