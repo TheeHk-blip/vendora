@@ -4,10 +4,11 @@ import ProductView from "./components/productView";
 import { groupVariants } from "@/app/utilities/variantHelper";
 import { SerializeData } from "@vendora/ui/src/utilities/serialize";
 import { IProductBase } from "@vendora/ui/src/types/IProductBase";
+import { Suspense } from "react";
 
 type Params = Promise<{slug: string}>;
 
-export default async function ProductDetails({params}: {params : Params}) {
+async function ProductDetailsComponent({params}: {params : Params}) {
   const slug = (await params).slug.split("-")[0];
   const id = decodeURIComponent(slug)
   await connectDB();
@@ -72,5 +73,13 @@ export default async function ProductDetails({params}: {params : Params}) {
         initialSelections={initialSelections}
       />
     </div>
+  )
+}
+
+export default async function ProductDetails({params}: {params: Params}) {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center w-full h-dvh p-6">Loading product details...</div>} >
+      <ProductDetailsComponent params={params} />
+    </Suspense>
   )
 }

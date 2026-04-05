@@ -72,7 +72,7 @@ async function Nav() {
 
 export default function Navigation(){
   return (
-    <Suspense fallback={<Navbar app="store" />}>
+    <Suspense fallback={<div></div>}>
       <Nav />
     </Suspense>
   )

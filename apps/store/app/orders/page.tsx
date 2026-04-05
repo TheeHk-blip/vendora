@@ -3,6 +3,8 @@ import { connectDB, Order, Review } from "@vendora/db"
 import { getServerSession } from "next-auth";
 import OrdersClient from "./components/orderClient";
 import { SerializeData } from "@vendora/ui";
+import { Suspense } from "react";
+import { connection } from "next/server";
 
 export interface PopulatedVariant {
   _id: string;
@@ -41,7 +43,8 @@ export interface PopulatedReview {
   comment: string;
 }
 
-export default async function Orders() {
+async function OrdersData() {
+  await connection();
   await connectDB();
   const session = await getServerSession(authOptions);
   const userId = session?.user._id;
@@ -77,5 +80,13 @@ export default async function Orders() {
 
   return (
     <OrdersClient initialOrders={SerializeData(orders)} initialReviews={SerializeData(userReviews)} />
+  )
+}
+
+export default async function Orders() {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center w-full p-6 h-dvh" >Loading your orders....</div>} >
+      <OrdersData />
+    </Suspense>
   )
 }

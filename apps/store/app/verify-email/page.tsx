@@ -1,10 +1,11 @@
 import { title } from "@vendora/ui";
 import { OtpForm } from "@vendora/ui/src/components/otpForm";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 type Params = Promise<{email?: string}>;
 
-export default async function Verify({ searchParams }: { searchParams: Params}) {
+async function VerifyEmail({ searchParams }: { searchParams: Params}) {
   const { email } = await searchParams;
   if (!email) redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/onboarding`);
   return (
@@ -16,5 +17,13 @@ export default async function Verify({ searchParams }: { searchParams: Params}) 
 
       <OtpForm email={email} />
     </div>
+  )
+}
+
+export default async function Verify({searchParams}: {searchParams: Params}) {
+  return (
+    <Suspense fallback={<span>Preparing verification email...</span>} >
+      <VerifyEmail searchParams={searchParams} />
+    </Suspense>
   )
 }
