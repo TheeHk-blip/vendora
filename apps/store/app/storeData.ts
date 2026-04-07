@@ -1,7 +1,9 @@
-import { Category, connectDB, ICategory, IProduct, LeanArray, Product, RequireIdLean } from "@vendora/db";
+import { Category, connectDB, ICategory, IProduct, LeanArray, Product, RequireIdLean, Review, Variant } from "@vendora/db";
+import { IProductBase } from "@vendora/ui/src/types/IProductBase";
 import { SerializeData } from "@vendora/ui/src/utilities/serialize";
 import mongoose, { FilterQuery, PipelineStage } from "mongoose";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
+import { connection } from "next/server";
 
 export type Params = Promise<{
   q?: string;
@@ -13,6 +15,7 @@ export type Params = Promise<{
 
 export async function getHomeData() {
   "use cache"
+  console.log("Fetching")
   cacheLife("hours")
   const [categories, exclusiveOffers, latestProducts] = await Promise.all([
     Category.find()
@@ -44,14 +47,18 @@ export async function getCategoryBranch(categoryId: string): Promise<mongoose.Ty
   return ids;
 }
 
-export async function getProducts({searchParams}: {searchParams: Params}) {
+async function getCachedProducts(
+  query?: string,
+  categoryId?: string,
+  brand?: string,
+  minPrice?: string,
+  maxPrice?: string
+) {
   "use cache";
-  cacheLife({
-    stale: 600,
-    revalidate: 720,
-    expire: 1200
-  });
-  const { q: query, categoryId, brand, minPrice, maxPrice } = await searchParams;
+  console.log("Fetching from mongo");
+  cacheLife("hours");
+  cacheTag("products")
+  
   await connectDB();
 
   const brandList = brand ? brand.split(",") : [];
@@ -136,6 +143,70 @@ export async function getProducts({searchParams}: {searchParams: Params}) {
   return products.map(p => SerializeData(p));
 }
 
+export async function getProducts({ searchParams }: { searchParams: Params }) {
+  const resolved = await searchParams;
+
+  return getCachedProducts(
+    resolved.q as string,
+    resolved.categoryId as string,
+    resolved.brand as string,
+    resolved.minPrice as string,
+    resolved.maxPrice as string
+  )
+}
+
+export async function getCachedProductDetails(id: string) {
+  "use cache";
+  console.log("Product details")
+  cacheLife("hours");
+  cacheTag("products", `product-${id}`);
+
+  await connectDB();
+
+  const product  = await Product.findById(id)
+    .populate([
+      {
+        path: "sellerId",
+        model: "Seller",
+        select: "businessName rating averageRating totalReviews",
+        foreignField: "userId"
+      }
+    ])
+    .lean<IProductBase>();
+
+  if (!product) return null;
+  const productBrand = product.fields?.brand;
+
+  const [variants, reviews, similarProducts] = await Promise.all([    
+    Variant.find({ productId: id }).lean(),
+    Review.find({ productId: id })
+      .populate([
+        {
+          path: "reviewerId",
+          model: "User",
+          select: "name"
+        }
+      ])
+      .lean(),
+    Product.find({ 
+      "fields.brand": productBrand, 
+      categoryId: product.categoryId,
+      _id: { $ne: id }
+    })
+    .limit(4)
+    .select("name images price")
+    .lean()
+  ]);
+
+  return {
+    product: SerializeData(product),
+    variants: SerializeData(variants),
+    reviews: SerializeData(reviews),
+    similar: SerializeData(similarProducts)
+  }
+
+}
+
 export interface CategoryDoc {
   _id: mongoose.Types.ObjectId | string;
   name: string;
@@ -163,16 +234,11 @@ async function getBreadCrumbs(categoryId: string | null): Promise<CategoryDoc[]>
   return crumbs;
 }
 
-export async function getStoreData({ searchParams }: { searchParams: FilterParams}) {
+async function getCachedStoreData(categoryId: string | null) {
   "use cache";
-  cacheLife({
-    stale: 3600,
-    revalidate: 5400,
-    expire: 10800
-  });
-  const resolvedParams = await searchParams;
-
-  const categoryId = resolvedParams.categoryId as string | null;
+  cacheLife("hours");
+  cacheTag("store-filter", categoryId ?? "all")
+  
   await connectDB(); 
 
   const isValid = categoryId ? mongoose.Types.ObjectId.isValid(categoryId) : false;
@@ -239,4 +305,12 @@ export async function getStoreData({ searchParams }: { searchParams: FilterParam
     maxStorePrice,
     minStorePrice
   }
+}
+
+export async function getStoreData({ searchParams }: { searchParams: FilterParams }) {
+  await connection();
+  const resolvedParams = await searchParams;
+  const categoryId = resolvedParams.categoryId as string || null;
+
+  return getCachedStoreData(categoryId);
 }

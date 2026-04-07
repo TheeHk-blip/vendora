@@ -6,7 +6,7 @@ export function ProductGridSkeleton() {
       {skeletonItems.map((_, i) => (
         <div key={i} className="flex flex-col gap-2 p-2 border rounded-xl">
           {/* Image Placeholder */}          
-          <div className="relative aspect-square w-full bg-gray-200 dark:bg-gray-800 rounded-lg" />
+          <div className="relative aspect-square bg-gray-200 dark:bg-gray-800 rounded-lg" />
           
           {/* Title Placeholder */}
           <div className="h-2 w-3/4 bg-gray-200 dark:bg-gray-800 rounded" />

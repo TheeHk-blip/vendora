@@ -37,7 +37,7 @@ function StoreSkeleton() {
     <div className="flex flex-row max-w-7xl mx-auto w-full gap-2.5" >
       <aside className="hidden sm:flex w-min h-dvh">
       </aside>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col">
         <div className="top-12.5 bg-gray-400">
           <FilterSkeleton />
         </div>
