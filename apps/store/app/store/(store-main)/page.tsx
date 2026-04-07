@@ -1,18 +1,21 @@
 import { Suspense } from "react";
-import ProductFilter from "./components/productFilter";
+import ProductFilter, { ProductFilterSkeleton } from "./components/productFilter";
 import { BreadCrumbs } from "./components/breadCrumbs";
 import { FilterSkeleton, MobileFilter } from "./components/mobileFilter";
 import { SerializeData } from "@vendora/ui";
 import { ProductGrid } from "./components/productGrid";
 import { getStoreData, Params } from "@/app/storeData";
 import { ProductGridSkeleton } from "./components/productSkeleton";
+import Home from "@mui/icons-material/Home";
 
 async function StoreComponent({searchParams}: { searchParams: Params}) { 
   const dynamicData = await getStoreData({ searchParams });
   return (  
     <div className="flex flex-row max-w-7xl mx-auto w-full gap-2.5">
       <aside className="hidden sm:flex w-min">
-        <ProductFilter dynamicData={dynamicData}/>
+        <Suspense fallback={<ProductFilterSkeleton />} >
+          <ProductFilter dynamicData={dynamicData}/>
+        </Suspense>        
       </aside>
 
       <div className="flex flex-col w-full" >
@@ -35,11 +38,15 @@ async function StoreComponent({searchParams}: { searchParams: Params}) {
 function StoreSkeleton() {
   return (
     <div className="flex flex-row max-w-7xl mx-auto w-full gap-2.5" >
-      <aside className="hidden sm:flex w-min h-dvh">
+      <aside className="hidden md:flex h-dvh">
+        <ProductFilterSkeleton />
       </aside>
-      <div className="flex flex-col">
-        <div className="top-12.5 bg-gray-400">
+      <div className="flex flex-col w-full">
+        <div className="flex top-12.5 px-1 rounded bg-gray-400">
           <FilterSkeleton />
+          <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap" >
+            <Home />
+          </div>
         </div>
         <ProductGridSkeleton />
       </div>

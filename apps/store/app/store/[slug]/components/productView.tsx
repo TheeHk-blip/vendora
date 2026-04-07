@@ -4,7 +4,8 @@ import dynamic from "next/dynamic";
 import { title } from "@vendora/ui/src/primitives";
 import { VariantSelection } from "./variantSelection";
 import { IReview } from "@vendora/ui";
-import { SimilarProducts } from "./similarProducts";
+import { SimilarProducts, SimilarProductsSkeleton } from "./similarProducts";
+import { Suspense } from "react";
 
 interface ProductProps {
   product: IProductBase;
@@ -47,7 +48,9 @@ export default function ProductView({ product, similarProduct, variants, options
           />
 
           {similarProduct && similarProduct.length > 0 &&
-            <SimilarProducts product={similarProduct} />
+            <Suspense fallback={<SimilarProductsSkeleton />} >
+              <SimilarProducts product={similarProduct} />
+            </Suspense>            
           }          
 
           <div className="mt-2" >

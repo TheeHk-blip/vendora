@@ -13,13 +13,22 @@ export type Params = Promise<{
   maxPrice?: string;
 }>;
 
-export async function getHomeData() {
-  "use cache"
-  console.log("Fetching")
-  cacheLife("hours")
+export interface HomeDataProps {
+  categories: ICategory[];
+  exclusiveOffers: IProduct[];
+  latestProducts: IProduct[];
+}
+
+export async function getHomeData(): Promise<HomeDataProps>  {
+  "use cache"  
+  cacheLife("hours");
+  cacheTag("home-data");
+
+  await connectDB();
+
   const [categories, exclusiveOffers, latestProducts] = await Promise.all([
     Category.find()
-    .select("name slug images")
+    .select("name slug images _id")
     .lean<ICategory[]>(),
     Product.find({ discount: { $exists: true, $gt: 10 }, status: "live" })
     .select("name price discountedPrice discount images")
@@ -54,8 +63,7 @@ async function getCachedProducts(
   minPrice?: string,
   maxPrice?: string
 ) {
-  "use cache";
-  console.log("Fetching from mongo");
+  "use cache";  
   cacheLife("hours");
   cacheTag("products")
   
@@ -156,8 +164,7 @@ export async function getProducts({ searchParams }: { searchParams: Params }) {
 }
 
 export async function getCachedProductDetails(id: string) {
-  "use cache";
-  console.log("Product details")
+  "use cache";  
   cacheLife("hours");
   cacheTag("products", `product-${id}`);
 

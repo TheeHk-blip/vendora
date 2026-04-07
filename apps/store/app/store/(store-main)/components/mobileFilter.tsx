@@ -55,7 +55,7 @@ export function FilterSkeleton() {
   return (
     <div className="flex md:hidden">
       <div className="flex flex-row justify-between w-full">
-        <div className="px-2 py-0.5 w-50" >
+        <div className="px-2 py-0.5 w-50 rounded-2xl bg-foreground/15" >
           Search...
         </div>
         <Sort />

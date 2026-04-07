@@ -41,3 +41,16 @@ export function SimilarProducts({product}: {product: IProductBase[]}) {
     </div>
   )
 }
+
+export function SimilarProductsSkeleton() {
+  return(
+    <div className="flex flex-col">
+      <span className={title({ size: "xs"})} >Similar Products</span>
+      <div className="flex flex-row gap-2.5">
+        <Card variant="product" >
+          <div className="w-25 h-25" ></div>
+        </Card>
+      </div>
+    </div>
+  )
+}

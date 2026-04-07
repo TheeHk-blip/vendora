@@ -4,7 +4,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getHomeData } from "./storeData";
-import { ICategory, IProduct } from "@vendora/db";
 
 export const metadata:Metadata = ({
   title: "Store | Vendora",
@@ -24,9 +23,9 @@ export default async function Home() {
       <div className="flex flex-col gap-2.5">
         <h1 className={title({ className: "text-center"})}>Shop By Category</h1>
         <div className="flex flex-row gap-2.5 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 px-1.5">
-          {categories.map((category: ICategory, index: number) => (
+          {categories.map((category, index: number) => (
             <div key={category.slug} className="gap-2.5">            
-              <Link href={`/store?categoryId=${category.id}`}>
+              <Link href={`/store?categoryId=${category._id}`}>
                 <Card
                   key={category.slug}
                   header={
@@ -54,7 +53,7 @@ export default async function Home() {
         <div className="flex flex-col">
           <span className={title({className: "text-center"})}>Exclusive Offers</span>     
           <div className="flex flex-row gap-2.5 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 px-1.5">
-            {exclusiveOffers.map((product: IProduct, index: number) => (
+            {exclusiveOffers.map((product, index: number) => (
               <div key={product._id.toString()} className="gap-2.5">            
                 <Link href={`/store/${product._id}`}>
                   <Card
@@ -92,7 +91,7 @@ export default async function Home() {
         <div className="flex flex-col" >
           <span className={title({className: "text-center"})}>New Arrivals</span> 
           <div className="flex flex-row gap-2.5 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 px-1.5">
-            {latestProducts.map((product: IProduct, index: number) => (
+            {latestProducts.map((product, index: number) => (
               <div key={product._id.toString()} className="gap-2.5">            
                 <Link href={`/store/${product._id}`}>
                   <Card

@@ -1,6 +1,6 @@
 import { Navbar } from "@vendora/ui/src/components/Navbar";
 import { ProductSearch } from "./productSearch";
-import { SerializeData } from "@vendora/ui";
+import { Button, SerializeData } from "@vendora/ui";
 import { ICategory, LeanArray } from "@vendora/db";
 import { CategoryDoc } from "@/app/storeData";
 
@@ -14,6 +14,28 @@ export interface ProductProps {
     maxStorePrice?: number;
     minStorePrice?: number;
   }
+}
+
+export function ProductFilterSkeleton() {
+  return (
+    <div className="hidden md:flex flex-col h-dvh w-62.5 px-2 gap-2" >
+      <div className="outline-none rounded-xl w-50 bg-black/10 dark:bg-white/25 px-2.5 py-0.5" >Search...</div>
+      <p className="uppercase">Filter By:</p>
+      <div>
+        <section className="mb-2">
+          <h3 className="uppercase text-sm text-gray-600 dark:text-gray-300 mb-2 ">
+            Selected Category
+          </h3>
+          <Button variant="outlined">            
+          </Button>
+        </section>
+        <div className="gap-2 flex flex-col" >
+          <Button variant="filter" ></Button>
+        </div>
+      </div>     
+      <div className="w-full h-20 bg-foreground/20 rounded-2xl px-2"></div>
+    </div>
+  )
 }
 
 export default function ProductFilter({ dynamicData }: ProductProps) {
