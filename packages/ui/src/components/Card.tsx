@@ -8,7 +8,7 @@ const card = tv({
     variant: {
       flat: "p-1.5",
       solid: {
-        wrapper: "bg-white/25 dark:bg-zinc-700/60 backdrop-blur-md px-2 py-1 rounded-lg",
+        wrapper: "bg-white/45 dark:bg-zinc-700/60 backdrop-blur-md px-2 py-1 rounded-lg",
       },     
       product: {
         wrapper: "relative rounded-lg bg-black/25 dark:bg-white/15",        

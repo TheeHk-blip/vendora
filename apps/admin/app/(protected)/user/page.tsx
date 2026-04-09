@@ -1,7 +1,9 @@
 import { connectDB, User } from "@vendora/db";
 import UserClient from "./components/userclient";
-import { Users } from "@vendora/ui";
+import { Card, Users } from "@vendora/ui";
 import { Metadata } from "next";
+import { PlatformStats } from "../data";
+import { ShoppingBag, Store } from "@mui/icons-material";
 
 export const metadata: Metadata = {
   title: "Users | Vendora",
@@ -16,7 +18,8 @@ export default async function VUsers({ searchParams }:{
   }>
 }) {
   await connectDB();
-  
+
+  const { buyers, sellers } = await PlatformStats();
   const params = await searchParams;
   const query = String(params?.q ?? "").trim();
   const page = Number(params?.page ?? 1);
@@ -45,8 +48,30 @@ export default async function VUsers({ searchParams }:{
   }))
 
   return(
-    <div className="">
-      <UserClient users={safeUsers} />
+    <div className="grid grid-cols-2 gap-4">      
+      <Card
+        header={
+          <span className="flex flex-row text-gray-600 dark:text-gray-400 items-center justify-between" >
+            Buyers
+            <ShoppingBag />
+          </span>
+        }
+      >
+        <span className="text-5xl font-bold">{buyers}</span>
+      </Card>
+      <Card
+        header={
+          <span className="flex flex-row text-gray-600 dark:text-gray-400 items-center justify-between" >
+            Sellers
+            <Store />
+          </span>
+        }
+      >
+        <span className="text-5xl font-bold">{sellers}</span>
+      </Card>
+      <div className="col-span-2">
+        <UserClient users={safeUsers} />
+      </div>      
     </div>
   )
 }

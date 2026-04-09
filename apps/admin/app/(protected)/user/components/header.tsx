@@ -19,7 +19,7 @@ export function Header({handleSort}: FilterProps) {
     <div className="flex flex-col w-full">
       <span className={title({ color: "foreground", size: "sm", className: "mb-1"})} >Users</span>
       <div className="flex flex-row items-center justify-between" >
-        <SearchInput onSearch={handleSearch} />      
+        <SearchInput name="user search" onSearch={handleSearch} />      
         <SortFilter 
           sortKeys={[
             "name",
