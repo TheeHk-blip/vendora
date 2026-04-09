@@ -1,6 +1,6 @@
 "use client";
 
-import { getInitials, Logo, Navbar, SearchInput } from "@vendora/ui";
+import { getInitials, Logo, Navbar } from "@vendora/ui";
 import { Notification } from "./notifications";
 import { siteConfig } from "../config/site";
 import Profile from "./profile";
@@ -10,10 +10,7 @@ export default function Nav() {
   const { data: session } = useSession();
   return (
     <Navbar 
-      app="adminnav"
-      title={
-        <SearchInput />
-      }      
+      app="adminnav"   
       brand={<Logo width={50} height={50} />}
       menuToggle={<Profile src={session?.user.image} initials={getInitials(session?.user.name || "")} />}      
       links={siteConfig.navLinks}
