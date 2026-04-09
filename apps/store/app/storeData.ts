@@ -166,7 +166,7 @@ export async function getProducts({ searchParams }: { searchParams: Params }) {
 export async function getCachedProductDetails(id: string) {
   "use cache";  
   cacheLife("hours");
-  cacheTag("products", `product-${id}`);
+  cacheTag(`product-${id}`);
 
   await connectDB();
 
@@ -200,7 +200,7 @@ export async function getCachedProductDetails(id: string) {
       categoryId: product.categoryId,
       _id: { $ne: id }
     })
-    .limit(4)
+    .limit(8)
     .select("name images price")
     .lean()
   ]);

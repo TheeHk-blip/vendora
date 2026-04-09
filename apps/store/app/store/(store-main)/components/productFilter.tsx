@@ -18,7 +18,7 @@ export interface ProductProps {
 
 export function ProductFilterSkeleton() {
   return (
-    <div className="hidden md:flex flex-col h-dvh w-62.5 px-2 gap-2" >
+    <div className="hidden md:flex flex-col px-1 gap-2 sticky top-14.5 z-50 w-full h-[calc(100vh-58px)]" >
       <div className="outline-none rounded-xl w-50 bg-black/10 dark:bg-white/25 px-2.5 py-0.5" >Search...</div>
       <p className="uppercase">Filter By:</p>
       <div>

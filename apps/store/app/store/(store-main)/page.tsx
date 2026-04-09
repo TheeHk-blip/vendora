@@ -8,7 +8,7 @@ import { getStoreData, Params } from "@/app/storeData";
 import { ProductGridSkeleton } from "./components/productSkeleton";
 import Home from "@mui/icons-material/Home";
 
-async function StoreComponent({searchParams}: { searchParams: Params}) { 
+async function StoreComponent({searchParams}: { searchParams: Params}) {   
   const dynamicData = await getStoreData({ searchParams });
   return (  
     <div className="flex flex-row max-w-7xl mx-auto w-full gap-2.5">
@@ -42,7 +42,7 @@ function StoreSkeleton() {
         <ProductFilterSkeleton />
       </aside>
       <div className="flex flex-col w-full">
-        <div className="flex top-12.5 px-1 rounded bg-gray-400">
+        <div className="flex flex-col md:hidden top-12.5 px-1">
           <FilterSkeleton />
           <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap" >
             <Home />

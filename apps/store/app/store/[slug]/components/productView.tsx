@@ -32,7 +32,17 @@ export default function ProductView({ product, similarProduct, variants, options
   return (
     <div className="flex flex-col w-full py-2" >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5" >
-        <ProductGallery images={product.images} />
+        <div className="flex flex-col gap-2.5">
+          <ProductGallery images={product.images} />
+          <div className="hidden md:flex">
+            {similarProduct && similarProduct.length > 0 &&
+              <Suspense fallback={<SimilarProductsSkeleton />} >
+                <SimilarProducts product={similarProduct} />
+              </Suspense>            
+            }
+          </div>
+        </div>
+           
         <div className="flex flex-col my-2">
           <p className={title({size: "sm", className: "text-center"})}>
             {product.name}
@@ -45,14 +55,15 @@ export default function ProductView({ product, similarProduct, variants, options
             product={product}        
             sellerInfo={sellerInfo}
             reviewInfo={reviewInfo}
-          />
+          />                 
 
-          {similarProduct && similarProduct.length > 0 &&
-            <Suspense fallback={<SimilarProductsSkeleton />} >
-              <SimilarProducts product={similarProduct} />
-            </Suspense>            
-          }          
-
+          <div className="md:hidden flex">
+            {similarProduct && similarProduct.length > 0 &&
+              <Suspense fallback={<SimilarProductsSkeleton />} >
+                <SimilarProducts product={similarProduct} />
+              </Suspense>            
+            }
+          </div>
           <div className="mt-2" >
             <h2 className={title({size: "xs"})}>Features</h2>
             {Object.entries(product.fields || {}).map(([key, value]) => (
@@ -66,7 +77,7 @@ export default function ProductView({ product, similarProduct, variants, options
       </div>
 
       <div>
-        <h2 className={title({size: "sm"})}>Description</h2>
+        <h2 className={title({size: "sm", className: "mb-2"})}>Description</h2>
         <p className="whitespace-pre-line prose dark:prose-invert">{product.description}</p>
       </div>
     </div>
