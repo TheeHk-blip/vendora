@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { NextResponse } from "next/server";
 import { connectDB, User, Seller, Subscription, Plan } from "@vendora/db";
 import bcrypt from "bcryptjs";
@@ -68,10 +66,10 @@ export async function POST(request: Request) {
     
     return NextResponse.json({ success: true }, { status: 201});
 
-  } catch (error: any) {
+  } catch (error) {
     await session.abortTransaction();
     console.error("Error registering seller:", error);
-    return NextResponse.json({ error: error.message || "Something went wrong" }, { status: 400 });
+    return NextResponse.json({"Error registering seller": error }, { status: 400 });
   } finally {
     await session.endSession()
   }

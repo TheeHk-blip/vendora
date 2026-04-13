@@ -35,7 +35,7 @@ export default function BuiltForEveryone() {
       <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         {/* Seller Side */}
         <div     
-          className="rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
+          className="flex flex-col justify-between rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
             <Store className="w-6 h-6 text-green-600" />
@@ -46,20 +46,17 @@ export default function BuiltForEveryone() {
             <li>• Manage products, orders & analytics from one dashboard.</li>
             <li>• Get instant payments and insights to grow faster.</li>
           </ul>
-          <button
-            className="mt-6 px-4 py-2 bg-green-500 hover:bg-green-600 active:scale-99 text-white rounded-lg font-medium cursor-pointer transition-all duration-300"
-          >
-            <Link
+          <Link
             href="/register/seller"
-            >
-              Start Selling
-            </Link>
-          </button>          
+            className="mt-6 px-4 py-2 w-fit bg-green-700 hover:bg-green-800 active:scale-99 text-white rounded-lg font-medium cursor-pointer transition-all duration-300"
+          >
+            Start Selling
+          </Link>               
         </div>
 
         {/* Buyer Side */}
         <div          
-          className="rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
+          className="flex flex-col justify-between rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
             <ShoppingBag className="w-6 h-6 text-blue-600" />
@@ -70,15 +67,12 @@ export default function BuiltForEveryone() {
             <li>• Enjoy a unified, secure checkout experience.</li>
             <li>• Track your orders across multiple sellers easily.</li>
           </ul>
-          <button
-            className="mt-6 px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 active:scale-99 text-white font-medium cursor-pointer transition-all duration-300"
-          >
-            <Link 
-              href="/register/buyer"
-            >          
-              Start Shopping
-            </Link>
-          </button>          
+          <Link 
+            href="/register/buyer"
+            className="mt-6 px-4 py-2 w-fit rounded-md bg-blue-700 hover:bg-blue-800 active:scale-99 text-white font-medium cursor-pointer transition-all duration-300"
+          >          
+            Start Shopping
+          </Link>               
         </div>
       </div>
     </section>

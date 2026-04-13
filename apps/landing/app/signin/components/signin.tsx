@@ -112,7 +112,7 @@ export default function SignIn() {
 
           {error && (
             <div
-              className="w-full max-w-[280px] mb-5 text-center text-sm 
+              className="w-full max-w-70 mb-5 text-center text-sm 
               text-red-600 bg-red-50 dark:bg-red-900/30 px-2 py-1 rounded-2xl"
             >
               {error}
@@ -128,7 +128,7 @@ export default function SignIn() {
                 exit={{ opacity: 0, x: -15 }}
                 transition={{ duration: 0.25 }}
                 onSubmit={nextStep}
-                className="space-y-5 w-full max-w-[280px]"
+                className="space-y-5 w-full max-w-70"
               >
                 <div className="flex flex-col items-center gap-3 w-full">                  
                   <GoogleSignIn
@@ -168,7 +168,7 @@ export default function SignIn() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.25 }}
                 onSubmit={handleSubmit}
-                className="space-y-5 w-full max-w-[280px]"
+                className="space-y-5 w-full max-w-70"
               >                
                 <InputField 
                   required

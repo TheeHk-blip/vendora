@@ -15,7 +15,7 @@ export default function TermsPage() {
       <div className="max-w-4xl mx-auto space-y-8">
         <h1 className="text-4xl font-bold">Terms & Conditions</h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Last updated: January 2025
+          Last updated: September 2025
         </p>
 
         <section className="space-y-4">
@@ -164,7 +164,7 @@ export default function TermsPage() {
           <p>
             If you have questions regarding these Terms, contact us at:  
             <br />
-            <a href="mailto:support@support.vendora.sbs" className="text-blue-600">
+            <a href="mailto:mail@support.vendora.sbs" className="text-blue-600">
               support@vendora.sbs
             </a>          
           </p>
