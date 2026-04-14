@@ -1,17 +1,10 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
-  "compilerOptions": {
-    // File Layout
+  "compilerOptions": {   
     "rootDir": "./src",
     "outDir": "./dist", 
-    "baseUrl": ".",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "target": "esnext",
-    "paths": {
-      "@vendora/db": ["../../packages/db/dist/index.ts"],
-      "@vendora/db/*": ["../../packages/db/dist/*.js"]
-    },
     "types": [],
     "sourceMap": true,
     "declaration": true,

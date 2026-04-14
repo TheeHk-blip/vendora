@@ -3,6 +3,7 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
+    "target": "esnext",
     "module": "esnext",
     "moduleResolution": "bundler",
     "rootDir": "./src",
