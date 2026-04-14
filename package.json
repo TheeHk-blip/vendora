@@ -6,6 +6,10 @@
     "packages/*",
     "apps/*"
   ],
+  "scripts": {
+    "build:db": "pnpm --filter @vendora/db build",
+    "build:services": "pnpm --filter services... build"
+  },
   "packageManager": "pnpm@10.30.3",
   "devDependencies": {
     "@types/compression": "^1.8.1",
