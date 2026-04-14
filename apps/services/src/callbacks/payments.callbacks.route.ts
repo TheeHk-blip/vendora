@@ -5,7 +5,7 @@ import { handleSubscriptionPayment } from "src/helpers/handleSubscriptionPayment
 import { sendOrderConfirmation } from "../payments/email.services.js";
 import Stripe from "stripe";
 
-interface PaymentMetadata {
+interface PaymentMetadata extends Stripe.Metadata {
   type: "order" | "subscription";
   orderId?: string;
   transactionDesc?: string;
@@ -82,7 +82,7 @@ router.post("/stripe", express.raw({ type: "application/json"}), async (req: Req
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
-      const metadata = session.metadata as unknown as PaymentMetadata;
+      const metadata = session.metadata as PaymentMetadata;
 
       if (!metadata) return res.status(400).send("No metadata found");
 
