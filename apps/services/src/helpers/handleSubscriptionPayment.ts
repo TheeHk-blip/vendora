@@ -1,6 +1,11 @@
-import { Plan, Seller, Subscription, type ISubscription } from "@vendora/db/*";
+import { Plan, Seller, Subscription, type IPlan, type ISubscription } from "@vendora/db/*";
 import type { Request } from "express";
 import mongoose from "mongoose";
+
+type PopulatedPlan = {
+  slug: string
+}
+
 
 export async function handleSubscriptionPayment(sub: ISubscription, receipt: string, req: Request) {
   const session = await mongoose.startSession();
@@ -22,7 +27,7 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
           const oldSub = await Subscription.findOne({
             subscriberId: sub.subscriberId,
             status: "upgraded"
-          }). populate([{ path: "plan", model: "Plan", select: "price slug"}]);
+          }). populate<{ plan: IPlan }>([{ path: "plan", model: "Plan", select: "price slug"}]);
 
           const newSub = await Plan.findById(sub.metadata.upgradeId);
 
@@ -31,7 +36,7 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
           finalExpiry.setDate(finalExpiry.getDate() + 29);
           if (oldSub && (sub.metadata).action === "upgrade") {
             const oldPrice = (oldSub.plan).price || 0;
-            const newPrice = newSub.price || 1;
+            const newPrice = newSub?.price || 1;
             const remainingDays = Math.max(0, (oldSub.expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 
             bonusDays = Math.floor((remainingDays * oldPrice) / newPrice);            
@@ -57,7 +62,7 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
             { session }
           );
 
-          updateSub = await Subscription.findById(upgradedSub._id)
+          updateSub = await Subscription.findById(upgradedSub?._id)
             .populate([
               { path: "plan", model: "Plan", select: "slug" }              
             ])
@@ -87,8 +92,8 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
             { session }
           );
 
-          updateSub = await Subscription.findById(renewedSub._id)
-            .populate([
+          updateSub = await Subscription.findById(renewedSub?._id)
+            .populate<{ plan: IPlan }>([
               { path: "plan", model: "Plan", select: "slug"}
             ])
             .session(session);
@@ -110,26 +115,27 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
           },
           { session, new: true }
         )
-        .populate([
+        .populate<{ plan: PopulatedPlan }>([
           {
             path: "plan",
             model: "Plan",
             select: "slug"
           }
-        ]);
+        ])
+        .lean<ISubscription>();
     };
 
     if (!updateSub || !updateSub.plan) {
       throw new Error("Subscription or Plan details missing after update.");
     }
 
-    const sellerId = new mongoose.Types.ObjectId(sub.subscriberId as string)
+    const sellerId = new mongoose.Types.ObjectId(sub.subscriberId as unknown as string)
     await Seller.findOneAndUpdate(
       {userId: sellerId}, 
       {
         $set: {
           subscriptionId: updateSub._id,
-          subscription: (updateSub.plan).slug,
+          subscription: (updateSub.plan as PopulatedPlan).slug,
         }
       },
       { session }

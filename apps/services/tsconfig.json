@@ -3,7 +3,8 @@
   "compilerOptions": {
     // File Layout
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outDir": "./dist", 
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@vendora/db/*": ["../../packages/db/src/index.ts"]
@@ -12,6 +13,7 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
+    "moduleResolution": "nodenext",
     "target": "esnext",
     "types": [],
     // For nodejs:
@@ -44,5 +46,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "references": [
+    { "path": "../../packages/db"}
+  ]
 }

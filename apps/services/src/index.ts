@@ -5,9 +5,8 @@ import { Server } from "socket.io";
 import cors from "cors";
 import compression from "compression";
 import { PaymentRouter } from "./payments/payments.route.js";
-import { connectDB, initJobs } from "@vendora/db";
-
-
+import { PaymentCallbackRouter } from "./callbacks/payments.callbacks.route.js";
+import { connectDB, initJobs } from "@vendora/db/*";
 
 const app: Application = express();
 const httpServer = createServer(app);
@@ -61,7 +60,7 @@ async function startServer() {
     }));
 
     app.use((req, res, next) => {
-      if (req.originalUrl === "/payments/webhook") {
+      if (req.originalUrl === "/callbacks/stripe") {
         return next();
       } 
       express.json()(req, res, next);  
@@ -80,6 +79,7 @@ async function startServer() {
     });
 
     app.use("/payments", PaymentRouter);
+    app.use("/callbacks", PaymentCallbackRouter);
 
     httpServer.listen(PORT, () => {
       console.log(`Standalone services running on port ${PORT}`);

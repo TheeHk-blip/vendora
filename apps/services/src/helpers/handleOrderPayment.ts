@@ -27,7 +27,7 @@ export async function handleOrderPayment(order: IOrder, checkoutId: string, rece
     },
     { new: true }
   );
-  
+
   if (!updatedOrder) return console.log("Order already processed");    
   if (isCommitment) {
     await startOrderLifeCycle(updatedOrder._id.toString(), updatedOrder.buyer.buyerId.toString());
@@ -44,7 +44,7 @@ export async function handleOrderPayment(order: IOrder, checkoutId: string, rece
       ? updatedOrder.financials.commitmentFee
       : updatedOrder.financials.balanceDue;
 
-    sendOrderConfirmation(
+    await sendOrderConfirmation(
       updatedOrder.buyer.email,
       updatedOrder.orderNumber,
       amountPaid
