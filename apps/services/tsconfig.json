@@ -19,7 +19,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "paths": {
-      "@vendora/db": ["../../packages/db/src/index.ts"]
+      "@vendora/db": ["../../packages/db/src/backend.ts"]
     }
   },
   "references": [

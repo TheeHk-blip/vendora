@@ -6,14 +6,17 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",    
-      "import": "./dist/index.js"
+      "types": "./dist/index.d.ts",        
+      "bundler": "./src/index.ts",
+      "default": "./dist/index.js"
     },
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "import": "./dist/*.js"
+    "./backend": {
+      "types": "./dist/backend.d.ts",
+      "node": "./dist/backend.js",     
+      "default": "./dist/backend.js"
     }
   },
+  "files": ["dist", "src"],
   "scripts": {
     "build": "tsc"
   },
