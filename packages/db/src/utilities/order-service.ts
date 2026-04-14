@@ -1,4 +1,4 @@
-import Order, {IOrder}  from "../models/order";
+import Order, {IOrder}  from "@db/models/order";
 
 interface PopulatedVariant {
   sku: string;

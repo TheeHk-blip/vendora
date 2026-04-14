@@ -19,7 +19,8 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "paths": {
-      "@vendora/db": ["../../packages/db/src/backend.ts"]
+      "@vendora/db": ["../../packages/db/src/backend.ts"],
+      "@db/*": ["../../packages/db/dist/*.js"]
     }
   },
   "references": [
