@@ -1,7 +1,7 @@
 
 import type { Request } from "express";
 import { sendOrderConfirmation } from "./../payments/email.services.js";
-import { Order, startOrderLifeCycle, type IOrder } from "@vendora/db";
+import { Order, startOrderLifeCycle, type IOrder } from "@vendora/db/backend";
 
 export async function handleOrderPayment(order: IOrder, checkoutId: string, receipt: string, req: Request) {
   const isCommitment = order.payments.commitment.checkoutRequestId === checkoutId;

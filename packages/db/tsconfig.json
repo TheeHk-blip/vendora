@@ -6,8 +6,8 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "rootDir": "./src",
-    "outDir": "./dist",        
+    "rootDir": "src",
+    "outDir": "dist",        
     "noEmit": false
   },
   "include": ["src/**/*"]

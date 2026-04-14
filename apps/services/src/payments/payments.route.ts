@@ -2,7 +2,7 @@ import { Router } from "express";
 import { stripe } from "./stripe.config.js";
 import axios from "axios";
 import { getMpesaAccessToken } from "./mpesa.service.js";
-import { Order, Subscription, type IOrder, type ISubscription } from "@vendora/db";
+import { Order, Subscription, type IOrder, type ISubscription } from "@vendora/db/backend";
 import { preparePaymentData } from "./../helpers/preparePayment.js";
 
 
