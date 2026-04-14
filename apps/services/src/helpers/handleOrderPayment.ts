@@ -1,4 +1,4 @@
-import { Order, startOrderLifeCycle, type IOrder } from "@vendora/db/*";
+import { Order, startOrderLifeCycle, type IOrder } from "@vendora/db";
 import type { Request } from "express";
 import { sendOrderConfirmation } from "src/payments/email.services.js";
 

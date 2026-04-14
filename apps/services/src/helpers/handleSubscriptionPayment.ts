@@ -1,4 +1,4 @@
-import { Plan, Seller, Subscription, type IPlan, type ISubscription } from "@vendora/db/*";
+import { Plan, Seller, Subscription, type IPlan, type ISubscription } from "@vendora/db";
 import type { Request } from "express";
 import mongoose from "mongoose";
 

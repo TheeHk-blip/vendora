@@ -1,4 +1,4 @@
-import { Buyer, Order, Plan, shippingConfig, Subscription, Variant, type ICategory, type IOrder, type IProduct, type ISubscription, type IVariant } from "@vendora/db/*";
+import { Buyer, Order, Plan, shippingConfig, Subscription, Variant, type ICategory, type IOrder, type IProduct, type ISubscription, type IVariant } from "@vendora/db";
 import { nanoid } from "nanoid";
 
 interface IPaymentContext {

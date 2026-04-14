@@ -1,4 +1,4 @@
-import { Order, Subscription } from "@vendora/db/*";
+import { Order, Subscription } from "@vendora/db";
 import express, { Router, type Request, type Response } from "express";
 import { handleOrderPayment } from "src/helpers/handleOrderPayment.js";
 import { handleSubscriptionPayment } from "src/helpers/handleSubscriptionPayment.js";
