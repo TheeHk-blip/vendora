@@ -16,6 +16,9 @@
       "default": "./dist/backend.js"
     }
   },
+  "imports": {
+    "#db/*": "./dist/*.js"
+  },
   "files": ["dist", "src"],
   "scripts": {
     "build": "tsc"
