@@ -10,7 +10,7 @@ import { connectDB, initJobs } from "@vendora/db/*";
 
 const app: Application = express();
 const httpServer = createServer(app);
-const PORT = 3005;
+const PORT = process.env.PORT;
 
 const allowedOrigins = [
   process.env.STORE_APP,
