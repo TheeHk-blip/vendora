@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "build:db": "pnpm --filter @vendora/db build",
-    "build:services": "pnpm --filter services... build"
+    "build:services": "pnpm --filter services... build",
+    "start:services": "pnpm --filter services start"
   },
   "packageManager": "pnpm@10.30.3",
   "devDependencies": {
