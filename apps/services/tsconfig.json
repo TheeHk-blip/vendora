@@ -18,6 +18,9 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    "paths": {
+      "@vendora/db": ["../../packages/db/src/index.ts"]
+    }
   },
   "references": [
     { "path": "../../packages/db"}
