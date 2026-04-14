@@ -72,7 +72,7 @@ export function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Toggle theme"
-      className="gap-2 px-2 rounded-md cursor-pointer"
+      className="gap-2 px-2 py-0.5 rounded-md cursor-pointer"
       type="button"
     >
       {mounted ? (

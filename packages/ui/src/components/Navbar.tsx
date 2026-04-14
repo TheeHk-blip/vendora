@@ -32,11 +32,11 @@ const navbar = tv({
         brand: "flex md:hidden"
       },
       store: {
-        wrapper: "flex flex-row items-center justify-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
-        sectionLeft: "flex items-center space-x-2 md:flex-1",  
+        wrapper: "grid grid-cols-12 items-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
+        sectionLeft: "flex items-center space-x-2 md:flex-1 col-span-3 md:col-span-2",  
         brand: "md:hidden flex w-fit",          
-        sectionCenter: "flex justify-center flex-1",
-        sectionRight: "flex items-center justify-end space-x-2 flex-1",
+        sectionCenter: "flex justify-center flex-1 col-span-6",
+        sectionRight: "flex items-center justify-end flex-1 col-span-3 md:col-span-4",
         actions: "items-center"
       },
       admin: {
@@ -57,9 +57,10 @@ const navbar = tv({
         actions: "flex"
       },
       storeFilter: {
-        wrapper: "flex flex-col px-1 sticky top-[58px] z-50 w-full h-[calc(100vh-58px)] overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
-        sectionLeft: "flex mb-2.5",
+        wrapper: "flex flex-col px-1 sticky z-50 w-full h-dvh overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+        sectionLeft: "flex mb-2.5 w-full items-center",
         brand: "flex w-full justify-start items-center",
+        search: "w-full " ,
         sectionCenter: "flex-1",
         sectionRight: "flex items-center my-auto",
         navLinks: "flex flex-col space-y-2",
@@ -97,7 +98,7 @@ const navLink = tv({
     {
       app: "landing",
       active: true,  
-      className: "text-blue-600 dark:text-blue-600 bg-blue-500/15 hover:text-white hover:ring-0 scale-[1.05]"
+      className: "text-blue-700 dark:text-blue-400 bg-blue-100 dark:bg-slate-800 hover:text-white dark:hover:text-white hover:bg-blue-500 hover:ring-0 scale-[1.05]"
     },
     {
       app: "store",

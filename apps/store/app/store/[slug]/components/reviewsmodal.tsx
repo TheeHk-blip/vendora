@@ -15,7 +15,7 @@ export function ReviewsModal({reviewInfo}: ReviewProps) {
     <AnimatePresence>      
       {reviewInfo && reviewInfo.length > 0 &&
         <span className="flex flex-row items-center gap-2 mb-2">
-          <h3>Reviews: {reviewInfo?.length}</h3>        
+          <h3 className="text-black/70 dark:text-white/70">Reviews: {reviewInfo?.length}</h3>        
           {isOpen ? (
             <Button
               onClick={closeDrawer}

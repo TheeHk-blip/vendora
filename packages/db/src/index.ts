@@ -1,5 +1,6 @@
 export { connectDB, clientPromise } from "./connection/client";
 export { initJobs, startOrderLifeCycle } from "./utilities/jobs";
+export { shippingConfig } from "./utilities/shipping";
 export { getDetailedOrders, transformOrderData, type TransformedOrderItem } from "./utilities/order-service";
 export { default as User, type IUser } from "./models/user";
 export { default as Buyer, type IBuyer } from "./models/buyer";

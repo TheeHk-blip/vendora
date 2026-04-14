@@ -84,9 +84,9 @@ async function OrdersData() {
 }
 
 export default async function Orders() {
-  return (
-    <Suspense fallback={<div className="flex justify-center items-center w-full p-6 h-dvh" >Loading your orders....</div>} >
-      <OrdersData />
-    </Suspense>
+  return (   
+    <Suspense>
+      <OrdersData />   
+    </Suspense>     
   )
 }

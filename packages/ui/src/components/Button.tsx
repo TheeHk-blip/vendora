@@ -26,13 +26,13 @@ export const button = tv({
       secondary:
         "text-white bg-purple-500 hover:bg-purple-600 focus-visible:ring-purple-400",
       success:
-        "bg-foreground/15 text-green-600 hover:ring",
+        "bg-foreground/15 text-green-700 hover:ring",
       danger:
         "bg-red-500 dark:bg-red-500 hover:text-red-500 hover:bg-transparent dark:hover:bg-transparent",
       neutral:
         "bg-foreground/5 text-gray-600 dark:text-gray-400",
       warning:
-        "bg-orange-600/15 dark:bg-orange-600/25 text-yellow-600"
+        "bg-orange-100/50 dark:bg-orange-500/15 text-yellow-600"
     },
     size: {
       sm: "px-2 py-1 text-sm rounded-xl",

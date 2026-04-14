@@ -38,5 +38,6 @@ export * from "./utilities/image-helper";
 export * from "./utilities/socket";
 
 export * from "./constants/breakpoints";
+export * from "./constants/shipping";
 
 export * from "./hooks/usePage";

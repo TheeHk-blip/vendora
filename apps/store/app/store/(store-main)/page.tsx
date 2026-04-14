@@ -19,7 +19,7 @@ async function StoreComponent({searchParams}: { searchParams: Params}) {
       </aside>
 
       <div className="flex flex-col w-full" >
-        <div className="sticky top-12.5 bg-background z-10" >
+        <div className="sticky top-12.5 py-1 bg-background z-10" >
           <Suspense fallback={<FilterSkeleton />} >
             <MobileFilter dynamicData={SerializeData(dynamicData)} />
           </Suspense>
@@ -47,6 +47,9 @@ function StoreSkeleton() {
           <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap" >
             <Home />
           </div>
+        </div>
+        <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap" >
+          <Home />
         </div>
         <ProductGridSkeleton />
       </div>

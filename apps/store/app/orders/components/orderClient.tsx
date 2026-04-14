@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { socket } from "@/app/utilities/socket";
 import { Rating } from "@mui/material";
 import StarRate from "@mui/icons-material/StarRate";
+import { useRouter } from "next/navigation";
 
 interface OrderProps {
   initialOrders: PopulatedOrder[];
@@ -17,11 +18,13 @@ interface OrderProps {
 
 export default function OrdersClient({initialOrders, initialReviews}: OrderProps ) {
   const { data: session } = useSession();
+  const router = useRouter();
   const { showToast } = useToast();
   const [orders, setOrders] = useState(initialOrders);
   const [reviews, setReviews] = useState(initialReviews);
   const [ratings, setRatings] = useState<Record<string, number | null>>({});
   const [comments, setComments] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
 
   const userId = session?.user._id;
   
@@ -42,21 +45,44 @@ export default function OrdersClient({initialOrders, initialReviews}: OrderProps
   }, [userId]);
   
   const handlePayment =  async (orderId: string) => {
+    setLoading(true);
+    const response = await fetch(`/api/order?orderId=${orderId}`);
+    const data = await response.json();
+    console.log("Payment:", data.existingOrder?.paymentMethod)
+    const endpoint = data.existingOrder?.paymentMethod === "card"
+      ? `${process.env.NEXT_PUBLIC_SERVER}payments/stripe`
+      : `${process.env.NEXT_PUBLIC_SERVER}payments/stk-push`
+
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}payments/stk-push`, {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
-          orderId
+          orderId,
+          type: "order"
         })
       });
 
-      const data = await response.json();
-      if (data.success) {
-        showToast("STK Push sent! Check your phone", "success");
-      }
+      const result = await response.json();
+      if (result.url) {        
+        window.location.href = result.url;
+      } else {
+        showToast(`Error making payment`, "error");
+      }  
+
+      if (response.ok && !result.url) {
+        const { orderId, orderNumber, amount } = result;
+        showToast("STK Push Sent! Enter your PIN to authorize the transaction", "success");
+        
+        socket.emit("join-order-room", orderId);
+        router.push(`/store/order-status/payments?id=${orderId}&no=${orderNumber}&amt=${amount}`);      
+      } else {
+        showToast(`Error: ${result.error || "Failed to initialize payment. Try again"}`, "error")
+      }  
     } catch (error) {
       console.error("Payment trigger failed", error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -109,9 +135,9 @@ export default function OrdersClient({initialOrders, initialReviews}: OrderProps
   }
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="relative flex flex-col justify-center">
       <h1 className={title({ className: "text-center"})}>Your Orders</h1>
-      <div className="columns-1 md:columns-2 gap-4 my-2.5">
+      <div className={loading ? "columns-1 md:columns-2 gap-4 my-2.5 opacity-30 pointer-events-none": "columns-1 md:columns-2 gap-4 my-2.5 opacity-100"}>
         {orders.map((order) => (
           <div 
             key={order._id.toString()} 
@@ -209,15 +235,27 @@ export default function OrdersClient({initialOrders, initialReviews}: OrderProps
             </div>
 
             {/* Order Footer / Balance Payment */}
-            {Number(order.financials.balanceDue) > 0 && (
-              <div className="mt-2 flex justify-between items-center p-3 bg-green-500/5 rounded-lg border border-green-500/20">
-                <span className="text-sm font-medium text-green-700">Balance: <PriceDisplay amount={Number(order.financials.balanceDue)} /></span>
-                <Button color="success" size="sm" onClick={() => handlePayment(order._id)}>Pay Now</Button>
-              </div>
-            )}
+            {order.status === "delivered" &&
+              <>
+              {Number(order.financials.balanceDue) > 0 && (
+                <div className="mt-2 flex justify-between items-center p-3 bg-green-500/5 rounded-lg border border-green-500/20">
+                  <span className="text-sm font-medium text-green-700">Balance: <PriceDisplay amount={Number(order.financials.balanceDue)} /></span>
+                  <Button color="success" size="sm" onClick={() => handlePayment(order._id)}>Pay Now</Button>
+                </div>
+              )}
+              </>
+            }
           </div>
         ))}
       </div>
+
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center z-10">
+          <span className="bg-black/70 dark:bg-white/70 px-4 py-2 rounded-full font-medium shadow-sm">
+            Initializing payment...
+          </span>
+        </div>
+      )}
     </div>
   )
 }

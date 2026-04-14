@@ -11,7 +11,7 @@ const card = tv({
         wrapper: "bg-white/45 dark:bg-zinc-700/60 backdrop-blur-md px-2 py-1 rounded-lg",
       },     
       product: {
-        wrapper: "relative rounded-lg bg-black/25 dark:bg-white/15",        
+        wrapper: "relative rounded-lg bg-black/30 dark:bg-white/30",        
         body: "shadow-sm",
         footer: "text-sm h-15 items-center px-1.5",        
       }

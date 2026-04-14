@@ -5,6 +5,7 @@ export interface IOrder extends Document {
   orderNumber: string;
   lifeCycleStarted: boolean;
   paymentType: "upfront" | "partial";
+  paymentMethod: "card" | "mpesa";
   buyer: {
     buyerId: Types.ObjectId;
     email: string;
@@ -20,12 +21,15 @@ export interface IOrder extends Document {
     variantId: Types.ObjectId;
     seller: {
       sellerId: Types.ObjectId;
-      storeName: string;      
+      storeName: string;  
+      sellerPayout: number;    
     },
     name: string;
     sku: string;
     price: number;
     quantity: number;
+    itemRevenue: number;
+    appliedCommission: number;
     isSealProtected: boolean;
     hsCode: string;
     deliveryToHub: {
@@ -44,7 +48,7 @@ export interface IOrder extends Document {
     commitmentFee: number;
     balanceDue: number;
     commisionRate: number;
-    platformRevenue: number;
+    platformRevenue: number;    
     sellerPayout: number;
   },
   payments: {
@@ -79,6 +83,11 @@ const orderSchema = new Schema<IOrder>({
   paymentType: {
     type: String,
     enum: ["upfront", "partial"],
+    required: true
+  },
+  paymentMethod: {
+    type: String,
+    enum: ["card", "mpesa"],
     required: true
   },
   lifeCycleStarted: {
@@ -127,6 +136,10 @@ const orderSchema = new Schema<IOrder>({
         storeName: {
           type: String
         },
+        sellerPayout: {
+          type: Number,
+          required: true
+        }
       },
       name: {
         type: String
@@ -139,6 +152,14 @@ const orderSchema = new Schema<IOrder>({
       },
       quantity: {
         type: Number
+      },
+      itemRevenue: {
+        type: Number,
+        required: true
+      },
+      appliedCommission: {
+        type: Number,
+        required: true
       },
       isSealProtected: {
         type: Boolean
@@ -185,7 +206,7 @@ const orderSchema = new Schema<IOrder>({
     balanceDue: {
       type: Number,
     },
-    commisionRate: {
+    commissionRate: {
       type: Number,
       required: true
     },
@@ -247,6 +268,7 @@ const orderSchema = new Schema<IOrder>({
 
 orderSchema.index({createdAt: 1, "items.seller.sellerId": 1});
 
-const Order: TypedModel<IOrder> = mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema);
+const Order: TypedModel<IOrder> = 
+  mongoose.models.Order || mongoose.model<IOrder>("Order", orderSchema);
 
 export default Order;

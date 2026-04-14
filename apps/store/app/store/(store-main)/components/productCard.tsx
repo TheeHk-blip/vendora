@@ -32,7 +32,7 @@ export default function ProductCard({ product, index} : ProductProps) {
         footer={                    
           <div className="flex flex-col justify-start min-w-0" >                                  
             <div className="flex justify-between items-center">       
-               <span className="text-gray-600 dark:text-gray-400 text-xs truncate whitespace-nowrap overflow-hidden">{product.name}</span> 
+               <span className="text-black/80 dark:text-white/80 text-xs truncate whitespace-nowrap overflow-hidden">{product.name}</span> 
                 <div className="flex shrink-0">
                   {!!product.discount && product.discount > 0 && (
                     <span className="text-xs font-medium text-orange-500 bg-orange-100 px-1 rounded" >
@@ -47,7 +47,7 @@ export default function ProductCard({ product, index} : ProductProps) {
                 : <PriceDisplay amount={product.price} />
               }  
               {!!product.discount && product.discount > 0 && (                              
-                <PriceDisplay amount={product.price} className="line-through text-xs text-gray-500" />                                             
+                <PriceDisplay amount={product.price} className="line-through text-xs text-black/50 dark:text-white/50" />                                             
               )}                                     
             </span>                
           </div>                                   

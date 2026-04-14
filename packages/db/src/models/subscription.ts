@@ -1,4 +1,5 @@
 import mongoose, {Types, Document, Schema} from "mongoose";
+import { TypedModel } from "./types";
 
 export interface ISubscription extends Document {
   subscriberId: Types.ObjectId;
@@ -66,6 +67,7 @@ const subscriptionSchema = new Schema<ISubscription>(
   }
 )
 
-const Subscription = mongoose.models.Subscription || mongoose.model<ISubscription>("Subscription", subscriptionSchema);
+const Subscription: TypedModel <ISubscription> = 
+  mongoose.models.Subscription || mongoose.model<ISubscription>("Subscription", subscriptionSchema);
 
 export default Subscription;

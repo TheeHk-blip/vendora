@@ -81,12 +81,12 @@ export function VariantSelection({ initialSelections, options, variants, product
 
       <div className="mt-6 flex flex-row justify-between items-center">
         <div>
-          <p className="text-2xl font-bold text-green-600">
+          <p className="text-2xl font-bold text-green-700 dark:text-green-600">
             <PriceDisplay amount={((activeVariant?.price ?? product?.discountedPrice) || product.price)} />
           </p>
           <div className="flex flex-col">
-            <span className="text-xs text-gray-500">SKU: {activeVariant?.sku || "N/A"}</span>
-            <span className={`text-xs font-bold ${activeVariant?.stock ?? 0 > 5 ? 'text-blue-500' : 'text-orange-500'}`}>
+            <span className="text-xs text-black/70 dark:text-white/70">SKU: {activeVariant?.sku || "N/A"}</span>
+            <span className={`font-bold ${activeVariant?.stock ?? 0 > 5 ? 'text-blue-700 dark:text-blue-600' : 'text-orange-700'}`}>
               {activeVariant 
                 ? (activeVariant.stock! > 0 ? `${activeVariant.stock} in stock` : "Out of Stock")
                 : "Configuration unavailable"
@@ -106,13 +106,13 @@ export function VariantSelection({ initialSelections, options, variants, product
       </div>  
       <div className="flex flex-col">
         <span className="flex flex-row items-center gap-2" >
-          Merchant: {sellerInfo.businessName} 
+          <span className="text-black/70 dark:text-white/70" >Merchant: {sellerInfo.businessName} </span>
           <span className="flex items-center" > {sellerInfo.averageRating} <StarRate className="text-yellow-500 mb-1" sx={{ width: 19, height: 19}} /> 
             <span className="mb-1 ml-2.5">({sellerInfo.totalReviews})</span>
           </span>
         </span>                              
         <span className="flex flex-row items-center gap-2">
-          Product Rating: 
+          <span className="text-black/70 dark:text-white/70" >Product Rating: </span>
           <span className="flex items-center">{product.averageRating}<StarRate className="text-yellow-500 mb-1" sx={{ width: 20, height: 20}} />  
             <span className="mb-1 ml-2.5">({product.totalReviews})</span>
           </span>

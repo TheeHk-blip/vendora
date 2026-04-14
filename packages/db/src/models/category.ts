@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { TypedModel } from "./types";
 
 export interface ICategory extends Document {
   slug: string;
@@ -34,6 +35,7 @@ const categorySchema = new Schema<ICategory>({
   } // Stores the [{id, label, type ... }]
 });
 
-const Category = mongoose.models.Category || mongoose.model<ICategory>("Category", categorySchema);
+const Category :TypedModel <ICategory> = 
+  mongoose.models.Category || mongoose.model<ICategory>("Category", categorySchema);
 
 export default Category;

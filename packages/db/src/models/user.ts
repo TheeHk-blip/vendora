@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
+import { TypedModel } from "./types";
 
 export interface IUser extends Document {
   name: string;
@@ -53,6 +54,7 @@ const userSchema = new Schema<IUser>({
 
 userSchema.index({ name: 1 })
 
-const User = mongoose.models?.User || mongoose.model("User", userSchema);
+const User: TypedModel <IUser> = 
+  mongoose.models?.User || mongoose.model("User", userSchema);
 
 export default User;

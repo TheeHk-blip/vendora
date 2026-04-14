@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
+import { TypedModel } from "./types";
 
 export interface IReview extends Document {
   reviewerId: Types.ObjectId;
@@ -38,6 +39,7 @@ const reviewSchema = new Schema<IReview>({
 
 reviewSchema.index({ reviewerId: 1, productId: 1}, { unique: true });
 
-const Review = mongoose.models.Review || mongoose.model<IReview>("Review", reviewSchema);
+const Review: TypedModel <IReview> = 
+  mongoose.models.Review || mongoose.model<IReview>("Review", reviewSchema);
 
 export default Review;

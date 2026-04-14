@@ -65,13 +65,13 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   }
 
   return (
-    <div className="flex flex-col" >
+    <div className="flex flex-col justify-center" >
       <div className="hidden md:flex mb-2.5">
         <SearchInput onSearch={handleSearch} name="product search" />
       </div>      
       <p className="uppercase" >Filter By:</p>
 
-      <div>       
+      <div className="flex flex-col">       
         <section className="mb-2" >
           <h3 className="uppercase text-sm text-gray-600 dark:text-gray-300 mb-2 ">
             {currentCatId ? "Selected Category" : "Main Categories"}
@@ -79,7 +79,7 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
           {currentCatId && (
             <Button
               onClick={() => router.push("/store")}
-              className="text-blue-600 mb-1.5"
+              className="text-blue-600 mb-1.5" 
               variant="outlined"
             >
               Show All

@@ -68,8 +68,8 @@ export default function ProductView({ product, similarProduct, variants, options
             <h2 className={title({size: "xs"})}>Features</h2>
             {Object.entries(product.fields || {}).map(([key, value]) => (
               <div key={key}>
-                <span className="capitalize font-medium text-gray-600 dark:text-gray-400">{key.replace(/-/g, ' ')}: </span>
-                <span>{String(value)}</span>
+                <span className="capitalize font-medium">{key.replace(/-/g, ' ')}: </span>
+                <span className="text-black/70 dark:text-white/70" >{String(value)}</span>
               </div>
             ))}
           </div>

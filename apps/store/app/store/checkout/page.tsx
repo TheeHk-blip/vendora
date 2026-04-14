@@ -2,13 +2,14 @@
 
 import { cartStore, useCart } from "@/app/cart/cartStore";
 import { getTailwindSizes } from "@vendora/ui/src/utilities/image-helper";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@vendora/ui/src/context/toastContext";
 import { Shipping } from "./components/shipping";
 import { OrderSummary } from "./components/orderSummary";
 import { useRouter } from "next/navigation";
 import { socket } from "@vendora/ui/src/utilities/socket";
+import { shippingConfig } from "@vendora/ui/src/constants/shipping";
 
 export interface CheckoutProps {
   firstName: string;
@@ -35,6 +36,11 @@ export default function Checkout() {
     ward: "",
     phone: "",
   })
+
+  const shipping = useMemo(() => {
+    const countyData = shippingConfig.county.find(c => c.name === formData.county);
+    return countyData?.shippingRate ?? 1500
+  }, [formData.county]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -84,7 +90,6 @@ export default function Checkout() {
       default: "100vw"
   });
 
-  const shipping = 250;
   const subTotal = (items ?? []).reduce((acc, item) => {
     return acc + (Number(item?.price || 0) * Number(item?.quantity || 0));
   }, 0);
@@ -96,12 +101,14 @@ export default function Checkout() {
 
     if (!session) {
       showToast("Sign In before checking out. Redirecting to sign in page", "error");
-      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`);
+      setTimeout(() => {
+        router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/signin`);
+      }, 5000)      
     };
 
     const endpoint = paymentMethod === "card" 
-    ? "/create-checkout-session"
-    : "/stk-push";
+    ? `${process.env.NEXT_PUBLIC_SERVER}payments/stripe`
+    : `${process.env.NEXT_PUBLIC_SERVER}payments/stk-push`;
 
     const currentItems = Array.isArray(items) ? items: [];
     if (currentItems.length === 0) {
@@ -128,13 +135,11 @@ export default function Checkout() {
         buyerId: userSession,
         buyerEmail: session?.user.email,
         shipping,        
-        checkoutSelection
+        checkoutSelection,
+        paymentMethod
       };
 
-      const url = `${process.env.NEXT_PUBLIC_SERVER}payments${endpoint}}`;
-      console.log("Endpoint:", url)
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}payments${endpoint}`, {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -154,9 +159,7 @@ export default function Checkout() {
         
         socket.emit("join-order-room", orderId);
         router.push(`/store/order-status?id=${orderId}&no=${orderNumber}&amt=${amount}`);      
-      } else {
-        showToast(`Error: ${result.error || "Failed to initialize payment. Try again"}`, "error")
-      }      
+      }   
 
     } catch (error) {
       console.error("Submission failed", error);

@@ -6,6 +6,7 @@ export const shippingConfig = {
   county: [
     {
       name: "Mombasa",
+      shippingRate: 600,
       subCounty: [
         { name: "Changamwe", ward: ["Port Reitz", "Kipevu", "Airport", "Chaani"] },
         { name: "Jomvu", ward: ["Jomvu Kuu", "Miritini", "Mikindani"] },
@@ -17,6 +18,7 @@ export const shippingConfig = {
     },
     {
       name: "Kwale",
+      shippingRate: 600,
       subCounty: [
         { name: "Msambweni", ward: ["Gombato Bongwe", "Ukunda", "Kinondo"] },
         { name: "Lunga Lunga", ward: ["Pongwe Kikoneni", "Dzombo", "Mwereni"] },
@@ -26,6 +28,7 @@ export const shippingConfig = {
     },
     {
       name: "Kilifi",
+      shippingRate: 600,
       subCounty: [
         { name: "Kilifi North", ward: ["Tezo", "Sokoni", "Kibarani", "Watamu"] },
         { name: "Kilifi South", ward: ["Chasimba", "Mtwapa", "Mtepeni", "Shariani"] },
@@ -36,6 +39,7 @@ export const shippingConfig = {
     },
     {
       name: "Tana River",
+      shippingRate: 650,
       subCounty: [
         { name: "Garsen", ward: ["Kipini East", "Kipini West", "Garsen Central"] },
         { name: "Galole", ward: ["Kinakomba", "Mikinduni", "Wayu"] },
@@ -44,6 +48,7 @@ export const shippingConfig = {
     },
     {
       name: "Lamu",
+      shippingRate: 650,
       subCounty: [
         { name: "Lamu East", ward: ["Faza", "Kiunga", "Basuba"] },
         { name: "Lamu West", ward: ["Shella", "Mkomani", "Hindi", "Mkunumbi"] },
@@ -51,6 +56,7 @@ export const shippingConfig = {
     },
     {
       name: "Taita Taveta",
+      shippingRate: 500,
       subCounty: [
         { name: "Taveta", ward: ["Chala", "Mahoō", "Bura", "Mboghoni"] },
         { name: "Wundanyi", ward: ["Wundanyi/Mbale", "Werugha", "Mgange"] },
@@ -60,6 +66,7 @@ export const shippingConfig = {
     },
     {
       name: "Garissa",
+      shippingRate: 1200,
       subCounty: [
         { name: "Garissa Township", ward: ["Waberi", "Galbet", "Township", "Iftin"] },
         { name: "Balambala", ward: ["Balambala", "Danyere", "Jarajara"] },
@@ -71,6 +78,7 @@ export const shippingConfig = {
     },
     {
       name: "Wajir",
+      shippingRate: 2500,
       subCounty: [
         { name: "Wajir North", ward: ["Gurar", "Bute", "Korondile", "Malkagufu"] },
         { name: "Wajir East", ward: ["Wagalla", "Township", "Barwaqo", "Khorof-Harar"] },
@@ -82,6 +90,7 @@ export const shippingConfig = {
     },
     {
       name: "Mandera",
+      shippingRate: 2800,
       subCounty: [
         { name: "Mandera West", ward: ["Takaba South", "Takaba", "Lagsure"] },
         { name: "Mandera North", ward: ["Ashabito", "Guticha", "Morothile"] },
@@ -93,6 +102,7 @@ export const shippingConfig = {
     },
     {
       name: "Marsabit",
+      shippingRate: 2800,
       subCounty: [
         { name: "Moyale", ward: ["Butiye", "Sololo", "Heillu Manyatta", "Golbo"] },
         { name: "North Horr", ward: ["Dukana", "Maikona", "North Horr", "Illeret"] },
@@ -102,6 +112,7 @@ export const shippingConfig = {
     },
     {
       name: "Isiolo",
+      shippingRate: 3200,
       subCounty: [
         { name: "Isiolo", ward: ["Wabera", "Bulla Pesa", "Burat", "Ngaremara", "Oldo/Nyiro"] },
         { name: "Garbatulla", ward: ["Garbatulla", "Kina", "Sericho"] },
@@ -110,6 +121,7 @@ export const shippingConfig = {
     },
     {
       name: "Meru",
+      shippingRate: 450,
       subCounty: [
         { name: "Imenti North", ward: ["Municipality", "Ntunene", "Nyaki West", "Nyaki East"] },
         { name: "Imenti South", ward: ["Mitunguu", "Igoji East", "Igoji West", "Abogeta East", "Abogeta West"] },
@@ -123,6 +135,7 @@ export const shippingConfig = {
     },
     {
       name: "Tharaka-Nithi",
+      shippingRate: 450,
       subCounty: [
         { name: "Chuka", ward: ["Mariani", "Karingani", "Magumoni", "Mugwe"] },
         { name: "Maara", ward: ["Mitheru", "Muthambi", "Mwimbi", "Ganga", "Chogoria"] },
@@ -131,6 +144,7 @@ export const shippingConfig = {
     },
     {
       name: "Embu",
+      shippingRate: 450,
       subCounty: [
         { name: "Manyatta", ward: ["Ruguru/Ngandori", "Kithimu", "Nginda", "Mbeti North", "Kirimari"] },
         { name: "Runyenjes", ward: ["Gaturi South", "Kagaari South", "Kagaari North", "Central Ward", "Kyeni North", "Kyeni South"] },
@@ -140,6 +154,7 @@ export const shippingConfig = {
     },
     {
       name: "Kitui",
+      shippingRate: 400,
       subCounty: [
         { name: "Kitui Central", ward: ["Miwani", "Township", "Mulango", "Kyangwithya West", "Kyangwithya East"] },
         { name: "Kitui West", ward: ["Mutonguni", "Kauwi", "Matinyani", "Kwa Mutonga/Kithumula"] },
@@ -152,6 +167,7 @@ export const shippingConfig = {
     },
     {
       name: "Machakos",
+      shippingRate: 300,
       subCounty: [
         { name: "Machakos Town", ward: ["Kalama", "Muputi", "Mumbuni North", "Macha Town", "Muvuti/Kiima-Kimwe"] },
         { name: "Mavoko", ward: ["Athi River", "Syokimau/Mlolongo", "Upper Katani", "Kinanie/Muthwani"] },
@@ -165,6 +181,7 @@ export const shippingConfig = {
     },
     {
       name: "Makueni",
+      shippingRate: 450,
       subCounty: [
         { name: "Makueni", ward: ["Wote", "Muvau/Kikumini", "Mavindini", "Kitise/Kithuki", "Kathonzweni", "Nzaui/Kilili/Kalamba"] },
         { name: "Mbooni", ward: ["Mbooni", "Kithungo/Kitundu", "Tulimani", "Kisau/Kiteta", "Kako/Waia", "Kalawa"] },
@@ -176,6 +193,7 @@ export const shippingConfig = {
     },
     {
       name: "Nyandarua",
+      shippingRate: 400,
       subCounty: [
         { name: "Ol Kalou", ward: ["Karau", "Kanjuiri Ridge", "Kaimbaga", "Tower"] },
         { name: "Ol Joro Orok", ward: ["Gathanji", "Gatimu", "Weru", "Charagita"] },
@@ -186,6 +204,7 @@ export const shippingConfig = {
     },
     {
       name: "Nyeri",
+      shippingRate: 450,
       subCounty: [
         { name: "Nyeri Town", ward: ["Kiganjo/Mathari", "Rware", "Gatitu/Muruguru", "Ruring'u", "Kamakwa/Mukaro"] },
         { name: "Othaya", ward: ["Mahiga", "Iria-Ini", "Chinga", "Karima"] },
@@ -196,7 +215,8 @@ export const shippingConfig = {
       ],
     },
     {
-      name: "Kirinyaga",
+      name: "Kirinyaga", 
+      shippingRate: 350,
       subCounty: [
         { name: "Mwea East", ward: ["Tebere", "Nyangati", "Murinduko", "Gathigiriri"] },
         { name: "Mwea West", ward: ["Mutithi", "Kangai", "Thiba", "Wamumu"] },
@@ -207,6 +227,7 @@ export const shippingConfig = {
     },
     {
       name: "Murang'a",
+      shippingRate: 350,
       subCounty: [
         { name: "Kiharu", ward: ["Wangu", "Mugoiri", "Mbiri", "Township", "Murarandia", "Gaturi"] },
         { name: "Kangema", ward: ["Kanyenyaini", "Muguru", "Rwathia"] },
@@ -219,6 +240,7 @@ export const shippingConfig = {
     },
     {
       name: "Kiambu",
+      shippingRate: 250,
       subCounty: [
         { name: "Kiambu Town", ward: ["Ting'ang'a", "Ndumberi", "Riabai", "Township"] },
         { name: "Ruiru", ward: ["Gitothua", "Biashara", "Gatongora", "Kahawa Sukari", "Kahawa Wendani", "Kiuu", "Mwiki", "Mwihoko"] },
@@ -236,6 +258,7 @@ export const shippingConfig = {
     },
     {
       name: "Nairobi",
+      shippingRate: 150,
       subCounty: [
         { name: "Westlands", ward: ["Kitisuru", "Parklands/Highridge", "Karura", "Kangemi", "Mountain View"] },
         { name: "Dagoretti North", ward: ["Kilimani", "Kawangware", "Gatina", "Kileleshwa", "Kabiro"] },
@@ -258,6 +281,7 @@ export const shippingConfig = {
     },
     {
       name: "Turkana",
+      shippingRate: 2500,
       subCounty: [
         { name: "Turkana Central", ward: ["Lodwar Township", "Kanamkemer", "Kalokol", "Kangatotha"] },
         { name: "Turkana North", ward: ["Kaeris", "Lake Zone", "Lapur", "Kaaleng/Kaikor"] },
@@ -269,6 +293,7 @@ export const shippingConfig = {
     },
     {
       name: "West Pokot",
+      shippingRate: 1800,
       subCounty: [
         { name: "Kapenguria", ward: ["Riwo", "Kapenguria", "Mnagei", "Siyoi", "Endugh"] },
         { name: "Sigor", ward: ["Wei Wei", "Lomut", "Masol", "Sekerr"] },
@@ -278,6 +303,7 @@ export const shippingConfig = {
     },
     {
       name: "Samburu",
+      shippingRate: 1500,
       subCounty: [
         { name: "Samburu West", ward: ["Lodokejek", "Suguta Marmar", "Maralal", "Loosuk"] },
         { name: "Samburu North", ward: ["El-Barta", "Nachola", "Ndoto", "Nyiro", "Angata Nanyokie"] },
@@ -286,6 +312,7 @@ export const shippingConfig = {
     },
     {
       name: "Trans Nzoia",
+      shippingRate: 1500,
       subCounty: [
         { name: "Kiminini", ward: ["Kiminini", "Waitaluk", "Sirende", "Hospital", "Sikhendu"] },
         { name: "Endebess", ward: ["Endebess", "Matumbei", "Chepchoina"] },
@@ -296,6 +323,7 @@ export const shippingConfig = {
     },
     {
       name: "Uasin Gishu",
+      shippingRate: 1500,
       subCounty: [
         { name: "Soy", ward: ["Mois Bridge", "Kapkures", "Ziwa", "Segero/Barsombe", "Kipsomba"] },
         { name: "Turbo", ward: ["Ngenyilel", "Tapsagoi", "Kamagut", "Kiplombe", "Huruma"] },
@@ -307,6 +335,7 @@ export const shippingConfig = {
     },
     {
       name: "Elgeyo-Marakwet",
+      shippingRate: 1200,
       subCounty: [
         { name: "Marakwet East", ward: ["Kapyego", "Sambirir", "Endo", "Embobut / Embulot"] },
         { name: "Marakwet West", ward: ["Lelan", "Sengwer", "Cherang'any/Chebororwa", "Moiben/Kuserwo"] },
@@ -316,6 +345,7 @@ export const shippingConfig = {
     },
     {
       name: "Nandi",
+      shippingRate: 1200,
       subCounty: [
         { name: "Tinderet", ward: ["Songhor/Soba", "Tindiret", "Chemelil/Chemase", "Kapsimotwo"] },
         { name: "Aldai", ward: ["Kabwareng", "Terik", "Kemeloi-Maraba", "Kobujoi", "Kaptumo-Kaboi"] },
@@ -327,6 +357,7 @@ export const shippingConfig = {
     },
     {
       name: "Baringo",
+      shippingRate: 1300,
       subCounty: [
         { name: "Baringo Central", ward: ["Kabarnet", "Sacho", "Tenges", "Ewalel/Chapchap"] },
         { name: "Baringo North", ward: ["Barwessa", "Kabartonjo", "Saimo/Kipsaraman", "Saimo/Soi"] },
@@ -338,6 +369,7 @@ export const shippingConfig = {
     },
     {
       name: "Laikipia",
+      shippingRate: 900,
       subCounty: [
         { name: "Laikipia West", ward: ["Ol-Moran", "Rumuruti Town", "Githiga", "Marmanet", "Igwamiti"] },
         { name: "Laikipia East", ward: ["Ngabit", "Tigithi", "Umande", "Nanyuki"] },
@@ -346,6 +378,7 @@ export const shippingConfig = {
     },
     {
       name: "Nakuru",
+      shippingRate: 400,
       subCounty: [
         { name: "Nakuru East", ward: ["Biashara", "Kivumbini", "Flamingo", "Menengai", "Nakuru East"] },
         { name: "Nakuru West", ward: ["Barut", "London", "Kaptembwo", "Kapkures", "Rhoda"] },
@@ -362,6 +395,7 @@ export const shippingConfig = {
     },
     {
       name: "Narok",
+      shippingRate: 450,
       subCounty: [
         { name: "Narok North", ward: ["Olpusimoru", "Olokurto", "Narok Town", "Nkareta", "Olorropil"] },
         { name: "Narok South", ward: ["Majimoto/Naroosura", "Ololulung'a", "Melelo", "Sagamian"] },
@@ -373,6 +407,7 @@ export const shippingConfig = {
     },
     {
       name: "Kajiado",
+      shippingRate: 330,
       subCounty: [
         { name: "Kajiado Central", ward: ["Purko", "Ildamat", "Dalalekutuk", "Matapato North", "Matapato South"] },
         { name: "Kajiado North", ward: ["Olkeri", "Ongata Rongai", "Nkaimurunya", "Oloolua", "Ngong"] },
@@ -383,6 +418,7 @@ export const shippingConfig = {
     },
     {
       name: "Kericho",
+      shippingRate: 600,
       subCounty: [
         { name: "Ainamoi", ward: ["Kapkugerwet", "Ainamoi", "Kipchimchim", "Kipchebor"] },
         { name: "Belgut", ward: ["Waldai", "Kabianga", "Cheboin", "Chaik"] },
@@ -394,6 +430,7 @@ export const shippingConfig = {
     },
     {
       name: "Bomet",
+      shippingRate: 750,
       subCounty: [
         { name: "Bomet Central", ward: ["Siloibwet", "Singorwet", "Ndaraweta", "Chesoen", "Mutarakwa"] },
         { name: "Bomet East", ward: ["Longisa", "Kembu", "Chemaner", "Merigi", "Kipreres"] },
@@ -404,6 +441,7 @@ export const shippingConfig = {
     },
     {
       name: "Kakamega",
+      shippingRate: 650,
       subCounty: [
         { name: "Lurambi", ward: ["Butsotso South", "Butsotso Central", "Butsotso East", "Sheywe", "Mahiakalo", "Shirere"] },
         { name: "Mumias West", ward: ["Mumias Central", "Mumias North", "Etenje", "Musanda"] },
@@ -421,6 +459,7 @@ export const shippingConfig = {
     },
     {
       name: "Vihiga",
+      shippingRate: 600,
       subCounty: [
         { name: "Vihiga", ward: ["Lugaga-Wamuluma", "South Maragoli", "Central Maragoli", "Mungoma"] },
         { name: "Sabatia", ward: ["Lyaduywa/Izava", "West Sabatia", "Chavakali", "North Maragoli"] },
@@ -431,6 +470,7 @@ export const shippingConfig = {
     },
     {
       name: "Bungoma",
+      shippingRate: 650,
       subCounty: [
         { name: "Kanduyi", ward: ["Bukembe West", "Bukembe East", "Township", "Khalaba", "Musikoma", "Tuuti/Marakaru", "Sang'alo Central"] },
         { name: "Bumula", ward: ["Bumula", "Khasoko", "Kabula", "West Bukusu", "South Bukusu"] },
@@ -445,6 +485,7 @@ export const shippingConfig = {
     },
     {
       name: "Busia",
+      shippingRate: 650,
       subCounty: [
         { name: "Matayos", ward: ["Bukhayo West", "Mayenje", "Matayos South", "Busia Township"] },
         { name: "Teso North", ward: ["Malaba Central", "Malaba North", "Malaba South", "Ang'urai South", "Ang'urai North", "Ang'urai East"] },
@@ -457,6 +498,7 @@ export const shippingConfig = {
     },
     {
       name: "Siaya",
+      shippingRate: 600,
       subCounty: [
         { name: "Alego Usonga", ward: ["Siaya Township", "North Alego", "Central Alego", "West Alego", "South Alego"] },
         { name: "Gem", ward: ["North Gem", "West Gem", "Central Gem", "Yala Township", "East Gem", "South Gem"] },
@@ -468,6 +510,7 @@ export const shippingConfig = {
     },
     {
       name: "Kisumu",
+      shippingRate: 550,
       subCounty: [
         { name: "Kisumu Central", ward: ["Railways", "Shaurimoyo Kaloleni", "Market Milimani", "Kondele", "Nyalenda B"] },
         { name: "Kisumu East", ward: ["Kajulu", "Manyatta B", "Nyalenda A", "Kolwa East", "Kolwa Central"] },
@@ -480,6 +523,7 @@ export const shippingConfig = {
     },
     {
       name: "Homa Bay",
+      shippingRate: 550,
       subCounty: [
         { name: "Homa Bay Town", ward: ["Homa Bay Central", "Homa Bay West", "Homa Bay East"] },
         { name: "Rangwe", ward: ["West Kano/Wawidhi", "Kagan", "Kochia", "Central Rangwe"] },
@@ -494,6 +538,7 @@ export const shippingConfig = {
     },
     {
       name: "Migori",
+      shippingRate: 600,
       subCounty: [
         { name: "Suna East", ward: ["God Jope", "Suna Central", "Kakrao", "Kwa"] },
         { name: "Suna West", ward: ["Wiga", "Wasimbete", "Ragana-Oruba", "Wasweta II"] },
@@ -507,6 +552,7 @@ export const shippingConfig = {
     },
     {
       name: "Kisii",
+      shippingRate: 650,
       subCounty: [
         { name: "Kitutu Chache North", ward: ["Monyerero", "Sensi", "Marani", "Mwamonari"] },
         { name: "Kitutu Chache South", ward: ["Bogeka", "Nyatieko", "Nyakoe", "Kitutu Central", "Nyabusaro"] },
@@ -521,6 +567,7 @@ export const shippingConfig = {
     },
     {
       name: "Nyamira",
+      shippingRate: 650,
       subCounty: [
         { name: "West Mugirango", ward: ["Nyamaiya", "Bogichora", "Bosamaro", "Bonyamatuta", "Township"] },
         { name: "North Mugirango", ward: ["Itibo", "Bomwagamo", "Bokeira", "Magwagwa", "Ekerenyo"] },

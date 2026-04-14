@@ -26,7 +26,7 @@ export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynami
   }
 
   return (
-    <div className="flex md:hidden">         
+    <div className="flex md:hidden w-full">         
       <div className="flex flex-row justify-between w-full" >
         <SearchInput onSearch={handleSearch} name="mobile search input" />
         <Button
@@ -45,6 +45,7 @@ export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynami
         closeButton={            
           <button onClick={closeDrawer} className="self-end" >X</button>        
         }
+        className="w-54"
       />      
     </div>
     

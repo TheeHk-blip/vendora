@@ -70,9 +70,17 @@ async function Nav() {
   )
 }
 
+function NavSkeleton() {  
+  return (
+    <div className="h-12.5 px-1.5 md:px-2.5 md:py-2.5 w-full">
+      <h1 className={title({ color: "green", size: "sm", className: limeLight.className})}>Vendora</h1>
+    </div>
+  )
+}
+
 export default function Navigation(){
   return (
-    <Suspense fallback={<div></div>}>
+    <Suspense fallback={<NavSkeleton />}>
       <Nav />
     </Suspense>
   )

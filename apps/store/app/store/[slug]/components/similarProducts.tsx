@@ -28,7 +28,7 @@ export function SimilarProducts({product}: {product: IProductBase[]}) {
               footer={
                 <div className="flex flex-col min-w-0">
                   <span className="truncate text-sm whitespace-nowrap overflow-hidden">{item.name}</span>
-                  <PriceDisplay amount={item.price} className="text-gray-600 dark:text-gray-400" />
+                  <PriceDisplay amount={item.price} className="text-black/80 dark:text-white/80" />
                 </div>              
               }
             >

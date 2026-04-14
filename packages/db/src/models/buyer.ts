@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Types} from "mongoose";
+import { TypedModel } from "./types";
 
 export interface IBuyer extends Document {
   userId: Types.ObjectId;
@@ -51,6 +52,7 @@ const buyerSchema = new Schema<IBuyer>({
   }
 }, {timestamps: true});
 
-const Buyer = mongoose.models.Buyer || mongoose.model<IBuyer>("Buyer", buyerSchema);
+const Buyer: TypedModel <IBuyer> = 
+  mongoose.models.Buyer || mongoose.model<IBuyer>("Buyer", buyerSchema);
 
 export default Buyer;

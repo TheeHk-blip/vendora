@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
+import { TypedModel } from "./types";
 
 export interface IProductBase {  
   _id: string;
@@ -94,6 +95,7 @@ const productSchema = new Schema<IProduct>({
 
 productSchema.index({categoryId: 1, price: 1})
 
-const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema);
+const Product: TypedModel  <IProduct> = 
+  mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema);
 
 export default Product;

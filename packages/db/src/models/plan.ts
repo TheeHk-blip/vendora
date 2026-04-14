@@ -1,4 +1,5 @@
 import mongoose, {Types, Document, Schema} from "mongoose";
+import { TypedModel } from "./types";
 
 export interface IPlan extends Document {
   name: string;
@@ -50,6 +51,7 @@ const planSchema = new Schema<IPlan>(
   }
 )
 
-const Plan = mongoose.models.Plan || mongoose.model<IPlan>("Plan", planSchema);
+const Plan: TypedModel <IPlan> = 
+  mongoose.models.Plan || mongoose.model<IPlan>("Plan", planSchema);
 
 export default Plan;
