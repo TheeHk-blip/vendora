@@ -25,8 +25,7 @@ export async function VerifyOtp({ email, otp }: EmailProps) {
     throw new Error("Invalid verification code");
   }
 
-  user.isVerified = true;
-  user.verificationOtp = undefined;
+  user.isVerified = true;  
   await user.save();
 
   return { success: true};

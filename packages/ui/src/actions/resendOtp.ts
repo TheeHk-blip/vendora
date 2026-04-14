@@ -2,8 +2,8 @@
 
 import { connectDB } from "../../../db/src/connection/client";
 import User from "../../../db/src/models/user";
-import crypto from "crypto";
 import { sendVerificationEmail } from "./mail";
+import { randomInt } from "node:crypto"
 
 interface EmailProps {
   email: string;
@@ -16,11 +16,11 @@ export async function ResendOtp({ email }: EmailProps) {
   if (!user) throw new Error("User not found");
 
   const now = new Date();
-  if (user.lastOtpSentAt && (now.getTime() - user.lastOtpSentAt.getTime() < 60000)) {
+  if (user.verificationOtp.expiresAt && (now.getTime() - user.verificationOtp.expiresAt.getTime() < 60000)) {
     throw new Error("Please wait 60 seconds before requesting a new code");
   }
 
-  const newOtp = crypto.randomInt(100000, 999999).toString();
+  const newOtp = randomInt(10000, 50000).toString();
   const expiresAt = new Date(Date.now() + 10 * 60000);
 
   const updatedUser = await User.findOneAndUpdate(
