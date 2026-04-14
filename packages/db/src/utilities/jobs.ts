@@ -1,7 +1,7 @@
 import { Agenda } from "agenda";
 import { MongoBackend } from "@agendajs/mongo-backend";
-import { clientPromise } from "../connection/client";
-import Order from "../models/order";
+import { clientPromise } from "../connection/client.js";
+import Order from "../models/order.js";
 import { Server } from "socket.io";
 
 export let agenda: Agenda;
