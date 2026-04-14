@@ -3,7 +3,8 @@ import { stripe } from "./stripe.config.js";
 import axios from "axios";
 import { getMpesaAccessToken } from "./mpesa.service.js";
 import { Order, Subscription, type IOrder, type ISubscription } from "@vendora/db";
-import { preparePaymentData } from "src/helpers/preparePayment.js";
+import { preparePaymentData } from "./../helpers/preparePayment.js";
+
 
 
 const router = Router();
