@@ -6,7 +6,8 @@ import cors from "cors";
 import compression from "compression";
 import { PaymentRouter } from "./payments/payments.route.js";
 import { PaymentCallbackRouter } from "./callbacks/payments.callbacks.route.js";
-import { connectDB, initJobs } from "@vendora/db";
+import { connectDB } from "@vendora/db";
+import { initJobs } from "@vendora/db";
 
 const app: Application = express();
 const httpServer = createServer(app);
