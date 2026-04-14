@@ -20,7 +20,7 @@
     "skipLibCheck": true,
     "paths": {
       "@vendora/db": ["../../packages/db/src/backend.ts"],
-      "@db/*": ["../../packages/db/dist/*.js"]
+      "#db/*": ["../../packages/db/dist/*.js"]
     }
   },
   "references": [
