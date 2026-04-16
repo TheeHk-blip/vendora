@@ -131,7 +131,7 @@ router.post("/stripe", async (req, res) => {
   let order:IOrder | null = null;
   let subscription:ISubscription | null = null;
   try {
-    const { type, orderId } = req.body;
+    const { type, orderId, planSlug } = req.body;
     const paymentContext = await preparePaymentData(req.body);    
 
     order = paymentContext.order ?? null;
@@ -141,16 +141,18 @@ router.post("/stripe", async (req, res) => {
       type,
       orderId: order?._id.toString() || "",   
       transactionDesc,   
-      subscriptionId: subscription?._id.toString() || "",
+      subscriptionId: subscription?._id.toString() || "",    
       isBalancePayment: (!!orderId).toString()
     };
 
     let successUrl = "";
-    if (transactionDesc === "Balance Payment") {
+    if (type === "subscription") {
+      successUrl = `${process.env.SELLER_APP}/subscription/status/success/?session_id={CHECKOUT_SESSION_ID}&plan=${planSlug}`
+    } 
+    else if (transactionDesc === "Balance Payment") {
       successUrl = `${process.env.STORE_APP}/store/order-status/payments/success/?session_id={CHECKOUT_SESSION_ID}&no=${order?.orderNumber}`
-    } else if (type === "susbcription") {
-      successUrl = `${process.env.SELLER_APP}/`
-    } else {
+    }     
+     else {
       successUrl =`${process.env.STORE_APP}/store/order-status/success/?session_id={CHECKOUT_SESSION_ID}&no=${order?.orderNumber}`
     }
               

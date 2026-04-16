@@ -1,4 +1,4 @@
-import { Buyer, Order, Plan, shippingConfig, Subscription, Variant, type ICategory, type IOrder, type IProduct, type ISubscription, type IVariant } from "@vendora/db/backend";
+import { Buyer, Order, Plan, Seller, shippingConfig, Subscription, Variant, type ICategory, type IOrder, type IProduct, type ISubscription, type IVariant } from "@vendora/db/backend";
 import { nanoid } from "nanoid";
 
 interface IPaymentContext {
@@ -79,9 +79,10 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
     amountToPay = plan.price;
     phoneNumber = formatPhoneNumber(phone);
     accountReference = `SUB-${plan.slug.toUpperCase()}`;
-    transactionDesc = `Vendora ${plan.name} Subscription`;
+    transactionDesc = `Vendora ${plan.name} Subscription`;    
 
-    const existingSub = await Subscription.findOne({ subscriberId: sellerId, status: "active" })
+    const subscriber = await Seller.findOne({ userId: sellerId });
+    const existingSub = await Subscription.findOne({ subscriberId: subscriber?._id, status: "active" })
       .populate<{ plan: PopulatedPlan }>([
         {
           path: "plan",
@@ -107,7 +108,7 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
       }    
     } else {
       subscription = await Subscription.create({
-        subscriberId: sellerId,
+        subscriberId: subscriber?._id,
         plan: plan._id,
         status: "pending"
       }) 
@@ -165,7 +166,10 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
         const variantMap = new Map<string, IVariant>(dbVariants.map((v: IVariant) => [v._id.toString(), v])); 
 
         const sellerIds = [...new Set(orderItems.map((item) => item.merchantId))];
+        console.log("SID:", sellerIds)
         const sellerPlans = new Map();
+
+        const basicPlan = await Plan.findOne({ slug: "basic" }).lean();
 
         for (const sId of sellerIds) {
           const sub = await Subscription.findOne({ subscriberId: sId, status: "active" })
@@ -173,11 +177,13 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
               {
                 path: "plan",
                 model: "Plan",
-                select: "slug"
+                select: "slug commission fashionCommission"
               }
             ])
             .lean<ISubscription>();
-          sellerPlans.set(sId.toString(), sub?.plan || await Plan.findOne({ slug: "basic" }).lean());
+          
+          const plan = sub?.plan || basicPlan
+          sellerPlans.set(sId.toString(), plan);
         }
 
         let totalProductValue = 0;    
@@ -200,13 +206,13 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
           const plan = sellerPlans.get(item.merchantId.toString());
           const categoryName = dbVar.productId?.categoryId?.slug || "";
           const isFashion = categoryName === "fashion";
-          const rate = isFashion ? plan.fashionCommission : plan.commission;
+          const rate = isFashion ? plan.fashionCommission : plan.commission;         
 
           const itemTotal = dbVar.price * item.quantity;
           const itemRevenue = itemTotal * rate;
 
           totalProductValue += itemTotal;
-          totalPlatformRevenue += itemRevenue;
+          totalPlatformRevenue += Number(itemRevenue.toFixed(2));
 
           return {
             variantId: dbVar._id,
@@ -266,7 +272,7 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
             }
           },
           status: "awaitingCommitment"
-        });
+        });        
 
         return {
           order,

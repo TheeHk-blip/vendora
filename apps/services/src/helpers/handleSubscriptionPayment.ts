@@ -34,10 +34,12 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
           let bonusDays = 0;
           const finalExpiry = new Date();
           finalExpiry.setDate(finalExpiry.getDate() + 29);
-          if (oldSub && (sub.metadata).action === "upgrade") {
+          if (oldSub && (sub.metadata).action === "upgrade" && oldSub.expiryDate) {
             const oldPrice = (oldSub.plan).price || 0;
             const newPrice = newSub?.price || 1;
-            const remainingDays = Math.max(0, (oldSub.expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+
+            const oldExpiry = oldSub.expiryDate ? new Date(oldSub.expiryDate).getTime() : Date.now();
+            const remainingDays = Math.max(0, (oldExpiry - Date.now()) / (1000 * 60 * 60 * 24));
 
             bonusDays = Math.floor((remainingDays * oldPrice) / newPrice);            
             finalExpiry.setDate(newExpiry.getDate() + bonusDays);
@@ -57,6 +59,7 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
               receiptNumber: receipt,
               startDate: now,
               expiryDate: finalExpiry,
+              isLifeTime: false,
               "metadata.bonusDays": bonusDays
             }],
             { session }
@@ -74,6 +77,12 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
 
       case "renewed":
         try {
+          const oldSub = await Subscription.findOne({ subscriberId: sub.subscriberId, status: "renewed"})
+            .sort({ createdAt: -1 })
+            .select(" isLifeTime expiryDate")
+            .session(session);
+
+          const  isLifetime = oldSub?.isLifeTime === true;
           await Subscription.updateMany(
             { subscriberId: sub.subscriberId, status: "renewed" },
             { $set: { expiryDate: now }},
@@ -87,6 +96,7 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
               plan: sub.plan,
               receiptNumber: receipt,
               startDate: now,
+              isLifeTime: isLifetime,
               expiryDate: newExpiry
             }],
             { session }
@@ -109,7 +119,8 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
             $set: {
               status: "active",
               receiptNumber: receipt,
-              paidAt: new Date(),
+              isLifeTime: false,
+              startDate: now,
               expiryDate: newExpiry,
             }
           },
@@ -130,8 +141,8 @@ export async function handleSubscriptionPayment(sub: ISubscription, receipt: str
     }
 
     const sellerId = new mongoose.Types.ObjectId(sub.subscriberId as unknown as string)
-    await Seller.findOneAndUpdate(
-      {userId: sellerId}, 
+    await Seller.findByIdAndUpdate(
+      sellerId, 
       {
         $set: {
           subscriptionId: updateSub._id,

@@ -40,8 +40,7 @@ async function startServer() {
     await connectDB();
     console.log("DB connected");
 
-    await initJobs(io);
-    console.log("Simulation Engine Ready")
+    await initJobs(io);   
 
     app.set("io", io);
     app.use(compression())

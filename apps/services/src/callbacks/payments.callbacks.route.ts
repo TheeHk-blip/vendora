@@ -92,11 +92,13 @@ router.post("/stripe", express.raw({ type: "application/json"}), async (req: Req
         const sub = await Subscription.findById(subscriptionId);
         if (!sub) return;
         await handleSubscriptionPayment(sub, session.id, req);
-      } else {
-        const order = await Order.findById(orderId);
-        if (!order) return;
-        await handleOrderPayment(order, session.id, session.id, req);
-      }
+
+        return res.status(200).json({ received: true });
+      } 
+            
+      const order = await Order.findById(orderId);
+      if (!order) return res.status(404).send("Order not found");
+      await handleOrderPayment(order, session.id, session.id, req);      
       
       if (orderId && transactionDesc !== "Balance Payment") {        
         const updatedOrder = await Order.findByIdAndUpdate(orderId, {
