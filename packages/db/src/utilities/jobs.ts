@@ -1,4 +1,4 @@
-import { Agenda } from "agenda";
+import { Agenda, type Job } from "agenda";
 import { MongoBackend } from "@agendajs/mongo-backend";
 import { clientPromise } from "#db/connection/client";
 import Order from "#db/models/order";
@@ -20,7 +20,11 @@ export const initJobs = async (io: Server) => {
     processEvery: "30 seconds"
   });
 
-  agenda.define(`update-order-status`, async(job: any) => {
+  agenda.define(`update-order-status`, async(job: Job<{
+    orderId: string;
+    buyerId: string;
+    status: string
+  }>) => {
     const { orderId, buyerId, status } = job.attrs.data;
     await Order.findByIdAndUpdate(orderId, { status });
 
@@ -28,18 +32,36 @@ export const initJobs = async (io: Server) => {
     console.log(`[SIMULATION] Order ${orderId} updated to: ${status}`);
   });
 
-  agenda.define(`cleanup-unattended-order`, async(job: any) => {
-    const { orderId } = job.attrs.data;
+  agenda.define(`cleanup-unattended-order`, async(job: Job) => {    
+    console.log("!!! CLEANUP TRIGGERED AT:", new Date().toISOString());
+    const cutOffTime = new Date(Date.now() - 15 * 60 * 1000);
 
-    const order = await Order.findById(orderId);
+    const result = await Order.deleteMany({
+      status: "awaitingCommitment",
+      createdAt: { $lt: cutOffTime }
+    });
 
-    if (order && order.status === "awaitingCommitment") {
-      await Order.findByIdAndDelete(orderId);
-      console.log(`[CLEANUP] Order ${orderId} removed from DB due to inactivity.`);
+    if (result.deletedCount > 0) {
+      console.log(`[CLEANUP] Removed ${result.deletedCount} unattended orders due to inactivity`);
+    } else {
+      console.log(`[CLEANUP] No unattended orders found to clean up`)
     }
-  })
+    
+  });
 
+  const collection = db.collection("Jobs");
+  const result = await collection.updateMany(
+    { lockedAt: { $exists: true } }, 
+    { $set: { lockedAt: null } }
+  );
+  
+  if (result.modifiedCount > 0) {
+    console.log(`[AGENDA] Unlocked ${result.modifiedCount} stale jobs from previous run.`);
+  }
+
+  
   await agenda.start();
+  
   console.log("Agenda simulation service started");
   return agenda;
 };
@@ -58,6 +80,6 @@ export const startOrderLifeCycle = async (orderId: string, buyerId: string) => {
     buyerId,
     status: "delivered"
   });
-
-  await agenda.schedule("in 45 minutes", "cleanup-unattended-order", {orderId})
+  
+  await agenda.every("1 minute", "cleanup-unattended-order", {}, { timezone: "UTC"});
 };

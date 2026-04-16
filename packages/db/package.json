@@ -5,15 +5,13 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",        
-      "bundler": "./src/index.ts",
-      "default": "./dist/index.js"
+    "./frontend": {
+      "types": "./src/index.d.ts",           
+      "import": "./src/index.ts"
     },
     "./backend": {
-      "types": "./dist/backend.d.ts",
-      "node": "./dist/backend.js",     
-      "default": "./dist/backend.js"
+      "types": "./dist/backend.d.ts",       
+      "import": "./dist/backend.js"
     }
   },
   "imports": {

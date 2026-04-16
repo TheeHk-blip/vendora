@@ -70,7 +70,7 @@ export function InputField({
         htmlFor={inputId}
         className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none 
         text-gray-600 dark:text-gray-300 transition-all duration-200  peer-focus:opacity-100
-        peer-focus:-top-2 peer-focus:text-xs peer-focus:text-neutral-800 peer-valid:opacity-100 peer-valid:-top-2 peer-valid:text-xs peer-valid:text-blue-600 dark:peer-valid:text-blue-600"
+        peer-focus:-top-2 peer-focus:text-xs peer-focus:text-neutral-800 peer-valid:opacity-100 peer-valid:-top-2 peer-valid:text-xs peer-valid:text-blue-700 dark:peer-valid:text-blue-500"
       >
         {label}
       </label>

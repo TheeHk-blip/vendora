@@ -11,10 +11,10 @@ const navbar = tv({
     sectionLeft: "flex items-center",
     sectionCenter: "",
     sectionRight: "flex items-center",
-    brand: "flex items-center md:hidden",
+    brand: "flex items-center",
     search: "flex items-center mx-auto",
     title: "hidden md:flex transition-opacity duration-300",
-    navLinks: "flex gap-2 md:gap-5",
+    navLinks: "flex gap-2",
     actions: "hidden md:flex gap-1 md:gap-3",
     link: "",
     menuToggle: "flex md:hidden items-center gap-2.5",
@@ -35,17 +35,17 @@ const navbar = tv({
         wrapper: "grid grid-cols-12 items-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
         sectionLeft: "flex items-center space-x-2 md:flex-1 col-span-3 md:col-span-2",  
         brand: "md:hidden flex w-fit",          
-        sectionCenter: "flex justify-center flex-1 col-span-6",
-        sectionRight: "flex items-center justify-end flex-1 col-span-3 md:col-span-4",
+        sectionCenter: "flex justify-center flex-1 col-span-7",        
+        sectionRight: "flex items-center justify-end flex-1 col-span-3 md:col-span-3",
         actions: "items-center"
       },
       admin: {
-        wrapper: "flex flex-col sticky top-0 px-4 pb-2 h-screen w-[240px]",
+        wrapper: "flex flex-col sticky top-0 px-1.5 pb-2 h-screen w-[240px] shadow-sm shadow-black/30 dark:shadow-black border-r border-gray-100 dark:border-zinc-600",
         sectionLeft: "flex mb-2.5",
         brand: "flex w-full justify-between",
         sectionCenter: "flex-1",
         sectionRight: "flex items-center my-auto",
-        navLinks: "flex flex-col space-y-2",
+        navLinks: "flex flex-col",
         actions: "flex flex-col w-full"
       },
       adminnav: {
@@ -57,7 +57,7 @@ const navbar = tv({
         actions: "flex"
       },
       storeFilter: {
-        wrapper: "flex flex-col px-1 sticky z-50 w-full h-dvh overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+        wrapper: "flex flex-col px-1 sticky top-17 h-[calc(100vh-[80px])] z-30 w-full overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         sectionLeft: "flex mb-2.5 w-full items-center",
         brand: "flex w-full justify-start items-center",
         search: "w-full " ,
@@ -80,12 +80,12 @@ const navbar = tv({
 });
 
 const navLink = tv({
-  base: "text-gray-600 dark:text-gray-300 flex px-2 py-1 md:px-2.5 md:py-1.5 font-medium transition-all duration-300 rounded-[14px] md:rounded-[16px]",
+  base: "text-gray-600 dark:text-gray-300 flex px-2 py-1 font-medium transition-all duration-300 rounded-xl",
   variants: {
     app: {
       landing: "ring-0 hover:ring hover:text-blue-600 gap-2 md:gap-4",
-      store: "ring-0 hover:ring hover:text-green-600 gap-2 md:gap-4",
-      admin: "text-neutral-700 dark:text-neutral-400 bg-black/15 hover:text-purple-700 hover:dark:text-purple-700 dark:bg-black/50 gap-2 md:gap-4",
+      store: "ring-0 hover:ring hover:text-green-600 gap-2",
+      admin: "text-neutral-700 dark:text-neutral-400 hover:text-purple-700 hover:dark:text-purple-700 hover:bg-white/50 dark:hover:bg-black/50 gap-2",
       adminnav: " ring-0 hover:ring hover:text-purple-600 gap-2 md:gap-4",
       storeFilter: "gap-2 md:gap-4"
     },
@@ -103,12 +103,12 @@ const navLink = tv({
     {
       app: "store",
       active: true,
-      className: "text-green-600 dark:text-green-600 bg-green-400/15 hover:ring-0"
+      className: "text-green-700 dark:text-green-500 bg-lime-600/15 dark:bg-green-300/15 hover:ring-0"
     },
     {
       app: "admin",
       active: true,
-      className: "text-purple-700 dark:text-purple-700 bg-purple-500/15 dark:bg-purple-400/10 scale-105"
+      className: "text-purple-700 dark:text-purple-700 bg-purple-500/15 dark:bg-purple-400/10"
     },  
     {
       app: "adminnav",
