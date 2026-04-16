@@ -2,10 +2,9 @@ import { connectDB, Order } from "@vendora/db/frontend"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const orderId = searchParams.get("orderId");
-
+  const { searchParams } = new URL(request.url);
+  const orderId = searchParams.get("orderId");
+  try {    
     if (!orderId) {
       return NextResponse.json({ error: "Order ID is required" }, { status: 400 })
     }
