@@ -1,4 +1,4 @@
-import { ICategory } from "@vendora/db";
+import { ICategory } from "@vendora/db/frontend";
 import { useEffect, useState } from "react";
 
 export function useCategories() {

@@ -1,5 +1,5 @@
 "use server";
-import { connectDB, Product } from "@vendora/db";
+import { connectDB, Product } from "@vendora/db/frontend";
 import { revalidatePath } from "next/cache";
 
 export async function updateProductStatus(id: string, newStatus: string) {

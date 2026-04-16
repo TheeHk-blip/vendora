@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Logo, Navbar, ThemeToggle } from "@vendora/ui";
+import { Button, getInitials, Logo, Navbar, ThemeToggle } from "@vendora/ui";
 import { Logout, Settings } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -15,21 +15,22 @@ export default function Navigation() {
     <Navbar  
       app="admin"  
       brand={<Logo width={50} height={50} />}    
+      title={<span className="px-1 py-1 rounded-lg ring" >{getInitials(session?.user.name as string)}</span>}
       links={siteConfig.navLinks}    
       actions={      
         <>          
           <Link
             href="/settings"
-            className={`flex rounded-[14px] px-3 py-2 gap-2 items-center transition-all duration-300 ${pathname.startsWith("/settings") 
+            className={`flex rounded-md px-2 py-1 gap-2 items-center transition-all duration-300 ${pathname.startsWith("/settings") 
               ? "text-violet-600 bg-purple-400/20 dark:bg-purple-400/30 scale-105 -translate-y-1 -translate-x-1" 
-              : "bg-white/25 hover:text-violet-600 hover:bg-purple-200/70 dark:bg-black/40 dark:hover:bg-black/20"}`
+              : "text-neutral-700 dark:text-neutral-400 hover:text-violet-600 hover:bg-white/50 dark:hover:bg-black/50"}`
             }
           >
             <Settings />
             Settings
           </Link>
         
-          <span className="flex justify-between items-center rounded-[14px] bg-purple-400/45 dark:bg-orange-300/40 px-3 py-2" >
+          <span className="flex flex-row justify-between items-center rounded-md px-1.5 py-1 ring text-zinc-800 dark:text-orange-500" >
             Theme Switch
             <ThemeToggle />
           </span>
@@ -37,6 +38,8 @@ export default function Navigation() {
             <Button            
               onClick={() => signOut({callbackUrl: process.env.NEXT_PUBLIC_BASE_URL})}  
               color="danger"     
+              size="sm"
+              radius="md"
               rightIcon={<Logout />}         
             >
               Log out

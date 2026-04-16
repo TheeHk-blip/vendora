@@ -1,4 +1,4 @@
-import { connectDB, User } from "@vendora/db";
+import { connectDB, User } from "@vendora/db/frontend";
 import UserClient from "./components/userclient";
 import { Card, Users } from "@vendora/ui";
 import { Metadata } from "next";

@@ -1,4 +1,4 @@
-import { Category, connectDB } from "@vendora/db";
+import { Category, connectDB } from "@vendora/db/frontend";
 import { NextResponse } from "next/server";
 
 type Params = Promise<{ id: string }>;

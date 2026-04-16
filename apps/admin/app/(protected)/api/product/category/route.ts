@@ -1,4 +1,4 @@
-import { connectDB, Category } from "@vendora/db";
+import { connectDB, Category } from "@vendora/db/frontend";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 

@@ -1,5 +1,4 @@
-import { connectDB } from "@vendora/db";
-import { Product, IProduct } from "@vendora/db";
+import { Product, IProduct, connectDB } from "@vendora/db/frontend";
 import { STATUS_COLORS } from "@vendora/ui";
 import Image from "next/image";
 import { StatusReview } from "./components/statusReview";

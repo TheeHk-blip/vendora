@@ -1,4 +1,4 @@
-import { connectDB, getDetailedOrders, IOrder, Order, TransformedOrderItem, transformOrderData, User } from "@vendora/db";
+import { connectDB, getDetailedOrders, IOrder, Order, TransformedOrderItem, transformOrderData, User } from "@vendora/db/frontend";
 import { SerializeData } from "@vendora/ui";
 
 const calculateTrend = (c: number, p: number) => p === 0 ? (c > 0 ? 100 : 0) : Math.round(((c - p) / p) * 100);
@@ -116,7 +116,7 @@ export async function PlatformStats() {
                 sku: "$variantData.sku", 
                 status: 1, 
                 createdAt: 1, 
-                orderAmount: "$financials.totalProductValue" 
+                orderAmount: "$items.price" 
             }}
           ],  
         }

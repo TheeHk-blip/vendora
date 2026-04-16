@@ -1,6 +1,6 @@
 "use client";
 
-import { TransformedOrderItem } from "@vendora/db";
+import { TransformedOrderItem } from "@vendora/db/frontend";
 import { Column, Table, UsePage } from "@vendora/ui";
 
 export function RecentsTable({data}: {data: TransformedOrderItem[]} ) {

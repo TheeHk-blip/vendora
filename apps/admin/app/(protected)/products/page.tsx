@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { unstable_noStore as noStore } from "next/cache";
-import { connectDB, IProduct, Product } from "@vendora/db";
+import { connectDB, IProduct, Product } from "@vendora/db/frontend";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@vendora/auth/src/authoptions";
 import { redirect } from "next/navigation";

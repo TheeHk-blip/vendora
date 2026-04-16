@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { upload } from "@vercel/blob/client";
 import { useCategories } from "../../hooks/useCategory";
 import FilePicker from "@vendora/ui/src/components/filePicker";
-import { ICategory } from "@vendora/db";
+import { ICategory } from "@vendora/db/frontend";
 
 interface ICategoryField {
   id: string;
