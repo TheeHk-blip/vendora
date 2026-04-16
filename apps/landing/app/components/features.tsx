@@ -1,5 +1,5 @@
 "use client";
-import { Analytics, Api, Dashboard, People, Security, ShoppingCart } from "@mui/icons-material";
+import { Analytics, Dashboard, People, Security, ShoppingCart } from "@mui/icons-material";
 import { motion } from "framer-motion";
 
 export default function FeaturesSection() {

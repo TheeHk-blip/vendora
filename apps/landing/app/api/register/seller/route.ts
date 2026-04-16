@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectDB, User, Seller, Subscription, Plan } from "@vendora/db";
+import { connectDB, User, Seller, Subscription, Plan } from "@vendora/db/frontend";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { sendVerificationEmail } from "@vendora/ui/src/actions/mail";

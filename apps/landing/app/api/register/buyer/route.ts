@@ -1,4 +1,4 @@
-import { connectDB, Buyer, User, IUser } from "@vendora/db";
+import { connectDB, Buyer, User, IUser } from "@vendora/db/frontend";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
