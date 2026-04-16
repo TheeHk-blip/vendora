@@ -1,6 +1,6 @@
 import { SerializeData, title } from "@vendora/ui";
 import Pricing from "./components/pricing";
-import { Subscription } from "@vendora/db";
+import { Seller, Subscription } from "@vendora/db/frontend";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@vendora/auth";
 import { Plan } from "./components/plan";
@@ -23,7 +23,9 @@ export interface UserPlan {
 
 export default async function Subscriptions() {
   const session = await getServerSession(authOptions);
-  const plan = await Subscription.findOne({ subscriberId: session?.user._id, status: "active"})
+  const seller = await Seller.findOne({ userId: session?.user._id });
+  const sellerId = seller?._id;
+  const plan = await Subscription.findOne({ subscriberId: sellerId , status: "active"})
     .populate([
       {
         path: "plan",

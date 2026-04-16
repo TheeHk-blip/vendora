@@ -33,7 +33,7 @@ export default function Profile({src, initials}: ProfileProps) {
           width={30}
           height={30}
           onClick={() => openDrawer("profile")}         
-          className="cursor-pointer rounded-full" 
+          className="cursor-pointer rounded" 
         />
       ): initials ? (
         <Button

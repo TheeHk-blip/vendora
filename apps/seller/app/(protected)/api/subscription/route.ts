@@ -1,7 +1,8 @@
 import { authOptions } from "@vendora/auth";
-import { connectDB, Plan, Seller, Subscription } from "@vendora/db";
+import { connectDB, Plan, Seller, Subscription } from "@vendora/db/frontend";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -10,14 +11,13 @@ export async function POST(request: Request) {
 
   try {    
     const {subPlan} = await request.json();
-    console.log("Plan:", subPlan)
 
     await connectDB();
     const usersession = await getServerSession(authOptions);
     const sessionId = usersession?.user._id;
     const user = usersession?.user.name;
     const sellerId = new mongoose.Types.ObjectId(sessionId as string);
-
+    const subscriber = await Seller.findOne({ userId: sellerId });    
     const subscription = await Plan.findOne({ slug: subPlan}, { _id: 1});
 
     await Promise.all([
@@ -25,14 +25,15 @@ export async function POST(request: Request) {
         { userId: sellerId},
         {
           $set: {
-            subscription: subPlan,            
+            subscription: subPlan,      
+            subscriptionId: subscription?._id      
           }
         },
         { upsert: true, new: true, session }
       ),
 
-      Subscription.findOneAndUpdate(
-        { subscriberId: sellerId, status: "active" },
+      subscriber?.subscriptionId ? Subscription.findOneAndUpdate(
+        { subscriberId: subscriber?._id, status: "active" },
         {
           $set: {
             status: "expired",
@@ -40,20 +41,21 @@ export async function POST(request: Request) {
           }
         },
         { session }
-      ),
+      ) : Promise.resolve(),
 
       Subscription.create(
         [{
-          subscriberId: sellerId,
-          plan: subscription._id,
+          subscriberId: subscriber?._id,
+          plan: subscription?._id,
           status: "active",        
           isLifeTime: true
         }],
         { session }
       )
-    ])
+    ].filter(Boolean))
 
     await session.commitTransaction();
+    revalidatePath("/subscription")
 
     const response = `Plan updated to ${subPlan} for ${user}`; 
 

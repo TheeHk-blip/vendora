@@ -1,4 +1,4 @@
-import { IProduct, IVariant, Variant } from "@vendora/db";
+import { IProduct, IVariant, Variant } from "@vendora/db/frontend";
 import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
 import { STATUS_COLORS } from "@vendora/ui/src/utilities/statusColor";
 import Image from "next/image";
@@ -12,7 +12,7 @@ export async function ProductCard({products}: {products: IProduct[]}) {
   const serializedVariants = SerializeData(variants);
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 w-full gap-2.5">
-      {products.map((product) => {
+      {products.map((product, index) => {
         const productVariants = serializedVariants.filter(
           (v: IVariant) => v.productId.toString() === product._id.toString()
         )
@@ -28,6 +28,8 @@ export async function ProductCard({products}: {products: IProduct[]}) {
                 width={150}
                 height={150}
                 className="shadow-sm"
+                fetchPriority={index < 3 ? "high" : "auto"}      
+                loading={index < 3 ? "eager" : "lazy"}   
                 style={{ width: "auto", height: "auto"}}
               />    
               <div className="flex flex-col px-1">

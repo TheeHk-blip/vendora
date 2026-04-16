@@ -19,7 +19,7 @@ export function Plan ({subscription}: PlanProps) {
           {subscription?.status}
         </span> 
       </span>                           
-      {subscription.isLifeTime !== true &&
+      {subscription?.isLifeTime !== true &&
         <span className="flex flex-row items-center justify-between ml-3"  >
           <h3 className="text-xl" >Due</h3>
           <span className="text-gray-800 dark:text-gray-300" >          

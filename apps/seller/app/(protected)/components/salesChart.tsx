@@ -52,6 +52,6 @@ export function SalesChart({data}: SalesProps) {
           />
         </LineChart>
       </ResponsiveContainer>
-      </div>
+    </div>
   )
 }

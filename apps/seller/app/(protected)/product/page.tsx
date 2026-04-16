@@ -1,6 +1,6 @@
 import Add from "@mui/icons-material/Add";
 import { authOptions } from "@vendora/auth/src/authoptions";
-import { IProduct, Product, connectDB } from "@vendora/db";
+import { IProduct, Product, connectDB } from "@vendora/db/frontend";
 
 import StatusTabs from "@vendora/ui/src/components/statusTabs";
 import { getServerSession } from "next-auth";

@@ -1,6 +1,6 @@
 "use server";
 
-import { Product, Variant } from "@vendora/db";
+import { Product, Variant } from "@vendora/db/frontend";
 import { revalidatePath } from "next/cache";
 
 export async function  updateProductProps(

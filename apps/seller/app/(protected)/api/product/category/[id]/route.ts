@@ -1,4 +1,4 @@
-import { connectDB, Category } from "@vendora/db";
+import { connectDB, Category } from "@vendora/db/frontend";
 import { NextRequest, NextResponse } from "next/server";
 
 

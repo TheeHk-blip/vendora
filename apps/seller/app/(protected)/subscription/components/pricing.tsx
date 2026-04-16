@@ -4,7 +4,8 @@ import { Cancel } from "@mui/icons-material";
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import { Button, Column, Table, title, useToast } from "@vendora/ui";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface FeatureRow {
   feature: string;
@@ -52,6 +53,7 @@ const comparisonData: FeatureRow[] = [
 
 export default function Pricing() {
   const { showToast } = useToast();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const renderCell = (val: string | boolean) => {
     if (typeof val === "boolean") {
@@ -100,6 +102,7 @@ export default function Pricing() {
       });
 
       const result = await response.json();      
+      if (result.ok) router.refresh()
       showToast(`Subscription successfully updated to ${result.subPlan}`, "success");
     } catch (error) {
       console.error("Error:", error);

@@ -1,4 +1,4 @@
-import { Analytics, Inventory, ShoppingBag, SpaceDashboard, Subscriptions } from "@mui/icons-material";
+import { Analytics, Inventory, Payments, ShoppingBag, SpaceDashboard } from "@mui/icons-material";
 
 export type SiteConfig = typeof siteConfig;
 
@@ -27,7 +27,7 @@ export const siteConfig = {
     {
       label: "Subscription",
       href: "/subscription",
-      icon: Subscriptions
+      icon: Payments
     }
   ]
 }

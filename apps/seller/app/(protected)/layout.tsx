@@ -41,10 +41,10 @@ export default function RootLayout({
                   <SideBar />
                 </div>
                 <div className="flex flex-col w-full" >
-                  <div className="flex md:hidden" >
+                  <div className="flex md:hidden sticky top-0 z-50" >
                     <Navbar />
                   </div>                  
-                  <main className="w-full px-2.5" >
+                  <main className="w-full px-2.5 md:my-2.5" >
                     {children}
                   </main>
                 </div> 

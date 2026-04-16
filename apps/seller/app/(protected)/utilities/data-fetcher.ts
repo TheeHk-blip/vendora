@@ -1,5 +1,5 @@
 import { authOptions } from "@vendora/auth";
-import { getDetailedOrders, IOrder, ISeller, Order, Review, Seller, TransformedOrderItem, transformOrderData } from "@vendora/db";
+import { getDetailedOrders, IOrder, ISeller, Order, Review, Seller, TransformedOrderItem, transformOrderData } from "@vendora/db/frontend";
 import { SerializeData } from "@vendora/ui";
 import { getServerSession } from "next-auth";
 
@@ -78,7 +78,7 @@ export async function getSellerStats() {
                 sku: "$variantData.sku", 
                 status: 1, 
                 createdAt: 1, 
-                orderAmount: "$financials.sellerPayout" 
+                orderAmount: "$items.seller.sellerPayout" 
             }}
           ],     
         }
@@ -133,7 +133,7 @@ export async function getSellerStats() {
     customerTrend: calculateTrend(curr.count, prev.count),
     rating,
     totalReviews, 
-    reviewTrend: calculateTrend(currReview.count, prevReview.count),
+    reviewTrend: calculateTrend(currReview, prevReview),
     recentOrdersData: SerializeData(recentOrdersData)
   }
 }

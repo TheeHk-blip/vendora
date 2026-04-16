@@ -20,8 +20,8 @@ function Payments() {
     e.preventDefault();
     setLoading(true)
     const endpoint = paymentMethod === "card" 
-    ? "/create-checkout-session" 
-    : "/stk-push";
+    ? `${process.env.NEXT_PUBLIC_SERVER}payments/stripe`
+    : `${process.env.NEXT_PUBLIC_SERVER}payments/stk-push`;
 
     try {
       const payload = {      
@@ -31,7 +31,7 @@ function Payments() {
         planSlug: plan
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}payments${endpoint}`, {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(payload)
@@ -41,7 +41,9 @@ function Payments() {
       if (result.url) {
         window.location.href = result.url;
         return;
-      }
+      } else {
+        showToast(`Error making payment`, "error");
+      }  
 
       if (response.ok && result.success) {
         const { sellerId, plan, amount } = result;

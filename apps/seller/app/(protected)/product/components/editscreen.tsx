@@ -1,7 +1,7 @@
 "use client";
 
 import { Close } from "@mui/icons-material";
-import { IProduct } from "@vendora/db";
+import { IProduct } from "@vendora/db/frontend";
 import { Button, InputField, SideNav, useDrawer, useToast } from "@vendora/ui"
 import Image from "next/image";
 import { useState } from "react";

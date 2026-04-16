@@ -1,6 +1,5 @@
 import { authOptions } from "@vendora/auth";
-import { connectDB, IVariant } from "@vendora/db";
-import { Variant, Product } from "@vendora/db";
+import { connectDB, IVariant, Variant, Product } from "@vendora/db/frontend";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -28,6 +27,7 @@ export async function POST(request: Request) {
       description, 
       price, 
       discount, 
+      releaseYear,
       discountedPrice, 
       dynamicFields,
       categoryId,   
@@ -41,6 +41,7 @@ export async function POST(request: Request) {
       price,
       discount,
       discountedPrice,
+      releaseYear,
       fields: dynamicFields,
       categoryId,
       sellerId: sellerId,
