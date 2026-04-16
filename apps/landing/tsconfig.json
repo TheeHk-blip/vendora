@@ -31,7 +31,8 @@
       ],
       "@vendora/auth": [
         "../packages/auth/src"
-      ]
+      ],
+      "#db/*": ["../../packages/db/src/*.ts"]
     }
   },
   "include": [
