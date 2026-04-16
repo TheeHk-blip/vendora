@@ -35,8 +35,8 @@ const navbar = tv({
         wrapper: "grid grid-cols-12 items-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
         sectionLeft: "flex items-center space-x-2 md:flex-1 col-span-3 md:col-span-2",  
         brand: "md:hidden flex w-fit",          
-        sectionCenter: "flex justify-center flex-1 col-span-7",        
-        sectionRight: "flex items-center justify-end flex-1 col-span-3 md:col-span-3",
+        sectionCenter: "flex justify-center flex-1 col-span-6",        
+        sectionRight: "flex items-center justify-end flex-1 col-span-3 md:col-span-4",
         actions: "items-center"
       },
       admin: {
