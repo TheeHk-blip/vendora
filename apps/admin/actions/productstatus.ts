@@ -22,5 +22,5 @@ export async function updateProductStatus(id: string, newStatus: string) {
   })
 
   const status = await response.json();
-  console.log("Store response:", status)
+  console.log("Store Response:", status);
 }

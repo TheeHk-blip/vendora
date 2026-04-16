@@ -116,6 +116,13 @@ export default function CategoryBuilder() {
         setFields([]);
         setParentId("");      
         setSelectedFiles([]);
+        await  fetch(`${process.env.NEXT_PUBLIC_STORE_URL}/api/revalidate`, {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REVALIDATION_SECRET,
+            tags: [ "home-data" ]
+          }),
+        });
         window.location.reload();
       } 
     } catch (error) {
