@@ -32,7 +32,8 @@
       ],
       "@vendora/db": ["../../packages/db/src/index.ts"],
       "@vendora/db/*": ["../../packages/db/src/*.ts"],
-      "@db/*": ["../../packages/db/src/*.ts"]
+      "@db/*": ["../../packages/db/src/*.ts"],
+      "#db/*": ["../../packages/db/src/*.ts"]
     }
   },
   "include": [
