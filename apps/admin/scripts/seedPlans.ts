@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Plan } from "@vendora/db";
+import { Plan } from "@vendora/db/frontend";
 
 const plans = [
   {
