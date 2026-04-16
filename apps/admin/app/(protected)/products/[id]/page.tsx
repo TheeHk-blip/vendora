@@ -3,8 +3,14 @@ import { STATUS_COLORS } from "@vendora/ui";
 import Image from "next/image";
 import { StatusReview } from "./components/statusReview";
 import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
+import { Metadata } from "next";
 
 type Params = Promise<{ id: string}>;
+
+export const metadata: Metadata = {
+  title: "Products | Vendora",
+  description: "Review and approve or reject products"
+}
 
 export default async function ReviewPage({ params }: {params : Params}) {
   const { id } = await params;
