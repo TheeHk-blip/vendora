@@ -12,8 +12,7 @@ interface ProductProps {
   similarProduct: IProductBase[];
   sellerInfo: {
     _id: string,
-    businessName: string,
-    rating: number,
+    businessName: string,    
     averageRating: number,
     totalReviews: number
   };

@@ -1,4 +1,4 @@
-import { shippingConfig } from "../../../../../../packages/db/src/utilities/shipping";
+import { shippingConfig } from "@vendora/db/utilities/shipping";
 import { CheckoutProps } from "../page";
 import { SearchableSelect } from "@vendora/ui";
 

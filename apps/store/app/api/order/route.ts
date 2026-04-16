@@ -1,4 +1,4 @@
-import { connectDB, Order } from "@vendora/db"
+import { connectDB, Order } from "@vendora/db/frontend"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {

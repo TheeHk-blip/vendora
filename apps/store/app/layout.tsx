@@ -44,9 +44,9 @@ export default async function RootLayout({
           <ToastProvider>
           <CurrencyProvider>   
           <DrawerProvider>  
-            <div className="flex flex-col min-h-screen max-w-full">   
+            <div className="flex flex-col min-h-screen max-w-full gap-1">   
               <Navigation />             
-              <main className="container max-w-full px-2.5">               
+              <main className="container max-w-full px-2.5 pb-2">               
                 {children}
               </main>                 
             </div>

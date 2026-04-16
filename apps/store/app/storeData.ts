@@ -1,4 +1,4 @@
-import { Category, connectDB, ICategory, IProduct, LeanArray, Product, RequireIdLean, Review, Variant } from "@vendora/db";
+import { Category, connectDB, ICategory, IProduct, LeanArray, Product, RequireIdLean, Review, Variant } from "@vendora/db/frontend";
 import { IProductBase } from "@vendora/ui/src/types/IProductBase";
 import { SerializeData } from "@vendora/ui/src/utilities/serialize";
 import mongoose, { FilterQuery, PipelineStage } from "mongoose";
@@ -175,7 +175,7 @@ export async function getCachedProductDetails(id: string) {
       {
         path: "sellerId",
         model: "Seller",
-        select: "businessName rating averageRating totalReviews",
+        select: "businessName averageRating totalReviews",
         foreignField: "userId"
       }
     ])

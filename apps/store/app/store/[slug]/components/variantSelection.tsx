@@ -19,8 +19,7 @@ interface VariantProps {
   options: Record<string, string[]>;
   sellerInfo: {
     _id: string,
-    businessName: string,
-    rating: number,
+    businessName: string,   
     averageRating: number,
     totalReviews: number,
   };

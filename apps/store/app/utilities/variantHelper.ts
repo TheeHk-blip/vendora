@@ -1,4 +1,4 @@
-import { IVariantBase } from "@vendora/db";
+import { IVariantBase } from "@vendora/db/frontend";
 
 export const groupVariants = (variants: IVariantBase[]) => {
   if (!variants?.length) return { options: {}, colors: []};

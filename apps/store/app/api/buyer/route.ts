@@ -1,4 +1,4 @@
-import { Buyer, connectDB } from "@vendora/db";
+import { Buyer, connectDB } from "@vendora/db/frontend";
 import { NextRequest, NextResponse } from "next/server";
 
 

@@ -1,7 +1,7 @@
 import { Navbar } from "@vendora/ui/src/components/Navbar";
 import { ProductSearch } from "./productSearch";
 import { Button, SerializeData } from "@vendora/ui";
-import { ICategory, LeanArray } from "@vendora/db";
+import { ICategory, LeanArray } from "@vendora/db/frontend";
 import { CategoryDoc } from "@/app/storeData";
 
 export interface ProductProps {
@@ -18,7 +18,7 @@ export interface ProductProps {
 
 export function ProductFilterSkeleton() {
   return (
-    <div className="hidden md:flex flex-col px-1 gap-2 sticky top-14.5 z-50 w-full h-[calc(100vh-58px)]" >
+    <div className="hidden md:flex flex-col px-1 gap-2 sticky top-14 z-30 w-full h-dvh" >
       <div className="outline-none rounded-xl w-50 bg-black/10 dark:bg-white/25 px-2.5 py-0.5" >Search...</div>
       <p className="uppercase">Filter By:</p>
       <div>

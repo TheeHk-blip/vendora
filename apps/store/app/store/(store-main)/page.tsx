@@ -11,19 +11,18 @@ import Home from "@mui/icons-material/Home";
 async function StoreComponent({searchParams}: { searchParams: Params}) {   
   const dynamicData = await getStoreData({ searchParams });
   return (  
-    <div className="flex flex-row max-w-7xl mx-auto w-full gap-2.5">
-      <aside className="hidden sm:flex w-min">
+    <div className="flex flex-row max-w-7xl h-full mx-auto w-full gap-3 items-start">
+      <div className="hidden md:flex w-min sticky top-17" >
         <Suspense fallback={<ProductFilterSkeleton />} >
           <ProductFilter dynamicData={dynamicData}/>
         </Suspense>        
-      </aside>
+      </div>      
 
       <div className="flex flex-col w-full" >
-        <div className="sticky top-12.5 py-1 bg-background z-10" >
+        <div className="sticky top-12.25 sm:top-13 bg-background z-10" >
           <Suspense fallback={<FilterSkeleton />} >
             <MobileFilter dynamicData={SerializeData(dynamicData)} />
-          </Suspense>
-          
+          </Suspense>          
           <BreadCrumbs crumbs={dynamicData.breadCrumbs} />
         </div>        
         
@@ -42,7 +41,7 @@ function StoreSkeleton() {
         <ProductFilterSkeleton />
       </aside>
       <div className="flex flex-col w-full">
-        <div className="flex flex-col md:hidden top-12.5 px-1">
+        <div className="flex flex-col md:hidden top-14 px-1">
           <FilterSkeleton />
           <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap" >
             <Home />

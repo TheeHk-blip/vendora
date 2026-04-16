@@ -25,9 +25,9 @@ export function SearchInput({ onSearch, name }: SearchInputProps) {
         name={name}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="outline-none rounded-xl w-[200px] bg-black/10 dark:bg-white/25 px-2.5 py-0.5"
+        className="outline-none rounded-xl w-[180px] bg-black/10 dark:bg-white/25 px-2.5 py-0.5"
       />
-      <button type="submit" name="search button">
+      <button type="submit" name="search button" aria-label="search button" >
         <Search className="text-gray-600 dark:text-gray-400 cursor-pointer"/>
       </button>
     </form>

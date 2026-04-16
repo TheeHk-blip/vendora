@@ -5,7 +5,7 @@ import { SearchInput } from "@vendora/ui/src/components/searchInput";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PriceFilter } from "./priceFilter";
 import { ProductProps } from "./productFilter";
-import { ICategory, RequireIdLean } from "@vendora/db";
+import { ICategory, RequireIdLean } from "@vendora/db/frontend";
 import { Suspense } from "react";
 import { CategoryDoc } from "@/app/storeData";
 

@@ -28,10 +28,10 @@ export default function Cart() {
     <div className="relative">
       <ShoppingCart 
         onClick={() => openDrawer("cart")}
-        className="cursor-pointer text-neutral-600 dark:text-neutral-400"
+        className="cursor-pointer text-green-500/80 dark:text-green-600"
       />
       {totalItems > 0 && (
-        <span className="absolute bottom-4 right-0 bg-white/20 rounded-xl font-semibold text-xs px-1" >{totalItems}</span>
+        <span className="absolute bottom-4 right-0 -z-10 bg-green-500/20 dark:bg-green-500/15 rounded-xl font-semibold text-xs px-1" >{totalItems}</span>
       )}
       <SideNav
         id="cart"

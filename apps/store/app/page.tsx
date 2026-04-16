@@ -65,7 +65,7 @@ export default async function Home() {
                       <div className="flex flex-col justify-between">
                         <span className="text-xs text-gray-600 dark:text-gray-400" >Was <PriceDisplay amount={product.price} className="line-through"/></span>
                         <span className="flex flex-col">
-                          <span className="text-orange-500" >{product.discount}% OFF</span>
+                          <span className="text-orange-600 dark:text-orange-500" >{product.discount}% OFF</span>
                           <span>Now <PriceDisplay amount={product.discountedPrice ?? 0} /></span>
                         </span>
                       </div>

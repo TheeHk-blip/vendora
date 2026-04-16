@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function BreadCrumbs({ crumbs }: {crumbs: CategoryDoc[]}) {
   return (
-    <nav className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap">
+    <nav className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 overflow-x-auto whitespace-nowrap">
       <Link href="/store" prefetch={false} className="flex hover:text-blue-600 items-center">
         <Home />
         Store

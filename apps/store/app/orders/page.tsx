@@ -1,5 +1,5 @@
 import { authOptions } from "@vendora/auth";
-import { connectDB, Order, Review } from "@vendora/db"
+import { connectDB, Order, Review } from "@vendora/db/frontend"
 import { getServerSession } from "next-auth";
 import OrdersClient from "./components/orderClient";
 import { SerializeData } from "@vendora/ui";

@@ -35,7 +35,7 @@ export default function ProductCard({ product, index} : ProductProps) {
                <span className="text-black/80 dark:text-white/80 text-xs truncate whitespace-nowrap overflow-hidden">{product.name}</span> 
                 <div className="flex shrink-0">
                   {!!product.discount && product.discount > 0 && (
-                    <span className="text-xs font-medium text-orange-500 bg-orange-100 px-1 rounded" >
+                    <span className="text-xs font-medium text-orange-800 dark:text-orange-400 bg-orange-200/40 dark:bg-orange-600/15 px-1 rounded" >
                       - {product.discount}%
                     </span>
                   )}     
@@ -47,7 +47,7 @@ export default function ProductCard({ product, index} : ProductProps) {
                 : <PriceDisplay amount={product.price} />
               }  
               {!!product.discount && product.discount > 0 && (                              
-                <PriceDisplay amount={product.price} className="line-through text-xs text-black/50 dark:text-white/50" />                                             
+                <PriceDisplay amount={product.price} className="line-through text-xs text-black/60 dark:text-white/60" />                                             
               )}                                     
             </span>                
           </div>                                   
@@ -59,7 +59,7 @@ export default function ProductCard({ product, index} : ProductProps) {
             src={product.images[0]}
             fill
             sizes={sizes}                    
-            className=" object-contain shadow-md"     
+            className=" object-contain rounded-t-md"     
             fetchPriority="auto"                 
             loading="eager"
           />               

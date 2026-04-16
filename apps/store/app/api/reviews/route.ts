@@ -1,4 +1,4 @@
-import { connectDB, Product, Review, Seller } from "@vendora/db";
+import { connectDB, Product, Review, Seller } from "@vendora/db/frontend";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";

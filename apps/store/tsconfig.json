@@ -22,6 +22,7 @@
         "name": "next"
       }
     ],
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": [
         "./*"
@@ -29,7 +30,9 @@
       "@vendora/ui": [
         "../packages/ui/src"
       ],
-      "@vendora/db": ["../../packages/db/src/index.ts"]
+      "@vendora/db": ["../../packages/db/src/index.ts"],
+      "@vendora/db/*": ["../../packages/db/src/*.ts"],
+      "@db/*": ["../../packages/db/src/*.ts"]
     }
   },
   "include": [
