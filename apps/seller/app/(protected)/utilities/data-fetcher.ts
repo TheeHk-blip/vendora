@@ -15,8 +15,8 @@ export async function getSellerStats() {
   const sellerId = seller?._id;
   
   const now = new Date();
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-  const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+  const thirtyDaysAgo = new Date; thirtyDaysAgo.setDate(now.getDate() - 30);
+  const sixtyDaysAgo = new Date; sixtyDaysAgo.setDate(now.getDate() - 60);
 
   const [orderResults, reviewResults] = await Promise.all([
     Order.aggregate([
@@ -78,7 +78,7 @@ export async function getSellerStats() {
                 sku: "$variantData.sku", 
                 status: 1, 
                 createdAt: 1, 
-                orderAmount: "$items.seller.sellerPayout" 
+                orderAmount: "$items.price" 
             }}
           ],     
         }
