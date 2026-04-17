@@ -170,7 +170,8 @@ export default function CreateProduct() {
 
       if (response.ok) {
         showToast("Product published successfully", "success");
-        resetForm();
+        resetForm();       
+        window.location.reload();
       }
     } catch (error) {
       console.error("Failed to create product:", error);
