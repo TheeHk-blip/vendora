@@ -119,6 +119,7 @@ export default function CategoryBuilder() {
         setSelectedFiles([]);
         await  fetch(`${process.env.NEXT_PUBLIC_STORE_URL}/api/revalidate`, {
           method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             secret: process.env.REVALIDATION_SECRET,
             tags: [ "home-data" ]
