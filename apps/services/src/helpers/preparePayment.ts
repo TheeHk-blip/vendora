@@ -209,7 +209,7 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
           const rate = isFashion ? plan.fashionCommission : plan.commission;         
 
           const itemTotal = dbVar.price * item.quantity;
-          const itemRevenue = itemTotal * rate;
+          const itemRevenue = Number(itemTotal * rate);
 
           totalProductValue += itemTotal;
           totalPlatformRevenue += Number(itemRevenue.toFixed(2));
@@ -219,7 +219,7 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
             name: item.name,
             price: dbVar.price,
             quantity: item.quantity,
-            itemRevenue: itemRevenue,
+            itemRevenue: Number(itemRevenue.toFixed(2)),
             appliedCommission: rate,
             seller: {
               sellerId: item.merchantId,
