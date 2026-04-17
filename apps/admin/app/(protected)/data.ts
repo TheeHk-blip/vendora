@@ -69,7 +69,7 @@ export async function PlatformStats() {
             { $project: { platformRevenue: 1, totalRevenue: 1 }}
           ],
           previous: [
-            { $match: { createdAt: { $lt: thirtyDaysAgo }, status: "delivered" }},
+            { $match: { createdAt: { $lt: sixtyDaysAgo }, status: "delivered" }},
             { $group: {
                 _id: null,
                 platformRevenue: { $sum: "$financials.platformRevenue" },      

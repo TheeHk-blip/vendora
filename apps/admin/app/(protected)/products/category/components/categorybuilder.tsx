@@ -1,7 +1,7 @@
 "use client";
 
 import { Add, Delete, PostAdd } from "@mui/icons-material";
-import { Button, InputField, SelectField, Table, title, useToast } from "@vendora/ui";
+import { Button, InputField, SelectField, Table, title, UsePage, useToast } from "@vendora/ui";
 import React, { useEffect, useState } from "react";
 import { upload } from "@vercel/blob/client";
 import { useCategories } from "../../../hooks/useCategory";
@@ -19,11 +19,12 @@ interface ICategoryField {
 }
 
 export default function CategoryBuilder() {
-  const [categoryName, setCategoryName] = useState("");
-  const [parentId, setParentId] = useState<string>("");
-  const [isSubCategory, setIsSubCategory] = useState(false);
   const { showToast } = useToast();
   const {categories} = useCategories();
+  const { page,  setPage} = UsePage();
+  const [categoryName, setCategoryName] = useState("");
+  const [parentId, setParentId] = useState<string>("");
+  const [isSubCategory, setIsSubCategory] = useState(false);    
   const [fields, setFields] = useState<ICategoryField[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [progress, setProgress] = useState<Record<string,number>>({});
@@ -297,6 +298,8 @@ export default function CategoryBuilder() {
             }
           ]}
           data={categories}
+          page={page}
+          onPageChange={setPage}
        /> 
       </div>
     </main>
