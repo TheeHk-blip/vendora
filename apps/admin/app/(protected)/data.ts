@@ -14,8 +14,8 @@ export async function PlatformStats() {
   await connectDB();
 
   const now = new Date();
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-  const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+  const thirtyDaysAgo = new Date; thirtyDaysAgo.setDate(now.getDate() - 30);
+  const sixtyDaysAgo = new Date; sixtyDaysAgo.setDate(now.getDate() - 60);
 
   const [userStats, order] = await Promise.all([
     User.aggregate([
@@ -69,11 +69,11 @@ export async function PlatformStats() {
             { $project: { platformRevenue: 1, totalRevenue: 1 }}
           ],
           previous: [
-            { $match: { createdAt: { $lt: sixtyDaysAgo }, status: "delivered" }},
+            { $match: { createdAt: { $lt: thirtyDaysAgo }, status: "delivered" }},
             { $group: {
                 _id: null,
                 platformRevenue: { $sum: "$financials.platformRevenue" },      
-                totalRevenue: { $sum: "$financials.totalProductRevenue" }                        
+                totalRevenue: { $sum: "$financials.totalProductValue" }                        
             }},
             { $project: { platformRevenue: 1, totalRevenue: 1 }}
           ],
@@ -126,7 +126,7 @@ export async function PlatformStats() {
 
   const currUsers = userStats[0].current[0]?.count || 0;
   const prevUsers = userStats[0].previous[0]?.count || 0;
-  const currPlatformFinances = order[0].current[0] || { PlatformRevenue: 0 };
+  const currPlatformFinances = order[0].current[0] || { platformRevenue: 0 };
   const prevPlatformFinances = order[0].previous[0] || { platformRevenue: 0 };
   const currTotalFinances = order[0]?.current[0] || { totalRevenue: 0 };
   const prevTotalFinances = order[0]?.previous[0] || { totalRevenue: 0 };
@@ -153,8 +153,8 @@ export async function PlatformStats() {
     monthlyTrend: calculateTrend(currUsers, prevUsers),
     buyers: userStats[0].buyers[0].count || 0,
     sellers: userStats[0].sellers[0].count || 0,
-    platformRevenue: currPlatformFinances.platformRevenue,
-    totalRevenue: currTotalFinances.totalRevenue,
+    platformRevenue: Number(currPlatformFinances.platformRevenue),
+    totalRevenue: Number(currTotalFinances.totalRevenue),
     totalRevenueTrend: calculateTrend(currTotalFinances?.totalRevenue, prevTotalFinances?.totalRevenue),
     platformRevenueTrend: calculateTrend(currPlatformFinances?.platformRevenue, prevPlatformFinances?.platformRevenue)
   }

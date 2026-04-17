@@ -59,7 +59,7 @@ export const transformOrderData = (orders: IOrder[], includeTime = true) => {
         buyer: order.buyer.name,
         productName: product.name,
         sku: variant.sku,
-        orderAmount: item.seller.sellerPayout,
+        orderAmount: item.price,
         status: order.status,
         date: new Date(order.createdAt).toLocaleDateString("en-KE", dateOptions),
         createdAt: order.createdAt
