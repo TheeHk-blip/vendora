@@ -8,7 +8,7 @@ export async function RecentOrders() {
   return (
     <Card
        header={
-        <span className="text-gray-600 dark:text-gray-300 font-semibold">Latest orders</span>
+        <span className="text-gray-600 dark:text-gray-300">Recent Orders</span>
       }
     >
       <RecentsTable data={recentOrdersData} />
