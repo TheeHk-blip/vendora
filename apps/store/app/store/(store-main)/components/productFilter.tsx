@@ -1,6 +1,6 @@
 import { Navbar } from "@vendora/ui/src/components/Navbar";
 import { ProductSearch } from "./productSearch";
-import { Button, SerializeData } from "@vendora/ui";
+import { Button, SearchInput, SerializeData } from "@vendora/ui";
 import { ICategory, LeanArray } from "@vendora/db/frontend";
 import { CategoryDoc } from "@/app/storeData";
 
@@ -18,19 +18,20 @@ export interface ProductProps {
 
 export function ProductFilterSkeleton() {
   return (
-    <div className="hidden md:flex flex-col px-1 gap-2 sticky top-14 z-30 w-full h-dvh" >
-      <div className="outline-none rounded-xl w-50 bg-black/10 dark:bg-white/25 px-2.5 py-0.5" >Search...</div>
+    <div className="hidden md:flex flex-col px-1 sticky top-17 h-[calc(100vh-[80px])] z-30 w-full" >
+      <SearchInput name="search filter skeleton" />
       <p className="uppercase">Filter By:</p>
-      <div>
+      <div className="flex flex-col mb-2">
         <section className="mb-2">
           <h3 className="uppercase text-sm text-gray-600 dark:text-gray-300 mb-2 ">
             Selected Category
           </h3>
-          <Button variant="outlined">            
+          <Button variant="outlined">     
+            Show All       
           </Button>
         </section>
         <div className="gap-2 flex flex-col" >
-          <Button variant="filter" ></Button>
+          <Button variant="filter" >Category</Button>
         </div>
       </div>     
       <div className="w-full h-20 bg-foreground/20 rounded-2xl px-2"></div>
@@ -42,7 +43,7 @@ export default function ProductFilter({ dynamicData }: ProductProps) {
   return (
     <Navbar 
       app="storeFilter"
-      search={<ProductSearch dynamicData={SerializeData(dynamicData)} />}
+      search={<ProductSearch dynamicData={SerializeData(dynamicData)} />}   
     />
   )
 }

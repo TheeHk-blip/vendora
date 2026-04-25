@@ -20,7 +20,7 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   const leafCategories = dynamicData?.leafCategory || [];
   const availableBrands = dynamicData?.availableBrands || [];
 
-  const diaplayCategories = currentCatId
+  const displayCategories = currentCatId
     ? categories.filter((cat: ICategory) => {
       if (cat._id.toString() === currentCatId) return true;
 
@@ -29,7 +29,7 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
     : categories;
 
   const handleSearch = (query: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams();
 
     if (query) {
       params.set("q", query);
@@ -43,6 +43,8 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   const handleCategoryClick = (id: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("categoryId", id);
+    params.delete("q");
+    params.delete("brand");
     router.push(`/store?${params.toString()}`);
   }
 
@@ -58,6 +60,7 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
 
     if (newBrands.length > 0) {
       params.set("brand", newBrands.join(","));
+      params.delete("q");
     } else {
       params.delete("brand")
     }
@@ -65,38 +68,38 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
   }
 
   return (
-    <div className="flex flex-col justify-center" >
-      <div className="hidden md:flex mb-2.5">
+    <div className="flex flex-col w-full justify-center">
+      <div className="hidden md:flex mb-2.5 sticky top-0 z-40 bg-background/98">
         <SearchInput onSearch={handleSearch} name="product search" />
       </div>      
       <p className="uppercase" >Filter By:</p>
 
-      <div className="flex flex-col">       
+      <div className="flex flex-col w-full">       
         <section className="mb-2" >
-          <h3 className="uppercase text-sm text-gray-600 dark:text-gray-300 mb-2 ">
+          <h3 className="uppercase text-xs tracking-wider text-gray-600 dark:text-gray-300 mb-2 ">
             {currentCatId ? "Selected Category" : "Main Categories"}
           </h3>
           {currentCatId && (
             <Button
               onClick={() => router.push("/store")}
-              className="text-blue-600 mb-1.5" 
-              variant="outlined"
+              className="tracking-widest text-green-500 dark:text-green-500 bg-lime-950 dark:bg-green-300/15 mb-1.5 w-fit" 
+              variant="flat"              
             >
               Show All
             </Button>
           )}
           <div className="flex flex-col gap-2">
             {categories.length > 0 ? (
-              diaplayCategories.map((cat: ICategory) => {
+              displayCategories.map((cat: ICategory) => {
                 const isActive = currentCatId === cat._id.toString();
                 return (
                 <Button
                   key={cat._id.toString()}
                   onClick={() => handleCategoryClick(cat._id.toString())}
                   variant="filter"               
-                  className={`transition-all ${
+                  className={`transition-all uppercase text-xs tracking-widest ${
                     isActive
-                    ? "bg-blue-500"
+                    ? "text-green-500 dark:text-green-500 bg-lime-950 dark:bg-green-300/15"
                     : ""
                   } `}
                 >
@@ -111,16 +114,17 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
         
         {subCategories.length > 0 && (
           <section className="mb-2">
-            <h3 className="font-medium text-xs uppercase tracking-widest text-gray-500 mb-3">Sub Categories</h3>
+            <h3 className="font-medium text-xs uppercase tracking-widest text-gray-700 dark:text-gray-300 mb-3">Sub Categories</h3>
             <div className="flex flex-col gap-2">
               {subCategories.map((sub: RequireIdLean<ICategory>) => (
                 <Button
                   key={sub._id.toString()}
                   onClick={() => handleCategoryClick(sub._id.toString())}
                   variant="filter"
+                  className="transition-all uppercase text-xs tracking-widest"
                 >
                   {sub.name}
-                </Button>
+                </Button>                
               ))}
             </div>
           </section>
@@ -128,13 +132,14 @@ function Search({dynamicData}:{dynamicData: ProductProps["dynamicData"]}) {
 
         {leafCategories.length > 0 && (
           <section className="mb-2">
-            <h3 className="font-medium text-xs uppercase tracking-widest text-gray-500 mb-3">Leaf Categories</h3>
+            <h3 className="font-medium text-xs uppercase tracking-widest text-gray-700 dark:text-gray-300 mb-3">Leaf Categories</h3>
             <div className="flex flex-col gap-2">
               {leafCategories.map((leaf: RequireIdLean<ICategory>) => (
                 <Button
                   key={leaf._id.toString()}
                   onClick={() => handleCategoryClick(leaf._id.toString())}
                   variant="filter"
+                  className="transition-all uppercase text-xs tracking-widest"
                 >
                   {leaf.name}
                 </Button>

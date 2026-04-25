@@ -35,7 +35,7 @@ export default function ProductCard({ product, index} : ProductProps) {
                <span className="text-black/80 dark:text-white/80 text-xs truncate whitespace-nowrap overflow-hidden">{product.name}</span> 
                 <div className="flex shrink-0">
                   {!!product.discount && product.discount > 0 && (
-                    <span className="text-xs font-medium text-orange-800 dark:text-orange-400 bg-orange-200/40 dark:bg-orange-600/15 px-1 rounded" >
+                    <span className="text-xs font-medium bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400 px-1 rounded" >
                       - {product.discount}%
                     </span>
                   )}     

@@ -27,7 +27,7 @@ function Filter({ maxStorePrice, minStorePrice } : PriceProps) {
 
   return (
      <div className="flex flex-col gap-2 my-1">
-      <h3 className="text-sm uppercase text-gray-600 dark:text-gray-300">Price Range</h3>
+      <h3 className="text-xs uppercase tracking-wider text-gray-600 dark:text-gray-300">Price Range</h3>
       <div className="flex flex-row items-center justify-center gap-2">
         <InputField
           type="number" 
@@ -46,7 +46,8 @@ function Filter({ maxStorePrice, minStorePrice } : PriceProps) {
       </div>
       <button 
         onClick={handlePriceChange}
-        className="bg-blue-600 text-white text-xs py-1.5 rounded hover:bg-blue-700"
+        aria-label="price filter button"
+        className="text-xs tracking-widest py-1.5 rounded-md cursor-pointer text-green-500 dark:text-green-500 bg-lime-950 dark:bg-green-300/15 hover:ring"
       >
         Apply Price
       </button>

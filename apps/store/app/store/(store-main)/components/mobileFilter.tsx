@@ -1,12 +1,13 @@
 "use client";
 
 import { Button } from "@vendora/ui/src/components/Button";
-import ProductFilter, { ProductProps } from "./productFilter";
+import { ProductProps } from "./productFilter";
 import Sort from "@mui/icons-material/Sort";
 import { SideNav } from "@vendora/ui/src/components/sidenav";
 import { useDrawer } from "@vendora/ui/src/context/drawerContext";
-import { SearchInput } from "@vendora/ui";
+import { SearchInput, SerializeData } from "@vendora/ui";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ProductSearch } from "./productSearch";
 
 export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynamicData"]}) {
   const { openDrawer, closeDrawer } = useDrawer();
@@ -30,7 +31,7 @@ export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynami
       <div className="flex flex-row justify-between w-full" >
         <SearchInput onSearch={handleSearch} name="mobile search input" />
         <Button
-          onClick={() => openDrawer("mobileFilter")}
+          onClick={() => openDrawer("mobileFilter")}          
           className="flex w-fit self-end"
         >
           <Sort />
@@ -40,15 +41,14 @@ export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynami
       <SideNav 
         id="mobileFilter"
         body={        
-          <ProductFilter dynamicData={dynamicData} />       
+          <ProductSearch dynamicData={SerializeData(dynamicData)} />       
         }
         closeButton={            
           <button onClick={closeDrawer} className="self-end" >X</button>        
         }
-        className="w-54"
+        className="w-50 px-1"
       />      
-    </div>
-    
+    </div>    
   )
 }
 
@@ -56,10 +56,13 @@ export function FilterSkeleton() {
   return (
     <div className="flex md:hidden w-full">
       <div className="flex flex-row justify-between w-full">
-        <div className="outline-none rounded-xl w-50 text-gray-600 dark:text-gray-400 bg-black/10 dark:bg-white/25 px-2.5 py-0.5" >
-          Search...
-        </div>
-        <Sort className="self-end flex w-fit" />
+        {/** search input */}
+        <SearchInput name="search input skeleton" />
+        
+        {/** sort button */}
+        <div className="px-2 py-1 rounded-xl flex w-fit bg-black/10 dark:bg-white/10" >
+          <Sort/>
+        </div>        
       </div>
     </div>
   )

@@ -11,15 +11,15 @@ import Home from "@mui/icons-material/Home";
 async function StoreComponent({searchParams}: { searchParams: Params}) {   
   const dynamicData = await getStoreData({ searchParams });
   return (  
-    <div className="flex flex-row max-w-7xl h-full mx-auto w-full gap-3 items-start">
-      <div className="hidden md:flex w-min sticky top-17" >
+    <div className="flex flex-row justify-between w-full gap-3 items-start">
+      <div className="hidden md:flex sticky top-17" >
         <Suspense fallback={<ProductFilterSkeleton />} >
           <ProductFilter dynamicData={dynamicData}/>
         </Suspense>        
       </div>      
 
       <div className="flex flex-col w-full" >
-        <div className="sticky top-12.25 sm:top-13 bg-background z-10" >
+        <div className="flex flex-col w-full sticky top-12.25 sm:top-12.5 bg-background z-10" >
           <Suspense fallback={<FilterSkeleton />} >
             <MobileFilter dynamicData={SerializeData(dynamicData)} />
           </Suspense>          
@@ -36,19 +36,21 @@ async function StoreComponent({searchParams}: { searchParams: Params}) {
 
 function StoreSkeleton() {
   return (
-    <div className="flex flex-row max-w-7xl mx-auto w-full gap-2.5" >
-      <aside className="hidden md:flex h-dvh">
+    <div className="flex flex-row max-w-7xl mx-auto h-full w-full gap-3 items-start" >
+      <aside className="hidden md:flex h-dvh top-17">
         <ProductFilterSkeleton />
       </aside>
       <div className="flex flex-col w-full">
-        <div className="flex flex-col md:hidden top-14 px-1">
+        <div className="flex flex-col md:hidden top-12.25 sm:top-13">
           <FilterSkeleton />
-          <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap" >
+          <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 overflow-x-auto whitespace-nowrap" >
             <Home />
+            Store
           </div>
         </div>
-        <div className="flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 mb-2 overflow-x-auto whitespace-nowrap" >
+        <div className="hidden md:flex items-center text-center space-x-2 text-xs text-gray-600 dark:text-gray-300 overflow-x-auto whitespace-nowrap" >
           <Home />
+          Store
         </div>
         <ProductGridSkeleton />
       </div>
