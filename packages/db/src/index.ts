@@ -12,4 +12,5 @@ export { default as Variant, type IVariant, type IVariantBase } from './models/v
 export { default as Order, type IOrder } from "./models/order";
 export { default as Subscription, type ISubscription } from "./models/subscription";
 export { default as Plan, type IPlan } from "./models/plan";
+export { default as SupportTicket, type ISupportTicket } from "./models/support-ticket";
 export { type LeanArray, type RequireIdLean, type Lean, type TypedModel} from "./models/types";

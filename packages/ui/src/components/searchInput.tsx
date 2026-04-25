@@ -18,17 +18,17 @@ export function SearchInput({ onSearch, name }: SearchInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center w-[200px] gap-1">
+    <form onSubmit={handleSubmit} className="flex items-center w-fit gap-1">
       <input 
         type="search"
         placeholder="Search..."
         name={name}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="outline-none rounded-xl w-[180px] bg-black/10 dark:bg-white/25 px-2.5 py-0.5"
+        className="outline-none rounded-md bg-black/20 dark:bg-white/25 w-40 px-2"
       />
       <button type="submit" name="search button" aria-label="search button" >
-        <Search className="text-gray-600 dark:text-gray-400 cursor-pointer"/>
+        <Search className="text-gray-700 dark:text-gray-300 cursor-pointer"/>
       </button>
     </form>
   )

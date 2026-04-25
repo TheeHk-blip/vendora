@@ -24,12 +24,12 @@ const navbar = tv({
   variants: {
     app: {
       landing: {
-        wrapper: "flex flex-row items-center justify-center sticky top-0 z-50 bg-background px-2.5 py-2.5",
-        sectionLeft: "flex items-center space-x-2 flex-1",
-        sectionCenter: "flex justify-center flex-1",
-        sectionRight: "flex items-center justify-end space-x-3 flex-1",
-        actions: "items-center gap-2",
-        brand: "flex md:hidden"
+        wrapper: "grid grid-cols-12 items-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
+        sectionLeft: "flex items-center space-x-2 md:flex-1 col-span-3 md:col-span-2",  
+        brand: "md:hidden flex w-fit",          
+        sectionCenter: "flex justify-center flex-1 col-span-6",        
+        sectionRight: "flex items-center justify-end flex-1 col-span-3 md:col-span-4",
+        actions: "items-center"
       },
       store: {
         wrapper: "grid grid-cols-12 items-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
@@ -41,7 +41,7 @@ const navbar = tv({
       },
       admin: {
         wrapper: "flex flex-col sticky top-0 px-1.5 pb-2 h-screen w-[240px] shadow-sm shadow-black/30 dark:shadow-black border-r border-gray-100 dark:border-zinc-600",
-        sectionLeft: "flex mb-2.5",
+        sectionLeft: "flex flex-col mb-2.5",
         brand: "flex w-full justify-between",
         sectionCenter: "flex-1",
         sectionRight: "flex items-center my-auto",
@@ -49,18 +49,18 @@ const navbar = tv({
         actions: "flex flex-col w-full"
       },
       adminnav: {
-        wrapper: "flex flex-row items-center px-1.5 py-1.5 sticky top-0 max-w-full mx-auto mb-3.5 z-50 bg-background",
-        sectionLeft: "flex items-center space-x-2 flex-1",
-        brand: "flex md:hidden",
-        sectionCenter: "md:hidden flex justify-center flex-1",
-        sectionRight: "flex items-center justify-end space-x-2 flex-1",
-        actions: "flex"
+        wrapper: "grid grid-cols-12 items-center sticky top-0 z-50 px-1.5 md:px-2.5 md:py-2.5 bg-background",   
+        sectionLeft: "flex items-center space-x-2 md:flex-1 col-span-3 md:col-span-2",  
+        brand: "md:hidden flex w-fit",          
+        sectionCenter: "flex justify-center flex-1 col-span-6",        
+        sectionRight: "flex items-center justify-end flex-1 col-span-3 md:col-span-4",
+        actions: "items-center"
       },
       storeFilter: {
-        wrapper: "flex flex-col px-1 sticky top-17 h-[calc(100vh-[80px])] z-30 w-full overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+        wrapper: "flex flex-col px-1 py-2 w-50 h-[calc(100vh-80px)] shadow-md shadow-black/30 dark:shadow-black border border-white dark:border-neutral-700/90 rounded-md z-30 overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         sectionLeft: "flex mb-2.5 w-full items-center",
         brand: "flex w-full justify-start items-center",
-        search: "w-full " ,
+        search: "flex" ,
         sectionCenter: "flex-1",
         sectionRight: "flex items-center my-auto",
         navLinks: "flex flex-col space-y-2",
@@ -103,7 +103,7 @@ const navLink = tv({
     {
       app: "store",
       active: true,
-      className: "text-green-700 dark:text-green-500 bg-lime-600/15 dark:bg-green-300/15 hover:ring-0"
+      className: "text-green-500 dark:text-green-500 bg-lime-950 dark:bg-green-300/15"
     },
     {
       app: "admin",
@@ -132,6 +132,7 @@ export interface NavbarProps extends VariantProps<typeof navbar> {
   brand?: ReactNode;
   search?: ReactNode;
   avatar?: ReactNode;
+  className?: string;
 }
 
 export function Navbar({  
@@ -144,6 +145,7 @@ export function Navbar({
   search,
   avatar,
   menuToggle,
+  className
 }: NavbarProps)
 
 {
@@ -151,7 +153,7 @@ export function Navbar({
   const pathname = usePathname();
 
   return (
-    <nav className={styles.wrapper()}>     
+    <nav className={styles.wrapper({ class: className })}>     
       <div className={styles.sectionLeft()}>
         <span className={styles.brand()}>{brand} </span>                   
         <span className={styles.title()}>{title}</span>

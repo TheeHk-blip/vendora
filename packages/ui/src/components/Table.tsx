@@ -6,13 +6,13 @@ import { tv, VariantProps } from "tailwind-variants";
 const table = tv({
   slots: {
     wrapper:
-      "w-full rounded-lg bg-white/50 dark:bg-neutral-800/50 overflow-hidden shadow-sm",
+      "w-full rounded-lg bg-white/50 dark:bg-neutral-700/50 overflow-hidden shadow-sm",
     header: "px-4 py-3 border-b border-neutral-300/50 dark:border-neutral-600/50",
     title:
       "px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200",
     table: "w-full",
     headRow:
-      "grid gap-2 px-4 py-2 text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider",
+      "grid gap-2 px-4 py-2 text-xs text-gray-700 dark:text-gray-300 uppercase tracking-wider",
     headCell: "font-medium truncate",
     body: "divide-y divide-neutral-200 dark:divide-neutral-600",
     row:

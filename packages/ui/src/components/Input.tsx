@@ -63,7 +63,7 @@ export function InputField({
         maxLength={maxLength}
         autoComplete={autoComplete}
         className={`${className} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none 
-        peer w-full px-4 py-2 rounded-2xl bg-black/15 dark:bg-white/10 backdrop-blur-sm placeholder:opacity-0
+        peer w-full px-2 py-1 rounded-md bg-black/15 dark:bg-white/10 backdrop-blur-sm placeholder:opacity-0
         focus:outline-none focus:bg-black/25 focus:dark:bg-white/25 transition-all`}
       />
       <label        

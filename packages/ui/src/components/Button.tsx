@@ -18,7 +18,7 @@ export const button = tv({
       ghost: "bg-transparent rounded-md backdrop-blur-md p-2 shadow-none",
       buyer: "bg-gradient-to-r from-[#5EA2EF] to-[#0072F5]",
       seller: "bg-gradient-to-r from-[#4ADE80] to-[#16A34A]",
-      filter: "w-[200px] bg-foreground/20"
+      filter: "bg-foreground/30"
     },
     color: {
       primary:
@@ -26,18 +26,18 @@ export const button = tv({
       secondary:
         "text-white bg-purple-500 hover:bg-purple-600 focus-visible:ring-purple-400",
       success:
-        "bg-foreground/15 text-green-700 hover:ring",
+        "text-green-700 dark:text-green-500 bg-lime-600/15 dark:bg-green-300/15 hover:ring",
       danger:
         "bg-red-500 dark:bg-red-500 hover:text-red-500 hover:bg-transparent dark:hover:bg-transparent",
       neutral:
         "bg-foreground/5 text-gray-600 dark:text-gray-400",
       warning:
-        "bg-orange-100/50 dark:bg-orange-500/15 text-yellow-600"
+        "bg-orange-100/60 dark:bg-orange-500/15 text-yellow-600"
     },
     size: {
-      sm: "px-2 py-1 text-sm rounded-xl",
-      md: "px-4 py-2 w-full text-base rounded-2xl",
-      lg: "px-5 py-2.5 text-lg rounded-2xl",
+      sm: "px-2 py-1 text-sm",
+      md: "px-4 py-2 w-full text-base",
+      lg: "px-5 py-2.5 text-lg",
     },
     radius: {
       none: "rounded-none",
@@ -83,10 +83,11 @@ export const button = tv({
         "text-red-500 ring hover:bg-red-500 hover:text-white"
     }
   ],
+  
   defaultVariants: {
     variant: "solid",     
     size: "sm",
-    rounded: "md"
+    radius: "md"
   },
 });
 

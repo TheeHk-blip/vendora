@@ -8,12 +8,12 @@ const card = tv({
     variant: {
       flat: "p-1.5",
       solid: {
-        wrapper: "bg-white/45 dark:bg-zinc-700/60 backdrop-blur-md px-2 py-1 rounded-lg",
+        wrapper: "bg-white/50 dark:bg-neutral-700/50 px-2 py-1 rounded-lg shadow-sm",
       },     
       product: {
-        wrapper: "relative rounded-md bg-black/40 dark:bg-white/20",        
+        wrapper: "relative rounded-md bg-black/20 dark:bg-neutral-700/40",        
         body: "shadow-xs",
-        footer: "text-sm h-15 items-center px-1.5",        
+        footer: "text-sm h-15 items-center px-1.5 border-b-[1px] border-x-[1px] rounded-b-md border-white dark:border-neutral-700/90",        
       }
     },
     shadow: {
