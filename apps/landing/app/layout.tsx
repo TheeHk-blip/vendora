@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono, Limelight } from "next/font/google";
-import { ThemeProvider, DrawerProvider, ActiveSessionProvider, } from "@vendora/ui";
+import { ThemeProvider, DrawerProvider, ActiveSessionProvider, ToastProvider, } from "@vendora/ui";
 import "./globals.css";
 import Navigation from "./components/navbar";
 import { Metadata } from "next";
@@ -37,6 +37,7 @@ export default async function RootLayout({
       >
         <ActiveSessionProvider>
           <ThemeProvider>
+            <ToastProvider>
             <DrawerProvider>
               <div className="flex flex-col min-h-screen max-w-full" >
                 <Navigation />
@@ -45,6 +46,7 @@ export default async function RootLayout({
                 </main> 
               </div>   
             </DrawerProvider>
+            </ToastProvider>
           </ThemeProvider> 
         </ActiveSessionProvider>                   
       </body>

@@ -20,7 +20,7 @@ export default function Navigation() {
           <>            
             <Link
               href={"/signin"}
-              className="px-2 py-1 rounded-[14px] text-blue-600 ring hover:bg-blue-600 hover:text-foreground hover:ring-0
+              className="px-2 py-1 rounded-[14px] bg-blue-600 text-white hover:shadow-md
               transition-all duration-300 flex items-center active:scale-95"
             >
               Sign in

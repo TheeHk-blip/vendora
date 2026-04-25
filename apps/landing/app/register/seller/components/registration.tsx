@@ -5,14 +5,6 @@ import InputField from "@/app/components/inputfield";
 import OrSeparator from "@/app/components/orSeparator";
 import PrevButton from "@/app/components/prevButton";
 import UseVisibility from "@/app/hooks/useVisibility";
-import { 
-  CheckBox, 
-  CheckBoxOutlineBlank, 
-  Email, 
-  Store, 
-  Visibility, 
-  VisibilityOff 
-} from "@mui/icons-material";
 import { Button, title } from "@vendora/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { signIn } from "next-auth/react";
@@ -20,6 +12,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Email from "@mui/icons-material/Email";
+import Store from "@mui/icons-material/Store";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CheckBox from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function signInWithGoogleAs(role: "seller", setLoading: (loading: boolean) => void) {
@@ -203,8 +201,9 @@ export function SellerRegistration() {
                   disabled={loading}
                   type="submit"
                   leftIcon={<Email />}
-                  size="md"
+                  size="sm"
                   variant="seller"
+                  className="w-full"
                 >
                   Continue with E-mail
                 </Button>
@@ -288,7 +287,7 @@ export function SellerRegistration() {
           </AnimatePresence>
           <p className="text-center text-gray-500 dark:text-gray-400 mt-6 text-sm">
             Already have an account?{" "}
-            <Link href="/signin" className="text-blue-600 hover:underline">
+            <Link href="/signin" className="text-blue-600 underline">
               Sign in
             </Link>
           </p>  

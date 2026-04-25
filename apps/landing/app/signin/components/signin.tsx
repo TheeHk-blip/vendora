@@ -153,8 +153,8 @@ export default function SignIn() {
                   disabled={loading}
                   leftIcon={<Email />}
                   type="submit"
-                  size="md"
-                  className="bg-linear-to-r from-black/10 to-white/75 dark:from-neutral-700/30 dark:to-zinc-950"
+                  size="sm"
+                  className="w-full bg-linear-to-r from-black/10 to-black/35 dark:from-neutral-700/30 dark:to-zinc-950"
                 >
                   Continue with E-mail
                 </Button>                

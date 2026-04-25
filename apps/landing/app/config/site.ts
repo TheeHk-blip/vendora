@@ -5,6 +5,6 @@ export const siteConfig = {
     { label: "Home", href: "/" },           
     { label: "Pricing", href: "/pricing"},
     { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact"}
+    { label: "Help Center", href: "/help-center"}
   ]
 }

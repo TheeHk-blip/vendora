@@ -11,7 +11,7 @@ const limelight = Limelight({
 export default function Footer() {
   return (
     <footer className="py-10 px-6 md:px-16 mt-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-2.5 md:gap-10">
         {/* Brand Section */}
         <div>
           <h1 className={title({ color: "blue", size: 'xs', className: limelight.className })}>Vendora</h1>
@@ -23,41 +23,27 @@ export default function Footer() {
 
         {/* Quick Links */}
         <main  aria-description="Links to various Vendora products such as our marketplace, subscription plans and about us">
-          <h2 className={title({ color: "blue", size: 'xs'})}>Explore</h2>
-          <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+          <h2>Explore</h2>
+          <ul className="space-y-2 ml-1 text-sm text-gray-600 dark:text-gray-300">
             <li><a href={process.env.NEXT_PUBLIC_STORE_URL!} className="hover:text-foreground transition">Shop</a></li>
             <li><Link prefetch={false} href="/pricing" className="hover:text-foreground transition">Pricing</Link></li>
             <li><Link prefetch={false} href="/onboarding" className="hover:text-foreground transition">Join Vendora</Link></li>
-            <li><Link prefetch={false} href="/about" className="hover:text-foreground transition">About Us</Link></li>
+            <li><Link prefetch={false} href="/help-center" className="hover:text-foreground transition">Help Center</Link></li>            
           </ul>
-        </main>
+        </main>        
 
-        {/* For Sellers */}
-        <div  aria-description="Resources for our sellers">
-          <h3 className={title({ color: "blue", size: 'xs'})}>For Sellers</h3>
-          <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-            <li><a href={process.env.NEXT_PUBLIC_SELLER_URL!} className="hover:text-foreground transition">Seller Dashboard</a></li>
-            <li><Link prefetch={false} href="/help-center" className="hover:text-foreground transition">Help Center</Link></li>
-            <li><Link prefetch={false} href="/terms" className="hover:text-foreground transition">Terms & Conditions</Link></li>
-            <li><Link prefetch={false} href="/privacy" className="hover:text-foreground transition">Privacy Policy</Link></li>
-          </ul>
-        </div>
-
-        {/* Contact & Socials */}
         <div>
-          <h4 className={title({ color: "blue", size: 'xs'})}>Connect</h4>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-            Have questions? Reach us at {" "}
-            <a href="mailto:mail@support.vendora.sbs" className="text-blue-700 dark:text-blue-400 border-b border-blue-400">
-              support@vendora.sbs
-            </a>   
-          </p>
+          <h2>Legal</h2>
+          <ul className="space-y-2 ml-1 text-sm text-gray-600 dark:text-gray-300">
+            <li><Link prefetch={false} href="/privacy" className="hover:text-foreground transition">Privacy Policy</Link></li>
+            <li><Link prefetch={false} href="/terms" className="hover:text-foreground transition">Terms</Link></li>
+          </ul>                    
         </div>
       </div>
 
       {/* Divider */}
-      <div className="mt-10 pt-6 text-center text-sm text-gray-600 dark:text-gray-300">
-        © {new Date().getFullYear()} Vendora. All rights reserved.
+      <div className="text-center my-5 py-2.5 gap-1 border-t border-gray-500 dark:border-gray-400 text-gray-600 dark:text-gray-300">        
+        © {new Date().getFullYear()} Vendora. All rights reserved. 
       </div>
     </footer>
   );

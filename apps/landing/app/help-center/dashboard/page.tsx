@@ -14,12 +14,7 @@ export default function DashboardHelp() {
           <li>Orders & fulfillment</li>
           <li>Messaging center</li>
           <li>Store settings</li>
-        </ul>
-
-        <h2 className="text-xl font-semibold">Customizing Your Dashboard</h2>
-        <p>
-          You can rearrange widgets and pin quick-access tools based on your workflow.
-        </p>
+        </ul>       
       </section>
     </div>
   );

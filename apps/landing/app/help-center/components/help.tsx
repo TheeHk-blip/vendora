@@ -1,6 +1,7 @@
 "use client";
 
-import { Search, Mail, Phone, QuestionMark } from "@mui/icons-material";
+import { Search, ArrowForward } from "@mui/icons-material";
+import { title } from "@vendora/ui";
 import Link from "next/link";
 
 export default function HelpCenter() {
@@ -15,7 +16,7 @@ export default function HelpCenter() {
     },
     {
       q: "How do I upgrade my plan?",
-      a: "Go to Settings → Billing. You can switch between Basic, Startup, and Enterprise anytime."
+      a: "In your Dashboard go to Subscriptions to manage your plan. You can switch between Basic, Startup, and Pro anytime."
     },
     {
       q: "Why wasn't my product approved?",
@@ -33,12 +34,12 @@ export default function HelpCenter() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-background px-4 md:px-8 py-12">
-      <div className="max-w-5xl mx-auto space-y-12">
+    <div className="w-full min-h-screen bg-background px-4 md:px-8">
+      <div className="max-w-5xl mx-auto space-y-5">
 
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-4xl font-bold">Help Center</h1>
+          <h1 className={title()}>Help Center</h1>
           <p className="mt-2 text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
             Find answers to common questions or reach out to our support team.
           </p>
@@ -79,41 +80,17 @@ export default function HelpCenter() {
             {faqs.map((item, idx) => (
               <details
                 key={idx}
-                className="group border-[0.5px] border-gray-600 dark:border-gray-300 rounded-xl p-4 bg-card cursor-pointer"
+                className="group border-[0.5px] border-gray-600 dark:border-gray-300 rounded-xl px-4 py-2 cursor-pointer"
               >
                 <summary className="flex items-center justify-between text-lg font-medium">
                   {item.q}
-                  <QuestionMark className="opacity-70 group-open:rotate-180 transition-transform" />
+                  <ArrowForward className="opacity-70 group-open:rotate-180 transition-transform" />
                 </summary>
                 <p className="mt-2 text-gray-600 dark:text-gray-300">
                   {item.a}
                 </p>
               </details>
             ))}
-          </div>
-        </div>
-
-        {/* Contact Section */}
-        <div className="mt-12 text-center">
-          <h2 className="text-2xl font-semibold">Still Need Help?</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
-            Our team is here to assist you.
-          </p>
-
-          <div className="flex flex-col md:flex-row justify-center gap-6 mt-6">
-            <Link
-              href="mailto:mail@support.vendora.sbs"
-              className="flex items-center gap-3 p-4 rounded-xl border bg-card hover:bg-gray-100 dark:hover:bg-gray-800 transition shadow-sm"
-            >
-              <Mail /> Email Support
-            </Link>
-
-            <Link
-              href="tel:+123456789"
-              className="flex items-center gap-3 p-4 rounded-xl border bg-card hover:bg-gray-100 dark:hover:bg-gray-800 transition shadow-sm"
-            >
-              <Phone /> Call Us
-            </Link>
           </div>
         </div>
       </div>

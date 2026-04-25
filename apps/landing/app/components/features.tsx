@@ -44,7 +44,7 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section id="features" className="py-24 rounded-3xl bg-linear-to-r from-black/10 to-white/25 dark:from-neutral-700/30 dark:to-zinc-950">
+    <section id="features" className="py-24 rounded-3xl bg-white/40 dark:bg-neutral-800/60">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <motion.h2
           {...fadeUp(0.1)}
@@ -66,7 +66,7 @@ export default function FeaturesSection() {
             <motion.div
               key={i}
               {...fadeUp(0.2 + i * 0.1)}
-              className="p-6 bg-white/30 dark:bg-zinc-800/50 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 
+              className="p-6 bg-white/50 dark:bg-zinc-800 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 
               border border-gray-100 dark:border-zinc-700"
             >
               <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/30 rounded-xl">

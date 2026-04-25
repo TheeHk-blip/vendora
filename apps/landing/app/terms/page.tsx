@@ -157,18 +157,7 @@ export default function TermsPage() {
             posted. Continued use of Vendora after updates means you accept the
             new Terms.
           </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold">11. Contact Us</h2>
-          <p>
-            If you have questions regarding these Terms, contact us at:  
-            <br />
-            <a href="mailto:mail@support.vendora.sbs" className="text-blue-600">
-              support@vendora.sbs
-            </a>          
-          </p>
-        </section>
+        </section>      
       </div>
     </main>
   );

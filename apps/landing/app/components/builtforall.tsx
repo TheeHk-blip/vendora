@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function BuiltForEveryone() {
   return (
-    <section className="py-24 px-4 rounded-4xl bg-linear-to-r from-black/10 to-white/25 dark:from-neutral-700/30 dark:to-zinc-950 text-center">
+    <section className="py-24 px-4 rounded-3xl text-center bg-white/40 dark:bg-neutral-800/60">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export default function BuiltForEveryone() {
       <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         {/* Seller Side */}
         <div     
-          className="flex flex-col justify-between rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
+          className="flex flex-col justify-between rounded-2xl bg-white/50 dark:bg-zinc-800 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
             <Store className="w-6 h-6 text-green-600" />
@@ -56,7 +56,7 @@ export default function BuiltForEveryone() {
 
         {/* Buyer Side */}
         <div          
-          className="flex flex-col justify-between rounded-2xl bg-white/20 dark:bg-zinc-600/60 shadow-sm p-8 text-left transition-all duration-500"
+          className="flex flex-col justify-between rounded-2xl bg-white/50 dark:bg-zinc-800 shadow-sm p-8 text-left transition-all duration-500"
         >
           <div className="flex items-center gap-3 mb-4">
             <ShoppingBag className="w-6 h-6 text-blue-600" />

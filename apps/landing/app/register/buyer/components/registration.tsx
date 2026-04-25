@@ -5,7 +5,6 @@ import InputField from "@/app/components/inputfield";
 import OrSeparator from "@/app/components/orSeparator";
 import PrevButton from "@/app/components/prevButton";
 import UseVisibility from "@/app/hooks/useVisibility";
-import { CheckBox, CheckBoxOutlineBlank, Email, ShoppingBag, Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, title } from "@vendora/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -13,6 +12,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import ShoppingBag from "@mui/icons-material/ShoppingBag";
+import Email from "@mui/icons-material/Email";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CheckBox from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 
 function signInWithGoogleAs(role: "buyer", setLoading: (loading: boolean) => void) {
   try {
@@ -122,7 +127,7 @@ export function BuyerRegistration() {
             alt={"Seller Brand"}
             src={"/sellerbrand.png"}
             width={250}
-            height={100}
+            height={100}            
             className="object-cover"
           />
         </div>
@@ -190,8 +195,9 @@ export function BuyerRegistration() {
                   disabled={loading}
                   leftIcon={<Email />}
                   type="submit"
-                  size="md"
+                  size="sm"
                   variant="buyer"
+                  className="w-full"
                 >
                   Continue with E-mail
                 </Button>
@@ -274,7 +280,7 @@ export function BuyerRegistration() {
           </AnimatePresence>
           <p className="text-center text-gray-500 dark:text-gray-400 mt-6 text-sm">
             Already have an account?{" "}
-            <Link href="/signin" className="text-blue-600 hover:underline">
+            <Link href="/signin" className="text-blue-600 underline">
               Sign in
             </Link>
           </p>  

@@ -10,7 +10,7 @@ export default function AccountHelp() {
         <h2 className="text-xl font-semibold">How to Reset Your Password</h2>
         <p>
           If you&apos;ve forgotten your password, go to the{" "}
-          <span className="font-medium">Forgot Password</span> page and enter your email.
+          <span className="font-medium">Forgot Password </span> page and enter your email.
           You&apos;ll receive a secure reset link.
         </p>
 

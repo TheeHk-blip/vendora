@@ -8,7 +8,7 @@ export default function AboutUs() {
   return (
     <main 
       aria-label="About Us page describing Vendora's mission, team, and values"
-      className="min-h-screen bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950"
+      className="min-h-screen"
     >
       {/* Hero Section */}
       <section className="relative flex flex-col w-full max-w-7xl items-center justify-center text-center px-6 py-8">

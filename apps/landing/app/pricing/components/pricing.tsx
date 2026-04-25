@@ -45,7 +45,7 @@ export default function Pricing() {
       return val ? (
         <CheckCircle className="text-green-500 scale-90"/>
       ) : (
-        <Cancel className="text-gray-500 dark:text-neutral-600 scale-90" />
+        <Cancel className="text-gray-700 dark:text-gray-400 scale-90" />
       )
     }
     return <span className="font-medium">{val}</span>
@@ -55,7 +55,7 @@ export default function Pricing() {
     { 
       key: "feature", 
       title: "Features", 
-      className: "font-bold text-gray-900 dark:text-white" 
+      className: "text-gray-900 dark:text-white" 
     },
     { 
       key: "basic", 
@@ -77,7 +77,7 @@ export default function Pricing() {
     },
   ]
   return (
-    <main aria-label="Choose the right plan for your needs" className="min-h-screen py-10 px-4 bg-linear-to-r from-black/10 to-white/45 dark:from-neutral-700/30 dark:to-zinc-950">
+    <main aria-label="Choose the right plan for your needs" className="min-h-screen py-10 px-4">
       <div className="max-w-6xl mx-auto text-center mb-12">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -92,18 +92,18 @@ export default function Pricing() {
           Whether you&apos;re just starting or scaling fast, Vendora has a plan that
           fits your needs.
         </p>
-        <span className="text-gray-700 dark:text-gray-500">Note: You can manage your subscription in your dashboard!</span>
+        <span className="text-gray-700 dark:text-gray-400">Note: You can manage your subscription in your dashboard!</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-5">
         {plans.map((plan) => (
           <div 
             key={plan.name}
-            className="flex flex-col  bg-foreground/35 rounded-xl px-4 py-2"
+            className="flex flex-col bg-white/50 dark:bg-neutral-700/50 rounded-xl shadow-sm px-4 py-2"
           >
             <div className="flex flex-row justify-between items-center">
-              <span className="text-gray-600 dark:text-gray-300 text-2xl" >{plan.name}</span>
-              <span className="font-bold text-xl">{plan.price}</span>
+              <span className="text-2xl" >{plan.name}</span>
+              <span className="font-bold text-foreground/70 text-xl">{plan.price}</span>
             </div>
             <span>{plan.description}</span>
           </div>
