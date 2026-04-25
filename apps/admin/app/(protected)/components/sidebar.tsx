@@ -14,8 +14,12 @@ export default function Navigation() {
   return (
     <Navbar  
       app="admin"  
-      brand={<Logo width={50} height={50} />}    
-      title={<span className="px-1 py-1 rounded-lg ring" >{getInitials(session?.user.name as string)}</span>}
+      brand={
+        <div className="flex flex-row justify-between w-full items-center">
+          <Logo width={50} height={50} />
+          <span className="px-2 py-1 rounded-lg ring" >{getInitials(session?.user.name as string)}</span>
+        </div>
+      }
       links={siteConfig.navLinks}    
       actions={      
         <>          

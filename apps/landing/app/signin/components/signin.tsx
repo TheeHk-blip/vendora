@@ -197,7 +197,7 @@ export default function SignIn() {
                     type="submit"
                     size="md"                    
                     className="text-green-500 hover:scale-102 transition-all duration-300 shadow-sm shadow-black/25
-                    bg-linear-to-r from-black/10 to-white/75 dark:from-neutral-700/30 dark:to-zinc-950"
+                    bg-linear-to-r from-black/10 to-black/35 dark:from-neutral-700/30 dark:to-zinc-950"
                   >
                     {loading ? <span className="animate-pulse" >Signing in...</span> : "Sign in"}
                   </Button>
