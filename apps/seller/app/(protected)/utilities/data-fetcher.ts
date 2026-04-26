@@ -53,7 +53,7 @@ export async function getSellerStats() {
   ]);
 
   const recentOrders = await Order.aggregate([
-    { $match: { createdAt: { $gte: thirtyDaysAgo }}},
+    { $match: { "items.seller.sellerId": sellerId, createdAt: { $gte: thirtyDaysAgo }}},
     { $sort: { createdAt: -1 }},
     { $limit: 10 },
     { $unwind: "$items" },
