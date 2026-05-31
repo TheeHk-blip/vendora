@@ -1,11 +1,10 @@
 "use client";
 
 import GoogleSignIn from "@/app/components/googleSignIn";
-import InputField from "@/app/components/inputfield";
 import OrSeparator from "@/app/components/orSeparator";
 import PrevButton from "@/app/components/prevButton";
 import UseVisibility from "@/app/hooks/useVisibility";
-import { Button, title } from "@vendora/ui";
+import { Button, InputField, title } from "@vendora/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -231,6 +230,7 @@ export function SellerRegistration() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  autoComplete="new-password"
                   placeholder="******"
                   label="Password"
                   passwordToggle={

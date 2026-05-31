@@ -102,8 +102,8 @@ export default function Pricing() {
             className="flex flex-col bg-white/50 dark:bg-neutral-700/50 rounded-xl shadow-sm px-4 py-2"
           >
             <div className="flex flex-row justify-between items-center">
-              <span className="text-2xl" >{plan.name}</span>
-              <span className="font-bold text-foreground/70 text-xl">{plan.price}</span>
+              <span className="text-2xl uppercase tracking-wider" >{plan.name}</span>
+              <span className="font-bold text-blue-500 text-xl">{plan.price}</span>
             </div>
             <span>{plan.description}</span>
           </div>

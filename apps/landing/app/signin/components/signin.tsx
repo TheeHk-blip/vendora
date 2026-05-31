@@ -1,12 +1,11 @@
 "use client";
 
 import GoogleSignIn from "@/app/components/googleSignIn";
-import InputField from "@/app/components/inputfield";
 import OrSeparator from "@/app/components/orSeparator";
 import PrevButton from "@/app/components/prevButton";
 import UseVisibility from "@/app/hooks/useVisibility";
 import { Email, Login, Visibility, VisibilityOff } from "@mui/icons-material";
-import { Button, title } from "@vendora/ui";
+import { Button, InputField, title } from "@vendora/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -25,7 +24,7 @@ export default function SignIn() {
     password: "",
   });
 
-  const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
+  const nextStep = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null)
     setStep(2);
@@ -36,7 +35,7 @@ export default function SignIn() {
     setStep(1)
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null)
     setLoading(true);
@@ -175,6 +174,7 @@ export default function SignIn() {
                   name="password"
                   type={visible ? "text":"password"}
                   value={formData.password}
+                  autoComplete="current-password"                  
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   placeholder="********"
                   label="Password"  
@@ -197,7 +197,7 @@ export default function SignIn() {
                     type="submit"
                     size="md"                    
                     className="text-green-500 hover:scale-102 transition-all duration-300 shadow-sm shadow-black/25
-                    bg-linear-to-r from-black/10 to-black/35 dark:from-neutral-700/30 dark:to-zinc-950"
+                    bg-background/45"
                   >
                     {loading ? <span className="animate-pulse" >Signing in...</span> : "Sign in"}
                   </Button>
