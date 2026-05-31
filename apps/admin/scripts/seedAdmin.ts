@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import { User } from "@vendora/db/frontend";
 
-
 dotenv.config();
 
 async function SeedAdmin() {
