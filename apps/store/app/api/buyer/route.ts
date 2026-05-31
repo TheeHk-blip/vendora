@@ -1,11 +1,16 @@
 import { Buyer, connectDB } from "@vendora/db/frontend";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   await connectDB();
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing user ID" }, { status: 400 });
+  }
 
   const data = await Buyer.findOne({userId: id})
     .populate({
