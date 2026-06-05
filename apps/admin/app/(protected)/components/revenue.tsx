@@ -1,13 +1,28 @@
 import { Card } from "@vendora/ui";
-import { PlatformStats } from "../data";
+import { PlatformStats, TimeRange } from "../data";
 import Link from "next/link";
 import { LinkOutlined, MonetizationOn } from "@mui/icons-material";
 import TrendingUp from "@mui/icons-material/TrendingUp";
 import TrendingDown from "@mui/icons-material/TrendingDown";
 import PriceDisplay from "@vendora/ui/src/components/priceDisplay";
 
-export async function PlatformRevenue() {
-  const { platformRevenue, totalRevenueTrend } = await PlatformStats();
+export const getPeriodLabel = (range: TimeRange) => {
+  if (range === "1wk") {
+    return "prev week"
+  } else if (range === "90d") {
+    return "prev 3 months"
+  } else {
+    return "last month";
+  }
+};
+
+export interface ComponentProps {
+  range: TimeRange
+}
+
+export async function PlatformRevenue({ range }: ComponentProps) {
+  const { platformRevenue, prevPlatformRevenue, totalRevenueTrend } = await PlatformStats(range);
+  const periodLabel = getPeriodLabel(range);
   return (
     <Card
       header={
@@ -22,31 +37,37 @@ export async function PlatformRevenue() {
           </Link>          
         </span>
       }
+      footer={
+        range === "all" ? (
+          <div className="text-gray-500 text-sm mt-1">Showing lifetime platform revenue</div>
+        ):(
+        totalRevenueTrend && totalRevenueTrend > 0 ? (
+          <div className="flex flex-row gap-2" >          
+            <span className="text-green-500">
+              <TrendingUp  /> {" "}
+              +{totalRevenueTrend}%  
+            </span>
+            {periodLabel} <PriceDisplay amount={prevPlatformRevenue} />
+          </div>
+        ):(
+          <div className="flex flex-row gap-2" >          
+            <span className="text-red-500">
+              <TrendingDown  /> {" "}
+              {totalRevenueTrend}%  
+            </span>
+            {periodLabel} <PriceDisplay amount={prevPlatformRevenue} />
+          </div>
+        ))
+      }
     >
-      <span className="text-3xl font-bold"><PriceDisplay amount={platformRevenue} /></span>
-      {totalRevenueTrend && totalRevenueTrend > 0 ? (
-        <div className="flex flex-row gap-2" >          
-          <span className="text-green-500">
-            <TrendingUp  /> {" "}
-            +{totalRevenueTrend}%  
-          </span>
-          in past month
-        </div>
-      ):(
-        <div className="flex flex-row gap-2" >          
-          <span className="text-red-500">
-            <TrendingDown  /> {" "}
-            -{totalRevenueTrend}%  
-          </span>
-          in past month
-        </div>
-      )}
+      <span className="text-3xl font-bold"><PriceDisplay amount={platformRevenue} /></span>      
     </Card>
   )
 }
 
-export async function TotalRevenue() {
-  const {totalRevenue, totalRevenueTrend} = await PlatformStats();
+export async function TotalRevenue({ range }: ComponentProps) {
+  const {totalRevenue, prevTotalRevenue, totalRevenueTrend} = await PlatformStats(range);
+  const periodLabel = getPeriodLabel(range);
   return(
     <Card
       header={
@@ -61,25 +82,30 @@ export async function TotalRevenue() {
           </Link> 
         </span>
       }
+      footer={
+        range === "all" ? (
+          <div className="text-gray-500 text-sm mt-2 font-medium">Lifetime sales volume</div>
+        ):(
+        totalRevenueTrend && totalRevenueTrend > 0 ? (
+          <div className="flex flex-row gap-2" >          
+            <span className="text-green-500">
+              <TrendingUp  /> {" "}
+              +{totalRevenueTrend}%  
+            </span>
+            {periodLabel} <PriceDisplay amount={prevTotalRevenue} />
+          </div>
+        ):(
+          <div className="flex flex-row gap-2" >          
+            <span className="text-red-500">
+              <TrendingDown  /> {" "}
+              {totalRevenueTrend}%  
+            </span>
+            {periodLabel} <PriceDisplay amount={prevTotalRevenue} />
+          </div>
+        ))
+      }
     >
-      <span className="text-3xl font-bold"><PriceDisplay amount={totalRevenue} /></span>
-      {totalRevenueTrend && totalRevenueTrend > 0 ? (
-        <div className="flex flex-row gap-2" >          
-          <span className="text-green-500">
-            <TrendingUp  /> {" "}
-            +{totalRevenueTrend}%  
-          </span>
-          in past month
-        </div>
-      ):(
-        <div className="flex flex-row gap-2" >          
-          <span className="text-red-500">
-            <TrendingDown  /> {" "}
-            -{totalRevenueTrend}%  
-          </span>
-          in past month
-        </div>
-      )}
+      <span className="text-3xl font-bold"><PriceDisplay amount={totalRevenue} /></span>      
     </Card>
   )
 }

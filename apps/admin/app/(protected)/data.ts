@@ -2,6 +2,7 @@ import { connectDB, getDetailedOrders, IOrder, Order, TransformedOrderItem, tran
 import { SerializeData } from "@vendora/ui";
 
 const calculateTrend = (c: number, p: number) => p === 0 ? (c > 0 ? 100 : 0) : Math.round(((c - p) / p) * 100);
+export type TimeRange = "1wk" | "30d" | "90d" | "all";
 
 export async function TUsers() {
   await connectDB()
@@ -10,19 +11,38 @@ export async function TUsers() {
   return totalUsers;
 }
 
-export async function PlatformStats() {
+export async function PlatformStats(range: TimeRange = "30d") {
   await connectDB();
 
   const now = new Date();
-  const thirtyDaysAgo = new Date; thirtyDaysAgo.setDate(now.getDate() - 30);
-  const sixtyDaysAgo = new Date; sixtyDaysAgo.setDate(now.getDate() - 60);
+  let currentStart = new Date(now);
+  let previousStart = new Date(now);
+  const isAllTime = range === "all";
+
+  if (range === "1wk") {
+    currentStart.setDate(now.getDate() - 7);
+    previousStart.setDate(now.getDate() - 14);
+  } else if (range === "90d") {
+    currentStart.setDate(now.getDate() - 90);
+    previousStart.setDate(now.getDate() - 180);
+  } else if (range === "all") {
+    currentStart = new Date(0);
+    previousStart = new Date(0);
+  } else {
+    currentStart.setDate(now.getDate() - 30);
+    previousStart.setDate(now.getDate() - 60);
+  };
+
+  const metricsMatchStage = isAllTime
+    ? { status: "delivered" }
+    : { createdAt: { $gte: previousStart }, status: "delivered" };
 
   const metrics = await Order.aggregate([
-    { $match: { createdAt: { $gte: sixtyDaysAgo }}},
+    { $match: metricsMatchStage},
     {
       $facet: {
         current: [
-          { $match: { createdAt: { $gte: thirtyDaysAgo }, status: "delivered" }},
+          { $match: { createdAt: { $gte: currentStart } }},
           { $group: {
               _id: null,
               platformRevenue: { $sum: "$financials.platformRevenue" },   
@@ -30,8 +50,8 @@ export async function PlatformStats() {
           }},
           { $project: { platformRevenue: 1, totalRevenue: 1 }}
         ],
-        previous: [
-          { $match: { createdAt: { $lt: thirtyDaysAgo }, status: "delivered" }},
+        previous: isAllTime ? [ { $project: { platformRevenue: { $literal: 0 }, totalRevenue: { $literal: 0 }}}] : [
+          { $match: { createdAt: { $gte: previousStart, $lt: currentStart }}},
           { $group: {
               _id: null,
               platformRevenue: { $sum: "$financials.platformRevenue" },      
@@ -40,7 +60,7 @@ export async function PlatformStats() {
           { $project: { platformRevenue: 1, totalRevenue: 1 }}
         ],
         chart: [
-          { $match: { createdAt: { $gte: thirtyDaysAgo }, status: "delivered" }},
+          { $match: { createdAt: { $gte: currentStart } }},
           { $group: {
             _id: { $dateToString: { format: "%d %b %Y", date: "$createdAt" }},
             totalRevenue: { $sum: "$financials.totalProductValue" },
@@ -54,7 +74,7 @@ export async function PlatformStats() {
   ]);
 
   const recentOrders = await Order.aggregate([
-    { $match: { createdAt: { $gte: thirtyDaysAgo }}},
+    { $match: { createdAt: { $gte: currentStart }}},
     { $sort: { createdAt: -1 }},
     { $limit: 10 },
     { $unwind: "$items" },
@@ -87,20 +107,21 @@ export async function PlatformStats() {
     }}
   ]);
 
+  const userMatchStage = isAllTime ? {} : { createdAt: { $gte: previousStart }};
   const userStats = await User.aggregate([
-    { $match: { createdAt: { $gte: sixtyDaysAgo } }},
+    { $match: userMatchStage },
     {
       $facet: {
         current: [
-          { $match: { createdAt: { $gte: thirtyDaysAgo } }},
+          { $match: { createdAt: { $gte: currentStart } }},
           { $count: "count" }
         ],
-        previous: [
-          { $match: { createdAt: { $lt: thirtyDaysAgo } }},
+        previous: isAllTime ? [ { $project: { count: { $literal: 0 } }}] : [
+          { $match: { createdAt: { $gte: previousStart, $lt: currentStart } }},
           { $count: "count" }
         ],
         chart: [
-          { $match: { createdAt: { $gte: thirtyDaysAgo } }},
+          { $match: { createdAt: { $gte: currentStart } }},
           {  $group: {
             _id: { $dateToString: { format: "%d %b %Y", date: "$createdAt" }},
             count: { $sum: 1 }
@@ -114,21 +135,23 @@ export async function PlatformStats() {
           { $project: { name: 1, email: 1, createdAt: 1, role: 1 }}
         ],
         buyers: [
-          { $match: { createdAt: { $gte: thirtyDaysAgo }, role: "buyer" }},
+          { $match: { role: "buyer" }},
           { $count: "count" }
         ],
         sellers: [
-          { $match: { createdAt: { $gte: thirtyDaysAgo }, role: "seller" }},
+          { $match:{ role: "seller" }},
           { $count: "count" }
         ]       
       }
     }
   ]);
 
-  const currUsers = userStats[0].current[0]?.count || 0;
-  const prevUsers = userStats[0].previous[0]?.count || 0;
-  const currPlatformFinances = metrics[0].current[0] || { platformRevenue: 0 };
-  const prevPlatformFinances = metrics[0].previous[0] || { platformRevenue: 0 };
+  const currUsers = userStats[0]?.current[0]?.count || 0;
+  const prevUsers = userStats[0]?.previous[0]?.count || 0;
+
+  const currPlatformFinances = metrics[0]?.current[0] || { platformRevenue: 0 };
+  const prevPlatformFinances = metrics[0]?.previous[0] || { platformRevenue: 0 };
+
   const currTotalFinances = metrics[0]?.current[0] || { totalRevenue: 0 };
   const prevTotalFinances = metrics[0]?.previous[0] || { totalRevenue: 0 };
   const chartData = metrics[0]?.chart || [];
@@ -155,8 +178,10 @@ export async function PlatformStats() {
     buyers: userStats[0].buyers[0]?.count || 0,
     sellers: userStats[0].sellers[0]?.count || 0,
     platformRevenue: Number(currPlatformFinances.platformRevenue),
+    prevPlatformRevenue: Number(prevPlatformFinances.platformRevenue),
     totalRevenue: Number(currTotalFinances.totalRevenue),
-    totalRevenueTrend: calculateTrend(currTotalFinances?.totalRevenue, prevTotalFinances?.totalRevenue),
-    platformRevenueTrend: calculateTrend(currPlatformFinances?.platformRevenue, prevPlatformFinances?.platformRevenue)
+    prevTotalRevenue: Number(prevTotalFinances.totalRevenue),
+    totalRevenueTrend: isAllTime ? 0 : calculateTrend(currTotalFinances?.totalRevenue, prevTotalFinances?.totalRevenue),
+    platformRevenueTrend: isAllTime ? 0 : calculateTrend(currPlatformFinances?.platformRevenue, prevPlatformFinances?.platformRevenue)
   }
 }

@@ -3,10 +3,12 @@ import Link from "next/link";
 import { LinkOutlined, People, TrendingUp } from "@mui/icons-material";
 import { PlatformStats, TUsers } from "../data";
 import TrendingDown from "@mui/icons-material/TrendingDown";
+import { ComponentProps, getPeriodLabel } from "./revenue";
 
-export async function Users() {
+export async function Users({ range }: ComponentProps) {
   const totalUsers = await TUsers();
-  const { monthlyTrend } = await PlatformStats()
+  const { monthlyTrend } = await PlatformStats(range)
+  const periodLabel = getPeriodLabel(range);
   return (
     <Card
       header={
@@ -21,25 +23,30 @@ export async function Users() {
           </Link>
         </span>
       }               
+      footer={
+        range === "all" ? (
+          <div className="text-gray-500 text-sm mt-2 font-medium">Lifetime Users</div>
+        ):(
+        monthlyTrend && monthlyTrend > 0 ? (
+          <div className="flex flex-row gap-2" >          
+            <span className="text-green-500">
+              <TrendingUp  /> {" "}
+              +{monthlyTrend}%  
+            </span>
+            {periodLabel}
+          </div>
+        ):(
+          <div className="flex flex-row gap-2" >          
+            <span className="text-red-500">
+              <TrendingDown  /> {" "}
+              {monthlyTrend}%  
+            </span>
+            {periodLabel}
+          </div>
+        ))
+      }
     >
-      <span className="text-5xl font-bold">{totalUsers}</span>
-      {monthlyTrend && monthlyTrend > 0 ? (
-        <div className="flex flex-row gap-2" >          
-          <span className="text-green-500">
-            <TrendingUp  /> {" "}
-            +{monthlyTrend}%  
-          </span>
-          in past month
-        </div>
-      ):(
-        <div className="flex flex-row gap-2" >          
-          <span className="text-red-500">
-            <TrendingDown  /> {" "}
-            -{monthlyTrend}%  
-          </span>
-          in past month
-        </div>
-      )}
+      <span className="text-5xl font-bold">{totalUsers}</span>      
     </Card>
   )
 }

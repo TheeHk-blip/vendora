@@ -15,6 +15,7 @@ export default async function VUsers({ searchParams }:{
     q?: string;
     page?: string;
     pageSize?: string;
+    range?: string;
   }>
 }) {
   await connectDB();

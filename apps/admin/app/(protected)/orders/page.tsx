@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default async function Orders() {
   const { orders } = await PlatformStats();
   return (
-    <div className="flex flex-col justify-center gap-3.5">
-      <h1 className={title({ color: "foreground" })}>Orders</h1>
+    <div className="flex flex-col justify-center gap-3.5">      
+      <h1 className={title({ color: "foreground" })}>Orders</h1>          
       <OrderClient order={orders} />
     </div>
   )

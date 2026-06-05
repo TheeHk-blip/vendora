@@ -1,10 +1,11 @@
 import { Card } from "@vendora/ui";
 import { PlatformStats } from "../data";
 import { RecentsTable } from "./recentOrdersTable";
+import { ComponentProps } from "./revenue";
 
 
-export async function RecentOrders() {
-  const { recentOrdersData } = await PlatformStats();
+export async function RecentOrders({ range }: ComponentProps) {
+  const { recentOrdersData } = await PlatformStats(range);
   return (
     <Card
        header={
