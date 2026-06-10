@@ -1,9 +1,9 @@
 import { getProducts, Params } from "@/app/storeData";
-import ProductCard from "./productCard";
-
+import { InfiniteProductGrid } from "./infiniteProductGrid";
 
 export async function ProductGrid({ searchParams }: { searchParams: Params }) {
-  const products = await getProducts({ searchParams });
+  const resolved = await searchParams;
+  const { products, nextCursor } = await getProducts({ searchParams });
 
   if (products.length === 0) {
     return (
@@ -14,14 +14,16 @@ export async function ProductGrid({ searchParams }: { searchParams: Params }) {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 mt-1">
-      {products.map((product, index) => (
-        <ProductCard
-          key={product._id}
-          product={product}
-          index={index}
-        />
-      ))}
-    </div>
+    <InfiniteProductGrid 
+      initialCursor={nextCursor}
+      initialProducts={products}
+      filters={{
+        q: resolved.q,
+        categoryId: resolved.categoryId,
+        brand: resolved.brand,
+        minPrice: resolved.minPrice,
+        maxPrice: resolved.maxPrice
+      }}
+    />
   )
 }

@@ -8,7 +8,7 @@ const card = tv({
     variant: {
       flat: "p-1.5",
       solid: {
-        wrapper: "bg-white/50 dark:bg-neutral-700/50 px-2 py-1 rounded-lg shadow-sm",
+        wrapper: "bg-white/50 dark:bg-neutral-700/50 px-2 py-1 rounded-lg shadow-sm justify-between flex flex-col",
       },     
       product: {
         wrapper: "relative rounded-md bg-black/20 dark:bg-neutral-700/40",        
@@ -32,7 +32,7 @@ const card = tv({
     wrapper: "relative",
     header: "",
     body: " text-sm ",
-    footer: "text-sm my-auto py-2",
+    footer: "text-sm py-2",
   },
 });
 

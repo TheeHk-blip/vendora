@@ -11,7 +11,7 @@
     "build:services": "pnpm --filter @vendora/db build && pnpm --filter services build",
     "start:services": "pnpm --filter services start"
   },
-  "packageManager": "pnpm@10.33.2",
+  "packageManager": "pnpm@11.5.2",
   "devDependencies": {
     "@types/compression": "^1.8.1",
     "@types/node": "^20.19.25",

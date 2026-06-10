@@ -13,11 +13,11 @@ interface ProductProps {
 
 export default function ProductCard({ product, index} : ProductProps) {
   const sizes = getTailwindSizes({
-    xl: "25vw",
-    lg: "33vw",
-    md: "50vw",
-    sm: "50vw",
-    default: "100vw"
+    xl: "16vw",
+    lg: "16vw",
+    md: "25vw",
+    sm: "33vw",
+    default: "50vw"
   });
   const urlName = product.name?.toLowerCase().replace(/ /g, "-");
 
@@ -60,8 +60,8 @@ export default function ProductCard({ product, index} : ProductProps) {
             fill
             sizes={sizes}                    
             className=" object-contain rounded-t-md"     
-            fetchPriority="auto"                 
-            loading="eager"
+            fetchPriority={index < 4 ? "high" : "auto"}                
+            loading={index < 4 ? "eager" : "lazy"}
           />               
         </div>                          
       </Card>    

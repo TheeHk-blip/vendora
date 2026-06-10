@@ -1,7 +1,7 @@
-import { ChangeEventHandler, HTMLInputAutoCompleteAttribute, ReactNode } from "react";
+import { ChangeEventHandler, HTMLInputAutoCompleteAttribute, InputHTMLAttributes, ReactNode } from "react";
 
 
-export interface InputProps {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id?: string;
   required?: boolean;
   multiple?: boolean;
@@ -19,7 +19,6 @@ export interface InputProps {
   passwordToggle?:  ReactNode;
   className?: string;
   maxLength?: number;
-  autoComplete?: HTMLInputAutoCompleteAttribute;
 }
 
 export function InputField({

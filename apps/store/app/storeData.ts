@@ -19,6 +19,42 @@ export interface HomeDataProps {
   latestProducts: IProduct[];
 }
 
+type ProductWithToken = LeanArray<IProduct>[number] & {
+  paginationToken?: string;
+}
+
+function sanitizeObjectId(id: unknown): string | null {
+  if (typeof id !== "string") return null;
+  if (!mongoose.Types.ObjectId.isValid(id)) return null;
+  if (!/^[a-f\d]{24}$/i.test(id)) return null;
+  return id;
+}
+
+function sanitizePrice(value: unknown): number | null {
+  if (value === undefined || value === null || value === "") return null;
+  const n = Number(value);
+  if (!Number.isFinite(n)) return null;
+  if (n < 0 || n > 1_000_000_000) return null;
+  return n;
+}
+
+function sanitizeSearchQuery(q: unknown): string | null {
+  if (typeof q !== "string") return null;
+  const trimmed = q.trim();
+  if (trimmed.length === 0 || trimmed.length > 200) return null;
+  // Strip special Atlas Search operators
+  return trimmed.replace(/[+\-|"*~^(){}[\]\\]/g, " ").trim();
+}
+
+function sanitizeBrandList(brand: unknown): string[] {
+  if (typeof brand !== "string") return [];
+  return brand
+    .split(",")
+    .map(b => b.trim())
+    .filter(b => b.length > 0 && b.length <= 100)
+    .slice(0, 20); // cap list size
+}
+
 export async function getHomeData(): Promise<HomeDataProps>  {
   "use cache"  
   cacheLife("hours");
@@ -56,12 +92,13 @@ export async function getCategoryBranch(categoryId: string): Promise<mongoose.Ty
   return ids;
 }
 
-async function getCachedProducts(
+export async function getCachedProducts(
   query?: string,
   categoryId?: string,
   brand?: string,
   minPrice?: string,
-  maxPrice?: string
+  maxPrice?: string,
+  cursor?: string
 ) {
   "use cache";  
   cacheLife("hours");
@@ -69,86 +106,122 @@ async function getCachedProducts(
   
   await connectDB();
 
-  const brandList = brand ? brand.split(",") : [];
+  const safeCategoryId = sanitizeObjectId(categoryId);
+  const safeQuery = sanitizeSearchQuery(query);
+  const safeBrands = sanitizeBrandList(brand);
+  const safeMinPrice = sanitizePrice(minPrice);
+  const safeMaxPrice = sanitizePrice(maxPrice);
+
   let categoryIds: mongoose.Types.ObjectId[] = [];
-  if (categoryId && mongoose.Types.ObjectId.isValid(categoryId)) {
-    categoryIds = await getCategoryBranch(categoryId);
+  if (safeCategoryId && mongoose.Types.ObjectId.isValid(safeCategoryId)) {
+    categoryIds = await getCategoryBranch(safeCategoryId);
   }
 
-  if (query) {
+  if (safeQuery) {
     const searchStages: PipelineStage[] = [
       {
         $search: {
           index: "products",
+          returnStoredSource: false,
           compound: {
             must: [
               {
                 text: {
-                  query: query,
+                  query: safeQuery,
                   path: ["name", "description", "brand"],
                   fuzzy: { maxEdits: 2, prefixLength: 2}
                 }
               }
             ],
             filter: [
-              ...(categoryId ? [{
+              ...(safeCategoryId ? [{
                 equals: {
                   path: "categoryId",
-                  value: new mongoose.Types.ObjectId(categoryId)
+                  value: new mongoose.Types.ObjectId(safeCategoryId)
                 }
               }]: []),
-              ...(brandList.length > 0 ? [{
+              ...(safeBrands.length > 0 ? [{
                 in: {
                   path: "fields.brand",
-                  value: brandList
+                  value: safeBrands
                 }
               }] : [])
             ]           
           }
         }
       },
+      {
+        $addFields: {
+          paginationToken: { $meta: "searchSequenceToken" }
+        }
+      },
       { $match: { status: "live" }},
       { $limit: 40}
     ];
 
-    const products: LeanArray<IProduct> = await Product.aggregate(searchStages);
-    return products.map(p => SerializeData(p));
+    const products = await Product.aggregate<ProductWithToken>(searchStages);
+    const nextCursor = products.length === 10
+      ? products[products.length -1].paginationToken ?? null
+      : null;
+
+    return {
+      products: products.map(({ paginationToken, ...p}) => SerializeData(p)),
+      nextCursor
+    };
   }
 
   const filter: FilterQuery<IProduct> = { status: "live" };
   if (categoryIds.length > 0) {
-    filter.categoryId = { $in: categoryIds };
+    filter.safeCategoryId = { $in: categoryIds };
   }
 
-  if (brandList.length > 0) {
-    filter["fields.brand"] = { $in: brandList };
+  if (safeBrands.length > 0) {
+    filter["fields.brand"] = { $in: safeBrands };
   }
 
-  if (minPrice || maxPrice) {
+  if (safeMinPrice || safeMaxPrice) {
     filter.price = {};
-    if (minPrice) filter.price.$gte = Number(minPrice);
-    if (maxPrice) filter.price.$lte = Number(maxPrice);
+    if (safeMinPrice) filter.price.$gte = Number(safeMinPrice);
+    if (safeMaxPrice) filter.price.$lte = Number(safeMaxPrice);
   }
 
-  if (query) {
-    const searchFilter = [];
-    if (minPrice || maxPrice) {
-      searchFilter.push({
-        range: {
-          path: "price",
-          gte: Number(minPrice),
-          lte: Number(maxPrice)
-        }
-      });
-    }
+  if (cursor && mongoose.Types.ObjectId.isValid(cursor)) {
+    filter._id = { $lt: new mongoose.Types.ObjectId(cursor) };
   }
   
   const products = await Product.find(filter)
-    .sort({ createdAt: -1})
-    .limit(40)
+    .sort({ _id: -1 })
+    .limit(5)
     .lean();
+  
+  const nextCursor = products.length === 5
+    ? products[products.length - 1]._id.toString()
+    : null;
 
-  return products.map(p => SerializeData(p));
+  return { 
+    products: products.map(p => SerializeData(p)), 
+    nextCursor 
+  };
+}
+
+export async function fetchNextPage(
+  cursor: string,
+  filters: {
+    q?: string,
+    categoryId?: string,
+    brand?: string,
+    minPrice?: string,
+    maxPrice?: string
+  }
+) {
+  return getCachedProducts (
+    filters.q,
+    filters.brand,
+    filters.minPrice,
+    filters.maxPrice,
+    filters.categoryId,
+    cursor
+  );
 }
 
 export async function getProducts({ searchParams }: { searchParams: Params }) {

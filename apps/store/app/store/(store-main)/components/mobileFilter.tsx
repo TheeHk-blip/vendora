@@ -31,7 +31,8 @@ export function MobileFilter({ dynamicData }: {dynamicData: ProductProps["dynami
       <div className="flex flex-row justify-between w-full" >
         <SearchInput onSearch={handleSearch} name="mobile search input" />
         <Button
-          onClick={() => openDrawer("mobileFilter")}          
+          onClick={() => openDrawer("mobileFilter")}         
+          aria-label="toggle filters" 
           className="flex w-fit self-end"
         >
           <Sort />
