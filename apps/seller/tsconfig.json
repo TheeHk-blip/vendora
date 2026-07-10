@@ -29,7 +29,9 @@
       "@vendora/ui": [
         "../packages/ui/src"
       ],
-      "#db/*": ["../../packages/db/src/*.ts"]
+      "#db/*": [
+        "../../packages/db/src/*.ts"
+      ]
     }
   },
   "include": [

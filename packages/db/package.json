@@ -21,11 +21,12 @@
   },
   "files": ["dist", "src"],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc --build"
   },
   "type": "module",
   "private": true,
   "dependencies": {
-    "mongoose": "^8.19.2"
+    "mongoose": "^8.19.2",
+    "@vendora/ui": "workspace:*"
   }
 }

@@ -9,9 +9,10 @@
   "scripts": {
     "build:db": "pnpm --filter @vendora/db build",
     "build:services": "pnpm --filter @vendora/db build && pnpm --filter services build",
-    "start:services": "pnpm --filter services start"
+    "start:services": "pnpm --filter services start",
+    "validate": "pnpm -r exec tsc --noEmit"
   },
-  "packageManager": "pnpm@11.5.2",
+  "packageManager": "pnpm@11.9.0",
   "devDependencies": {
     "@types/compression": "^1.8.1",
     "@types/node": "^20.19.25",
