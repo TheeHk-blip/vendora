@@ -7,7 +7,7 @@ import { preparePaymentData } from "./../helpers/preparePayment.js";
 
 
 
-const router = Router();
+const router: Router = Router();
 const getMpesaAuth = () => {
   const timestamp = new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14);
   const password = Buffer.from(

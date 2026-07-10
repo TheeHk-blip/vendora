@@ -21,7 +21,7 @@ const ignoredEvents = [
   'payment_intent.updated'
 ];
 
-const router = Router();
+const router: Router = Router();
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 router.post("/m-chwapez", async (req, res) => {
