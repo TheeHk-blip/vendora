@@ -10,6 +10,7 @@
   },  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "predev": "pnpm --filter @vendora/db build",
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
