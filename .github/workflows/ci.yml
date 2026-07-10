@@ -26,5 +26,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build workspace packages
+        run: pnpm run build:db
+
       - name: Run Workspace Validation
         run: pnpm run validate

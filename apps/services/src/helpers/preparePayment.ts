@@ -55,6 +55,10 @@ interface IOrderItems {
   merchantId: string;
 }
 
+interface IShippingConfig {
+  name: string
+}
+
 const formatPhoneNumber = (phone: string) => {
   let cleaned = phone.replace(/\D/g, "");
   if (cleaned.startsWith("0")) cleaned = "254" + cleaned.slice(1);
@@ -70,7 +74,7 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
   let accountReference;
   let transactionDesc;
   const shipping = () => {
-    const rate  = shippingConfig.county.find(c => c.name === formData.county);
+    const rate  = shippingConfig.county.find((c: IShippingConfig) => c.name === formData.county);
     return rate?.shippingRate ?? 1500
   } 
   if (type === "subscription") {    
@@ -82,7 +86,7 @@ export const preparePaymentData = async (body: IBody): Promise<IPaymentContext> 
     transactionDesc = `Vendora ${plan.name} Subscription`;    
 
     const subscriber = await Seller.findOne({ userId: sellerId });
-    const existingSub = await Subscription.findOne({ subscriberId: subscriber?._id, status: "active" })
+    const existingSub = await Subscription.findById(subscriber?.subscriptionId)
       .populate<{ plan: PopulatedPlan }>([
         {
           path: "plan",
