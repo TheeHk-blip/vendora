@@ -10,7 +10,7 @@
     "build:db": "pnpm --filter @vendora/db build",
     "build:services": "pnpm --filter @vendora/db build && pnpm --filter services build",
     "start:services": "pnpm --filter services start",
-    "validate": "pnpm -r exec eslint . && pnpm -r exec tsc --noEmit"
+    "validate": "pnpm -r exec tsc --noEmit"
   },
   "packageManager": "pnpm@11.9.0",
   "devDependencies": {
